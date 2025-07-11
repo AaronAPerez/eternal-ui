@@ -4,24 +4,30 @@ import { useBuilderStore } from '@/stores/builderStore'
 import { getComponentByType } from '@/lib/componentRegistry'
 import { ComponentRenderer } from './ComponentRenderer'
 
-function RenderableElement({ element }: { element: any }) {
+function RenderableElement({ element, isPreviewMode = false }: { element: any, isPreviewMode?: boolean }) {
   const { selectElement, selectedElementId, hoveredElementId, hoverElement } = useBuilderStore()
   const componentDef = getComponentByType(element.type)
   
-  const isSelected = selectedElementId === element.id
-  const isHovered = hoveredElementId === element.id
+  const isSelected = selectedElementId === element.id && !isPreviewMode
+  const isHovered = hoveredElementId === element.id && !isPreviewMode
   
   const handleClick = (e: React.MouseEvent) => {
-    e.stopPropagation()
-    selectElement(element.id)
+    if (!isPreviewMode) {
+      e.stopPropagation()
+      selectElement(element.id)
+    }
   }
   
   const handleMouseEnter = () => {
-    hoverElement(element.id)
+    if (!isPreviewMode) {
+      hoverElement(element.id)
+    }
   }
   
   const handleMouseLeave = () => {
-    hoverElement(null)
+    if (!isPreviewMode) {
+      hoverElement(null)
+    }
   }
   
   return (
@@ -29,14 +35,16 @@ function RenderableElement({ element }: { element: any }) {
       onClick={handleClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className={`relative group cursor-pointer transition-all ${
+      className={`relative group transition-all ${
+        !isPreviewMode ? 'cursor-pointer' : ''
+      } ${
         isSelected ? 'ring-2 ring-blue-500 ring-offset-2' : ''
       } ${
         isHovered && !isSelected ? 'ring-1 ring-blue-300' : ''
       }`}
     >
-      {/* Selection Label */}
-      {isSelected && (
+      {/* Selection Label (only in design mode) */}
+      {isSelected && !isPreviewMode && (
         <div className="absolute -top-8 left-0 bg-blue-500 text-white text-xs px-2 py-1 rounded z-10">
           {componentDef?.name || element.type}
         </div>
@@ -49,25 +57,29 @@ function RenderableElement({ element }: { element: any }) {
 }
 
 export function BuilderCanvas() {
-  const { elements, showGrid, zoom, deviceMode, selectElement } = useBuilderStore()
+  const { elements, showGrid, zoom, deviceMode, mode, selectElement } = useBuilderStore()
+  
+  const isPreviewMode = mode === 'preview'
   
   const getDeviceClass = () => {
     switch (deviceMode) {
       case 'mobile': return 'max-w-sm mx-auto'
-      case 'tablet': return 'max-w-md mx-auto'
+      case 'tablet': return 'max-w-md mx-auto'  
       case 'desktop': return 'w-full'
       default: return 'w-full'
     }
   }
   
   const handleCanvasClick = () => {
-    selectElement(null)
+    if (!isPreviewMode) {
+      selectElement(null)
+    }
   }
   
   return (
     <div className="relative h-full bg-gray-100 overflow-auto" onClick={handleCanvasClick}>
-      {/* Grid Background */}
-      {showGrid && (
+      {/* Grid Background (only in design mode) */}
+      {showGrid && !isPreviewMode && (
         <div 
           className="absolute inset-0 opacity-20 pointer-events-none"
           style={{
@@ -80,12 +92,22 @@ export function BuilderCanvas() {
         />
       )}
       
+      {/* Preview Mode Banner */}
+      {isPreviewMode && (
+        <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-4 py-2 rounded-full text-sm font-medium z-10 shadow-lg">
+          🎯 Preview Mode - Click Design to edit
+        </div>
+      )}
+      
       {/* Canvas Content */}
       <div 
-        className={`relative min-h-full p-8 ${getDeviceClass()}`}
-        style={{ transform: `scale(${zoom / 100})`, transformOrigin: 'top left' }}
+        className={`relative min-h-full ${isPreviewMode ? 'p-0' : 'p-8'} ${getDeviceClass()}`}
+        style={{ 
+          transform: isPreviewMode ? 'scale(1)' : `scale(${zoom / 100})`, 
+          transformOrigin: 'top left' 
+        }}
       >
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 min-h-96 p-6">
+        <div className={`${isPreviewMode ? 'min-h-screen' : 'bg-white rounded-lg shadow-sm border border-gray-200 min-h-96 p-6'}`}>
           {elements.length === 0 ? (
             <div className="flex items-center justify-center h-96">
               <div className="text-center">
@@ -100,9 +122,15 @@ export function BuilderCanvas() {
             </div>
           ) : (
             <div className="space-y-4">
-              {elements.map((element) => (
-                <RenderableElement key={element.id} element={element} />
-              ))}
+              {elements
+                .filter(el => !el.parent) // Only render root elements
+                .map((element) => (
+                  <RenderableElement 
+                    key={element.id} 
+                    element={element} 
+                    isPreviewMode={isPreviewMode}
+                  />
+                ))}
             </div>
           )}
         </div>
