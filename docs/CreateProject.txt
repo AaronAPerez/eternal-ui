@@ -1436,3 +1436,1170 @@ Professional tooling with hot reloading and type checking
 You're now ready to move to Week 3-4: Core Component Library!
 Would you like to continue immediately with creating the core components (Button, Input, Container, etc.), or do you want to take a break and continue later? 🛠️
 The next phase will build React components using your design system tokens, which will be very satisfying to see come together! 🎨
+
+
+Perfect! Let's build the core component library using the design system we just created. This will be exciting to see our design tokens come to life! 🎨Week 3-4: Core Component Library ImplementationDocument # 🎨 Week 3-4: Core Component Library
+## Building Production-Ready React Components
+
+---
+
+## 🎯 **Overview**
+
+We'll create a comprehensive component library that:
+- Uses our design tokens from the design system
+- Provides variant-based styling with CExcellent! Let's build our core component library. This is where our design tokens will come to life as actual React components! 🎨
+🚀 Let's Start Building
+Step 1: Setup Core Package
+powershell# Navigate to the core package directory
+cd packages\core
+
+# Create the package.json file
+New-Item package.json -ItemType File
+Now open packages/core/package.json in VS Code and add the configuration from the guide. This sets up all our dependencies including:
+
+Our design system package
+React and TypeScript types
+Class Variance Authority for variants
+Radix UI for accessibility
+Lucide React for icons
+
+Step 2: Create Directory Structure
+powershell# Create all the necessary directories
+New-Item -ItemType Directory -Path src
+New-Item -ItemType Directory -Path src\components
+New-Item -ItemType Directory -Path src\components\ui
+New-Item -ItemType Directory -Path src\components\layout
+New-Item -ItemType Directory -Path src\components\data
+New-Item -ItemType Directory -Path src\components\feedback
+New-Item -ItemType Directory -Path src\hooks
+New-Item -ItemType Directory -Path src\lib
+
+# Create main files
+New-Item -ItemType File -Path src\index.ts
+New-Item -ItemType File -Path src\lib\utils.ts
+New-Item -ItemType File -Path src\components\index.ts
+
+# Create TypeScript config
+New-Item tsconfig.json -ItemType File
+Step 3: Setup Configuration
+Add the TypeScript configuration to packages/core/tsconfig.json as shown in the guide. This ensures proper compilation with JSX support.
+Step 4: Create Base Utilities
+Add the utility functions to src/lib/utils.ts. These will help us:
+
+Re-export our design system utilities
+Handle forwarded refs properly
+Merge multiple refs when needed
+Set component display names for debugging
+
+🎨 Key Features We're Building:
+Button Component
+
+6 variants (default, destructive, outline, secondary, ghost, link)
+4 sizes (default, sm, lg, icon)
+Full accessibility with focus management
+Builder-specific data attributes
+
+Input Component
+
+Error and success states
+Labels and helper text
+Full accessibility with ARIA attributes
+Validation support
+
+Layout Components
+
+Container with responsive sizes
+Grid with flexible columns and gaps
+Both support builder editing
+
+Card Component
+
+Multiple variants and padding options
+Sub-components (Header, Title, Content, Footer)
+Hover effects optional
+
+💡 What Makes These Components Special:
+
+Design System Integration: All use our design tokens
+Builder Ready: Include data attributes for our visual editor
+Accessibility First: Proper ARIA attributes and keyboard navigation
+Type Safe: Full TypeScript support with proper inference
+Variant System: CVA provides consistent styling patterns
+
+Start with Step 1 and let me know when you're ready for the next step! Each component builds on the previous ones, so we'll take it step by step. 🛠️
+The exciting part is seeing how our design tokens translate into beautiful, functional components! 🎉RetryAPI am receiving an error: PS C:\Users\aaper\Documents\.CodeStack Academy\React\GameApp\NextJS\Eternal-UI\eternal-ui\packages\core> New-Item tsconfig.json -ItemType File
+    Directory: C:\Users\aaper\Documents\.CodeStack
+    Academy\React\GameApp\NextJS\Eternal-UI\eternal-ui\packages\core
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----         7/11/2025   1:02 AM              0 tsconfig.json
+PS C:\Users\aaper\Documents\.CodeStack Academy\React\GameApp\NextJS\Eternal-UI\eternal-ui\packages\core> New-Item tsconfig.json -ItemType File
+New-Item : The file 'C:\Users\aaper\Documents\.CodeStack 
+Academy\React\GameApp\NextJS\Eternal-UI\eternal-ui\packages\core\tsconfig.json' already exists.     
+At line:1 char:1
++ New-Item tsconfig.json -ItemType File
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : WriteError: (C:\Users\aaper\...e\tsconfig.json:String) [New-Item], I  
+   OException
+    + FullyQualifiedErrorId : NewItemIOError,Microsoft.PowerShell.Commands.NewItemCommand
+PS C:\Users\aaper\Documents\.CodeStack Academy\React\GameApp\NextJS\Eternal-UI\eternal-ui\packages\core> npm install                                                            
+npm warn workspaces @eternal-ui/core in filter set, but no workspace folder present
+npm error code EUNSUPPORTEDPROTOCOL
+npm error Unsupported URL Type "workspace:": workspace:*
+npm error A complete log of this run can be found in: C:\Users\aaper\AppData\Local\npm-cache\_logs\2025-07-11T08_08_56_866Z-debug-0.log
+PS C:\Users\aaper\Documents\.CodeStack Academy\React\GameApp\NextJS\Eternal-UI\eternal-ui\packages\core> npm install --save-dev @types/react
+npm warn workspaces @eternal-ui/core in filter set, but no workspace folder present
+npm error code EUNSUPPORTEDPROTOCOL
+npm error Unsupported URL Type "workspace:": workspace:*
+npm error A complete log of this run can be found in: C:\Users\aaper\AppData\Local\npm-cache\_logs\2025-07-11T08_10_58_851Z-debug-0.log
+PS C:\Users\aaper\Documents\.CodeStack Academy\React\GameApp\NextJS\Eternal-UI\eternal-ui\packages\core> npm install
+npm warn workspaces @eternal-ui/core in filter set, but no workspace folder present
+npm error code EUNSUPPORTEDPROTOCOL
+npm error Unsupported URL Type "workspace:": workspace:*
+npm error A complete log of this run can be found in: C:\Users\aaper\AppData\Local\npm-cache\_logs\2025-07-11T08_11_41_669Z-debug-0.log
+PS C:\Users\aaper\Documents\.CodeStack Academy\React\GameApp\NextJS\Eternal-UI\eternal-ui\packages\core> npm install
+npm warn workspaces @eternal-ui/core in filter set, but no workspace folder present
+npm error code EUNSUPPORTEDPROTOCOL
+npm error Unsupported URL Type "workspace:": workspace:*
+npm error A complete log of this run can be found in: C:\Users\aaper\AppData\Local\npm-cache\_logs\2025-07-11T08_14_44_293Z-debug-0.log
+PS C:\Users\aaper\Documents\.CodeStack Academy\React\GameApp\NextJS\Eternal-UI\eternal-ui\packages\core>EditI see the issue! The error is happening because of the workspace:* dependency reference in the package.json, and npm doesn't understand workspace references. Let's fix this by installing dependencies from the root instead.
+🔧 Fix the Workspace Installation Issue
+Step 1: Go Back to Root and Install Dependencies
+powershell# Go back to the root directory
+cd ..\..
+
+# Install dependencies from root (this handles workspace references correctly)
+npm install
+Step 2: Install Additional Dependencies for Core Package
+From the root, let's add the dependencies we need:
+powershell# Add React dependencies to the core package
+npm install --save-dev react react-dom @types/react @types/react-dom -w @eternal-ui/core
+
+# Add the other dependencies to the core package
+npm install @radix-ui/react-slot class-variance-authority clsx tailwind-merge lucide-react -w @eternal-ui/core
+Step 3: Alternative - Update package.json to avoid workspace references
+If the workspace references are still causing issues, let's update the packages/core/package.json to use specific versions instead:
+json{
+  "name": "@eternal-ui/core",
+  "version": "0.1.0",
+  "description": "Core component library for Eternal UI",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit",
+    "lint": "echo 'No linting configured yet'"
+  },
+  "dependencies": {
+    "@radix-ui/react-slot": "^1.0.2",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.0.0",
+    "tailwind-merge": "^2.0.0",
+    "lucide-react": "^0.294.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "typescript": "^5.3.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  }
+}
+Notice I removed the "@eternal-ui/design-system": "workspace:*" line for now. We'll handle the design system import differently.
+Step 4: Try Installing Again
+powershell# Try installing from root again
+npm install
+Step 5: Update the utils.ts to handle design system import
+Since we might have workspace reference issues, let's update packages/core/src/lib/utils.ts to handle the import more directly:
+typescriptimport { type ClassValue, clsx } from 'clsx'
+import { twMerge } from 'tailwind-merge'
+import * as React from 'react'
+
+/**
+ * Combines class names with Tailwind CSS merge
+ * Handles conditional classes and removes duplicates
+ */
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
+
+/**
+ * Helper for creating component prop interfaces
+ */
+export interface ComponentProps {
+  className?: string
+  children?: React.ReactNode
+}
+
+/**
+ * Builder-specific component props
+ */
+export interface BuilderComponentProps extends ComponentProps {
+  id: string
+  'data-builder-id'?: string
+  'data-builder-type'?: string
+  'data-builder-editable'?: boolean
+  'data-builder-selected'?: boolean
+}
+
+// Additional utilities specific to components
+export interface BaseComponentProps extends ComponentProps {
+  asChild?: boolean
+}
+
+// Forwarded ref utility type
+export type ForwardedRef<T> = React.ForwardedRef<T>
+
+// Component display name utility
+export function setDisplayName<T extends React.ComponentType<any>>(
+  component: T,
+  name: string
+): T {
+  component.displayName = name
+  return component
+}
+
+// Merge refs utility for complex components
+export function mergeRefs<T = any>(
+  ...refs: Array<React.MutableRefObject<T> | React.LegacyRef<T>>
+): React.RefCallback<T> {
+  return (value) => {
+    refs.forEach((ref) => {
+      if (typeof ref === 'function') {
+        ref(value)
+      } else if (ref != null) {
+        ;(ref as React.MutableRefObject<T | null>).current = value
+      }
+    })
+  }
+}
+Try these steps and let me know what happens! The key is getting the workspace dependencies resolved properly from the root. 🔧RetryodeStack Academy\React\GameApp\NextJS\Eternal-UI\eternal-ui\packages\core) C:\Program Files\nodejs\npm.cmd run build exited (2)
+@eternal-ui/core#build: command (C:\Users\aaper\Documents\.CodeStack Academy\React\GameApp\NextJS\Eternal-UI\eternal-ui\packages\core) C:\Program Files\nodejs\npm.cmd run pastedAPi received some errors:EditI see multiple TypeScript errors. Let's fix them systematically. The main issues are:
+
+ID property conflicts between HTML attributes and BuilderComponentProps
+Design system import issues
+React import missing
+Size property conflicts in Input component
+
+Let's fix these step by step:
+🔧 Fix 1: Update BuilderComponentProps Interface
+Update packages/core/src/lib/utils.ts:
+typescriptimport { type ClassValue, clsx } from 'clsx'
+import { twMerge } from 'tailwind-merge'
+import * as React from 'react'
+
+/**
+ * Combines class names with Tailwind CSS merge
+ * Handles conditional classes and removes duplicates
+ */
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
+
+/**
+ * Helper for creating component prop interfaces
+ */
+export interface ComponentProps {
+  className?: string
+  children?: React.ReactNode
+}
+
+/**
+ * Builder-specific component props - using optional id to avoid conflicts
+ */
+export interface BuilderComponentProps {
+  'data-builder-id'?: string
+  'data-builder-type'?: string
+  'data-builder-editable'?: boolean
+  'data-builder-selected'?: boolean
+}
+
+// Additional utilities specific to components
+export interface BaseComponentProps extends ComponentProps {
+  asChild?: boolean
+}
+
+// Forwarded ref utility type
+export type ForwardedRef<T> = React.ForwardedRef<T>
+
+// Component display name utility
+export function setDisplayName<T extends React.ComponentType<any>>(
+  component: T,
+  name: string
+): T {
+  component.displayName = name
+  return component
+}
+
+// Merge refs utility for complex components
+export function mergeRefs<T = any>(
+  ...refs: Array<React.MutableRefObject<T> | React.LegacyRef<T>>
+): React.RefCallback<T> {
+  return (value) => {
+    refs.forEach((ref) => {
+      if (typeof ref === 'function') {
+        ref(value)
+      } else if (ref != null) {
+        ;(ref as React.MutableRefObject<T | null>).current = value
+      }
+    })
+  }
+}
+🔧 Fix 2: Remove Design System Import
+Update packages/core/src/index.ts to remove the problematic import:
+typescript// Export all components
+export * from './components'
+
+// Export utilities
+export * from './lib/utils'
+🔧 Fix 3: Fix Button Component
+Update packages/core/src/components/ui/Button.tsx:
+typescriptimport * as React from 'react'
+import { Slot } from '@radix-ui/react-slot'
+import { cva, type VariantProps } from 'class-variance-authority'
+import { cn, type BuilderComponentProps, setDisplayName } from '../../lib/utils'
+
+const buttonVariants = cva(
+  // Base styles
+  [
+    'inline-flex items-center justify-center',
+    'rounded-md text-sm font-medium',
+    'transition-colors duration-200',
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2',
+    'disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed',
+    'ring-offset-white'
+  ],
+  {
+    variants: {
+      variant: {
+        default: [
+          'bg-blue-500 text-white',
+          'hover:bg-blue-600',
+          'active:bg-blue-700'
+        ],
+        destructive: [
+          'bg-red-500 text-white',
+          'hover:bg-red-600',
+          'active:bg-red-700'
+        ],
+        outline: [
+          'border border-gray-200 bg-white text-gray-900',
+          'hover:bg-gray-50',
+          'active:bg-gray-100'
+        ],
+        secondary: [
+          'bg-gray-100 text-gray-900',
+          'hover:bg-gray-200',
+          'active:bg-gray-300'
+        ],
+        ghost: [
+          'text-gray-900 bg-transparent',
+          'hover:bg-gray-100',
+          'active:bg-gray-200'
+        ],
+        link: [
+          'text-blue-500 underline-offset-4',
+          'hover:underline hover:text-blue-600',
+          'active:text-blue-700'
+        ]
+      },
+      size: {
+        default: 'h-10 px-4 py-2',
+        sm: 'h-9 rounded-md px-3',
+        lg: 'h-11 rounded-md px-8',
+        icon: 'h-10 w-10'
+      }
+    },
+    defaultVariants: {
+      variant: 'default',
+      size: 'default'
+    }
+  }
+)
+
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants>,
+    BuilderComponentProps {
+  asChild?: boolean
+}
+
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ 
+    className, 
+    variant, 
+    size, 
+    asChild = false, 
+    id,
+    children,
+    ...props 
+  }, ref) => {
+    const Comp = asChild ? Slot : 'button'
+    
+    return (
+      <Comp
+        className={cn(buttonVariants({ variant, size }), className)}
+        ref={ref}
+        id={id}
+        data-builder-id={id}
+        data-builder-type="button"
+        data-builder-editable={true}
+        {...props}
+      >
+        {children}
+      </Comp>
+    )
+  }
+)
+
+export { Button, buttonVariants }
+export default setDisplayName(Button, 'Button')
+🔧 Fix 4: Fix Input Component
+Update packages/core/src/components/ui/Input.tsx:
+typescriptimport * as React from 'react'
+import { cva, type VariantProps } from 'class-variance-authority'
+import { cn, type BuilderComponentProps, setDisplayName } from '../../lib/utils'
+
+const inputVariants = cva(
+  [
+    'flex w-full rounded-md border border-gray-200',
+    'bg-white px-3 py-2 text-sm',
+    'transition-colors duration-200',
+    'file:border-0 file:bg-transparent file:text-sm file:font-medium',
+    'placeholder:text-gray-500',
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2',
+    'disabled:cursor-not-allowed disabled:opacity-50'
+  ],
+  {
+    variants: {
+      variant: {
+        default: 'border-gray-200 focus-visible:border-blue-500',
+        error: 'border-red-500 focus-visible:border-red-500 focus-visible:ring-red-500',
+        success: 'border-green-500 focus-visible:border-green-500 focus-visible:ring-green-500'
+      },
+      inputSize: {
+        default: 'h-10',
+        sm: 'h-9 text-xs',
+        lg: 'h-11 text-base'
+      }
+    },
+    defaultVariants: {
+      variant: 'default',
+      inputSize: 'default'
+    }
+  }
+)
+
+export interface InputProps
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'>,
+    BuilderComponentProps {
+  variant?: 'default' | 'error' | 'success'
+  inputSize?: 'default' | 'sm' | 'lg'
+  label?: string
+  error?: string
+  helperText?: string
+}
+
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ 
+    className, 
+    variant = 'default', 
+    inputSize = 'default', 
+    type = 'text',
+    id,
+    label,
+    error,
+    helperText,
+    ...props 
+  }, ref) => {
+    const inputId = id || `input-${Math.random().toString(36).substr(2, 9)}`
+    const errorId = error ? `${inputId}-error` : undefined
+    const helperTextId = helperText ? `${inputId}-helper` : undefined
+    
+    return (
+      <div className="space-y-2">
+        {label && (
+          <label 
+            htmlFor={inputId}
+            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >
+            {label}
+          </label>
+        )}
+        
+        <input
+          type={type}
+          className={cn(inputVariants({ variant: error ? 'error' : variant, inputSize }), className)}
+          ref={ref}
+          id={inputId}
+          data-builder-id={id}
+          data-builder-type="input"
+          data-builder-editable={true}
+          aria-describedby={cn(errorId, helperTextId)}
+          aria-invalid={error ? 'true' : undefined}
+          {...props}
+        />
+        
+        {error && (
+          <p id={errorId} className="text-sm text-red-600">
+            {error}
+          </p>
+        )}
+        
+        {helperText && !error && (
+          <p id={helperTextId} className="text-sm text-gray-500">
+            {helperText}
+          </p>
+        )}
+      </div>
+    )
+  }
+)
+
+export { Input, inputVariants }
+export default setDisplayName(Input, 'Input')
+🔧 Fix 5: Fix Container Component
+Update packages/core/src/components/layout/Container.tsx:
+typescriptimport * as React from 'react'
+import { cva, type VariantProps } from 'class-variance-authority'
+import { cn, type BuilderComponentProps, setDisplayName } from '../../lib/utils'
+
+const containerVariants = cva(
+  'mx-auto w-full',
+  {
+    variants: {
+      size: {
+        sm: 'max-w-screen-sm',
+        md: 'max-w-screen-md',
+        lg: 'max-w-screen-lg',
+        xl: 'max-w-screen-xl',
+        '2xl': 'max-w-screen-2xl',
+        full: 'max-w-full'
+      },
+      padding: {
+        none: '',
+        sm: 'px-4',
+        md: 'px-6',
+        lg: 'px-8',
+        xl: 'px-12'
+      }
+    },
+    defaultVariants: {
+      size: 'lg',
+      padding: 'md'
+    }
+  }
+)
+
+export interface ContainerProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof containerVariants>,
+    BuilderComponentProps {}
+
+const Container = React.forwardRef<HTMLDivElement, ContainerProps>(
+  ({ 
+    className, 
+    size, 
+    padding, 
+    id,
+    children,
+    ...props 
+  }, ref) => {
+    return (
+      <div
+        ref={ref}
+        id={id}
+        className={cn(containerVariants({ size, padding }), className)}
+        data-builder-id={id}
+        data-builder-type="container"
+        data-builder-editable={true}
+        {...props}
+      >
+        {children}
+      </div>
+    )
+  }
+)
+
+export { Container, containerVariants }
+export default setDisplayName(Container, 'Container')
+Now try building again:
+powershellnpm run typecheck
+Let me know if you still get errors! These fixes should resolve the main TypeScript issues. 🔧Retry ERROR  run failed: command  exited (1)
+PS C:\Users\aaper\Documents\.CodeStack Academy\React\GameApp\NextJS\Eternal-UI\eternal-ui> 
+PS C:\Users\aaper\Documents\.CodeStack Academy\React\GameApp\NextJS\Eternal-UI\eternal-ui> npm run typecheck
+
+> typecheck
+> turbo run typecheck
+
+turbo 2.5.4
+
+•pastedAPI received an error:EditI can see the issue! The problem is with the as: Component pattern in the Grid and Card components. TypeScript is getting confused about the component type. Let's fix this by simplifying the approach.
+🔧 Fix Grid Component
+Update packages/core/src/components/layout/Grid.tsx:
+typescriptimport * as React from 'react'
+import { cva, type VariantProps } from 'class-variance-authority'
+import { cn, type BuilderComponentProps, setDisplayName } from '../../lib/utils'
+
+const gridVariants = cva(
+  'grid',
+  {
+    variants: {
+      cols: {
+        1: 'grid-cols-1',
+        2: 'grid-cols-2',
+        3: 'grid-cols-3',
+        4: 'grid-cols-4',
+        5: 'grid-cols-5',
+        6: 'grid-cols-6',
+        12: 'grid-cols-12'
+      },
+      gap: {
+        0: 'gap-0',
+        1: 'gap-1',
+        2: 'gap-2',
+        3: 'gap-3',
+        4: 'gap-4',
+        6: 'gap-6',
+        8: 'gap-8',
+        12: 'gap-12'
+      },
+      responsive: {
+        true: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+        false: ''
+      }
+    },
+    defaultVariants: {
+      cols: 3,
+      gap: 4,
+      responsive: false
+    }
+  }
+)
+
+export interface GridProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof gridVariants>,
+    BuilderComponentProps {}
+
+const Grid = React.forwardRef<HTMLDivElement, GridProps>(
+  ({ 
+    className, 
+    cols, 
+    gap, 
+    responsive, 
+    id,
+    children,
+    ...props 
+  }, ref) => {
+    return (
+      <div
+        ref={ref}
+        id={id}
+        className={cn(gridVariants({ cols, gap, responsive }), className)}
+        data-builder-id={id}
+        data-builder-type="grid"
+        data-builder-editable={true}
+        {...props}
+      >
+        {children}
+      </div>
+    )
+  }
+)
+
+export { Grid, gridVariants }
+export default setDisplayName(Grid, 'Grid')
+🔧 Fix Card Component
+Update packages/core/src/components/ui/Card.tsx:
+typescriptimport * as React from 'react'
+import { cva, type VariantProps } from 'class-variance-authority'
+import { cn, type BuilderComponentProps, setDisplayName } from '../../lib/utils'
+
+const cardVariants = cva(
+  [
+    'rounded-lg border border-gray-200 bg-white',
+    'text-gray-950 shadow-sm',
+    'transition-shadow duration-200'
+  ],
+  {
+    variants: {
+      variant: {
+        default: 'border-gray-200',
+        elevated: 'border-gray-200 shadow-md',
+        outlined: 'border-2 border-gray-300 shadow-none'
+      },
+      padding: {
+        none: '',
+        sm: 'p-4',
+        md: 'p-6',
+        lg: 'p-8'
+      },
+      hover: {
+        true: 'hover:shadow-md hover:shadow-gray-200/50',
+        false: ''
+      }
+    },
+    defaultVariants: {
+      variant: 'default',
+      padding: 'md',
+      hover: false
+    }
+  }
+)
+
+export interface CardProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof cardVariants>,
+    BuilderComponentProps {}
+
+const Card = React.forwardRef<HTMLDivElement, CardProps>(
+  ({ 
+    className, 
+    variant, 
+    padding, 
+    hover,
+    id,
+    children,
+    ...props 
+  }, ref) => {
+    return (
+      <div
+        ref={ref}
+        id={id}
+        className={cn(cardVariants({ variant, padding, hover }), className)}
+        data-builder-id={id}
+        data-builder-type="card"
+        data-builder-editable={true}
+        {...props}
+      >
+        {children}
+      </div>
+    )
+  }
+)
+
+// Card sub-components
+const CardHeader = React.forwardRef
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn('flex flex-col space-y-1.5 p-6', className)}
+    {...props}
+  />
+))
+
+const CardTitle = React.forwardRef
+  HTMLHeadingElement,
+  React.HTMLAttributes<HTMLHeadingElement>
+>(({ className, ...props }, ref) => (
+  <h3
+    ref={ref}
+    className={cn('text-2xl font-semibold leading-none tracking-tight', className)}
+    {...props}
+  />
+))
+
+const CardDescription = React.forwardRef
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLParagraphElement>
+>(({ className, ...props }, ref) => (
+  <p
+    ref={ref}
+    className={cn('text-sm text-gray-500', className)}
+    {...props}
+  />
+))
+
+const CardContent = React.forwardRef
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div ref={ref} className={cn('p-6 pt-0', className)} {...props} />
+))
+
+const CardFooter = React.forwardRef
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn('flex items-center p-6 pt-0', className)}
+    {...props}
+  />
+))
+
+// Set display names
+setDisplayName(CardHeader, 'CardHeader')
+setDisplayName(CardTitle, 'CardTitle')
+setDisplayName(CardDescription, 'CardDescription')
+setDisplayName(CardContent, 'CardContent')
+setDisplayName(CardFooter, 'CardFooter')
+
+export { 
+  Card, 
+  CardHeader, 
+  CardTitle, 
+  CardDescription, 
+  CardContent, 
+  CardFooter,
+  cardVariants
+}
+
+export default setDisplayName(Card, 'Card')
+🧪 Test the Fix
+powershellnpm run typecheck
+The key changes:
+
+Removed as prop - This was causing TypeScript confusion
+Simplified to just use div - More predictable typing
+Fixed CardTitle ref type - Should be HTMLHeadingElement, not HTMLParagraphElement
+
+These changes eliminate the complex union type errors and make the components more straightforward. Let me know if this resolves the TypeScript errors! 🔧RetryAPim receiving an error: PS C:\Users\aaper\Documents\.CodeStack Academy\React\GameApp\NextJS\Eternal-UI\eternal-ui> npm run typecheck
+> typecheck
+> turbo run typecheck
+turbo 2.5.4
+• Packages in scope: @eternal-ui/core, @eternal-ui/design-system, @repo/eslint-config, @repo/typescript-config
+• Running typecheck in 4 packages
+• Remote caching disabled
+@eternal-ui/design-system:typecheck: cache hit (outputs already on disk), replaying logs 76f49d0009988c26
+@eternal-ui/design-system:typecheck: 
+@eternal-ui/design-system:typecheck: > @eternal-ui/design-system@0.1.0 typecheck
+@eternal-ui/design-system:typecheck: > tsc --noEmit
+@eternal-ui/design-system:typecheck:
+@eternal-ui/core:typecheck: cache miss, executing 6c366561f2928220
+@eternal-ui/core:typecheck: 
+@eternal-ui/core:typecheck: > @eternal-ui/core@0.1.0 typecheck
+@eternal-ui/core:typecheck: > tsc --noEmit
+@eternal-ui/core:typecheck:
+@eternal-ui/core:typecheck: src/components/ui/Card.tsx(72,1): error TS1109: Expression expected.
+@eternal-ui/core:typecheck: src/components/ui/Card.tsx(83,1): error TS1109: Expression expected.
+@eternal-ui/core:typecheck: src/components/ui/Card.tsx(94,1): error TS1109: Expression expected.
+@eternal-ui/core:typecheck: src/components/ui/Card.tsx(105,1): error TS1109: Expression expected.
+@eternal-ui/core:typecheck: src/components/ui/Card.tsx(112,1): error TS1109: Expression expected.
+@eternal-ui/core:typecheck: npm error Lifecycle script typecheck failed with error:
+@eternal-ui/core:typecheck: npm error code 2
+@eternal-ui/core:typecheck: npm error path C:\Users\aaper\Documents\.CodeStack Academy\React\GameApp\NextJS\Eternal-UI\eternal-ui\packages\core
+@eternal-ui/core:typecheck: npm error workspace @eternal-ui/core@0.1.0
+@eternal-ui/core:typecheck: npm error location C:\Users\aaper\Documents\.CodeStack Academy\React\GameApp\NextJS\Eternal-UI\eternal-ui\packages\core
+@eternal-ui/core:typecheck: npm error command failed
+@eternal-ui/core:typecheck: npm error command C:\WINDOWS\system32\cmd.exe /d /s /c tsc --noEmit 
+@eternal-ui/core:typecheck: ERROR: command finished with error: command (C:\Users\aaper\Documents\.CodeStack Academy\React\GameApp\NextJS\Eternal-UI\eternal-ui\packages\core) C:\Program Files\nodejs\npm.cmd run typecheck exited (2)
+@eternal-ui/core#typecheck: command (C:\Users\aaper\Documents\.CodeStack Academy\React\GameApp\NextJS\Eternal-UI\eternal-ui\packages\core) C:\Program Files\nodejs\npm.cmd run typecheck exited (2)
+ Tasks:    1 successful, 2 total
+Cached:    1 cached, 2 total
+  Time:    1.646s
+Failed:    @eternal-ui/core#typecheckEditI see the issue! There are syntax errors in the Card component around the setDisplayName calls. Let's fix the Card component:
+🔧 Fix Card Component Syntax
+Replace the entire packages/core/src/components/ui/Card.tsx with this corrected version:
+typescriptimport * as React from 'react'
+import { cva, type VariantProps } from 'class-variance-authority'
+import { cn, type BuilderComponentProps, setDisplayName } from '../../lib/utils'
+
+const cardVariants = cva(
+  [
+    'rounded-lg border border-gray-200 bg-white',
+    'text-gray-950 shadow-sm',
+    'transition-shadow duration-200'
+  ],
+  {
+    variants: {
+      variant: {
+        default: 'border-gray-200',
+        elevated: 'border-gray-200 shadow-md',
+        outlined: 'border-2 border-gray-300 shadow-none'
+      },
+      padding: {
+        none: '',
+        sm: 'p-4',
+        md: 'p-6',
+        lg: 'p-8'
+      },
+      hover: {
+        true: 'hover:shadow-md hover:shadow-gray-200/50',
+        false: ''
+      }
+    },
+    defaultVariants: {
+      variant: 'default',
+      padding: 'md',
+      hover: false
+    }
+  }
+)
+
+export interface CardProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof cardVariants>,
+    BuilderComponentProps {}
+
+const Card = React.forwardRef<HTMLDivElement, CardProps>(
+  ({ 
+    className, 
+    variant, 
+    padding, 
+    hover,
+    id,
+    children,
+    ...props 
+  }, ref) => {
+    return (
+      <div
+        ref={ref}
+        id={id}
+        className={cn(cardVariants({ variant, padding, hover }), className)}
+        data-builder-id={id}
+        data-builder-type="card"
+        data-builder-editable={true}
+        {...props}
+      >
+        {children}
+      </div>
+    )
+  }
+)
+
+// Card sub-components
+const CardHeader = React.forwardRef
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn('flex flex-col space-y-1.5 p-6', className)}
+    {...props}
+  />
+))
+
+const CardTitle = React.forwardRef
+  HTMLHeadingElement,
+  React.HTMLAttributes<HTMLHeadingElement>
+>(({ className, ...props }, ref) => (
+  <h3
+    ref={ref}
+    className={cn('text-2xl font-semibold leading-none tracking-tight', className)}
+    {...props}
+  />
+))
+
+const CardDescription = React.forwardRef
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLParagraphElement>
+>(({ className, ...props }, ref) => (
+  <p
+    ref={ref}
+    className={cn('text-sm text-gray-500', className)}
+    {...props}
+  />
+))
+
+const CardContent = React.forwardRef
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div ref={ref} className={cn('p-6 pt-0', className)} {...props} />
+))
+
+const CardFooter = React.forwardRef
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn('flex items-center p-6 pt-0', className)}
+    {...props}
+  />
+))
+
+// Set display names
+Card.displayName = 'Card'
+CardHeader.displayName = 'CardHeader'
+CardTitle.displayName = 'CardTitle'
+CardDescription.displayName = 'CardDescription'
+CardContent.displayName = 'CardContent'
+CardFooter.displayName = 'CardFooter'
+
+export { 
+  Card, 
+  CardHeader, 
+  CardTitle, 
+  CardDescription, 
+  CardContent, 
+  CardFooter,
+  cardVariants
+}
+
+export default Card
+🧪 Test the Fix
+powershellnpm run typecheck
+The key changes:
+
+Fixed display name assignment - Used direct property assignment instead of the helper function
+Simplified export - Removed the problematic setDisplayName wrapper calls
+
+This should resolve the "Expression expected" syntax errors. Let me know if the typecheck passes now! 🔧RetryAPOperator '>' cannot be applied to types 'boolean' and '({ className, ...props }: { [x: string]: any; className: any; }, ref: any) => Element'.ts(2365)
+⚠ Error (TS2365) |Operator
+>
+cannot be applied to types
+boolean
+and :( { className, ...props, }: { [x: string]: any; className: any }, ref: any ) => Element(alias) namespace React import ReactEditI see the issue! The problem is with the generic types in the React.forwardRef. Let's fix this by properly typing the forwardRef components.
+🔧 Fix Card Component with Proper Types
+Replace the entire packages/core/src/components/ui/Card.tsx with this corrected version:
+typescriptimport * as React from 'react'
+import { cva, type VariantProps } from 'class-variance-authority'
+import { cn, type BuilderComponentProps, setDisplayName } from '../../lib/utils'
+
+const cardVariants = cva(
+  [
+    'rounded-lg border border-gray-200 bg-white',
+    'text-gray-950 shadow-sm',
+    'transition-shadow duration-200'
+  ],
+  {
+    variants: {
+      variant: {
+        default: 'border-gray-200',
+        elevated: 'border-gray-200 shadow-md',
+        outlined: 'border-2 border-gray-300 shadow-none'
+      },
+      padding: {
+        none: '',
+        sm: 'p-4',
+        md: 'p-6',
+        lg: 'p-8'
+      },
+      hover: {
+        true: 'hover:shadow-md hover:shadow-gray-200/50',
+        false: ''
+      }
+    },
+    defaultVariants: {
+      variant: 'default',
+      padding: 'md',
+      hover: false
+    }
+  }
+)
+
+export interface CardProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof cardVariants>,
+    BuilderComponentProps {}
+
+const Card = React.forwardRef<HTMLDivElement, CardProps>(
+  ({ 
+    className, 
+    variant, 
+    padding, 
+    hover,
+    id,
+    children,
+    ...props 
+  }, ref) => {
+    return (
+      <div
+        ref={ref}
+        id={id}
+        className={cn(cardVariants({ variant, padding, hover }), className)}
+        data-builder-id={id}
+        data-builder-type="card"
+        data-builder-editable={true}
+        {...props}
+      >
+        {children}
+      </div>
+    )
+  }
+)
+
+// Card sub-components with proper typing
+const CardHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
+    <div
+      ref={ref}
+      className={cn('flex flex-col space-y-1.5 p-6', className)}
+      {...props}
+    />
+  )
+)
+
+const CardTitle = React.forwardRef<HTMLHeadingElement, React.HTMLAttributes<HTMLHeadingElement>>(
+  ({ className, ...props }, ref) => (
+    <h3
+      ref={ref}
+      className={cn('text-2xl font-semibold leading-none tracking-tight', className)}
+      {...props}
+    />
+  )
+)
+
+const CardDescription = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement>>(
+  ({ className, ...props }, ref) => (
+    <p
+      ref={ref}
+      className={cn('text-sm text-gray-500', className)}
+      {...props}
+    />
+  )
+)
+
+const CardContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
+    <div 
+      ref={ref} 
+      className={cn('p-6 pt-0', className)} 
+      {...props} 
+    />
+  )
+)
+
+const CardFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
+    <div
+      ref={ref}
+      className={cn('flex items-center p-6 pt-0', className)}
+      {...props}
+    />
+  )
+)
+
+// Set display names
+Card.displayName = 'Card'
+CardHeader.displayName = 'CardHeader'
+CardTitle.displayName = 'CardTitle'
+CardDescription.displayName = 'CardDescription'
+CardContent.displayName = 'CardContent'
+CardFooter.displayName = 'CardFooter'
+
+export { 
+  Card, 
+  CardHeader, 
+  CardTitle, 
+  CardDescription, 
+  CardContent, 
+  CardFooter,
+  cardVariants
+}
+
+export default Card
+🧪 Test the Fix
+powershellnpm run typecheck
+The key changes:
+
+Proper forwardRef typing - Each component has explicit generic types
+Consistent formatting - All sub-components follow the same pattern
+Proper parentheses - Fixed the syntax around the forwardRef declarations
+
+This should resolve the TypeScript operator errors. Let me know if the typecheck passes now! 🔧
