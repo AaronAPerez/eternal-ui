@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react'
-import type { GridConfig } from '../types'
+import { GridConfig } from '../types/grid.types'
+
 
 /**
  * Hook for managing grid settings UI state

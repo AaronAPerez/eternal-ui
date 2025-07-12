@@ -1,42 +1,41 @@
-import { GridSystem } from './GridSystem';
-// Types
+/**
+ * Main export file for the grid system package
+ * Fixed JSX issues by removing inline components
+ */
+
+// Export main GridSystem component
+export { GridSystem, default as GridSystemDefault } from '../../components/GridSystem'
+
+// Export types
 export type {
-  GridConfig,
-  SnapConfig,
+  GridSystemProps,
+  ResponsiveValue,
   BreakpointConfig,
-  GridState,
-  CanvasDimensions,
-  Position,
-  ElementSize,
-  SnapResult,
-  SnapPoint,
-  DragState,
+  GridColumns,
+  GridSpacing,
+  GridSnapHookProps,
+  GridSnapResult
 } from '../../types'
 
-// Components
-// export { GridSystem } from '../../components/GridSystem'
-export { GridOverlay } from '../../components/GridOverlay'
-export { GridControls } from '../../components/GridControls'
-
-// Hooks
-export { useGridSnap } from '../../hooks/useGridSnap'
-export { useGridSettings } from '../../hooks/useGridSettings'
-
-// Utilities
+// Export utility functions
 export {
-  calculateSnapPosition,
-  calculateDistance,
-  isWithinSnapThreshold,
-  calculateResponsiveGridSize,
-  generateGridLines,
-  clamp,
+  cn,
+  generateGridClasses,
+  generateGapClasses,
+  generateSpanClasses,
+  generatePositionClasses,
+  parseResponsiveValue,
+  createBreakpointStyles,
   debounce,
+  calculateSnapPosition,
+  calculateResponsiveGridSize,
+  throttle,
+  getCurrentBreakpoint,
+  validateGridConfig
 } from '../../utils'
 
-// Constants
-export {
-  DEFAULT_GRID_CONFIG,
-  GRID_SIZE_CONSTRAINTS,
-  SNAP_CONSTRAINTS,
-  OPACITY_CONSTRAINTS,
-} from '../../constants'
+// Export hooks
+export { useGridSnap, useResponsiveGrid } from '../../hooks/useGridSnap'
+
+// Default export for compatibility
+export { GridSystem as default } from '../../components/GridSystem'

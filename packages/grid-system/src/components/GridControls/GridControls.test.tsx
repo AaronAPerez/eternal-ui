@@ -1,5 +1,5 @@
-import { GridConfig } from 'packages/grid-system/dist/types'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { GridConfig } from '../../types/grid.types'
 
 const mockGridConfig: GridConfig = {
   enabled: true,

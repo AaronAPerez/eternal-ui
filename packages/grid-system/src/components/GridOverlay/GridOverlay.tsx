@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
-import type { GridConfig, CanvasDimensions } from '@/types'
-import { generateGridLines } from '@/utils'
+import { generateGridLines, GridConfig } from '../GridSystem'
+
 
 export interface GridOverlayProps {
   /** Grid configuration */

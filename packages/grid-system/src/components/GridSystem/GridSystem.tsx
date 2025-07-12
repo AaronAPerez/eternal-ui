@@ -1,210 +1,167 @@
-import React, { useRef, useEffect, useCallback } from 'react'
-import { clsx } from 'clsx'
-import type { GridConfig, Position } from '@/types'
-import { useGridSnap } from '@/hooks'
-import { GridOverlay } from '../GridOverlay'
-import { GridControls } from '../GridControls'
+// /**
+//  * GridSystem - Main grid layout component with responsive design and accessibility features
+//  * 
+//  * This component provides a comprehensive grid system that:
+//  * - Follows mobile-first responsive design principles
+//  * - Implements WCAG accessibility guidelines
+//  * - Supports TypeScript with robust type safety
+//  * - Optimized for SEO and Core Web Vitals
+//  * 
+//  * @example
+//  * <GridSystem columns={12} gap="4" className="my-layout">
+//  *   <GridItem span={6} md={4} lg={3}>Content 1</GridItem>
+//  *   <GridItem span={6} md={8} lg={9}>Content 2</GridItem>
+//  * </GridSystem>
+//  */
 
-interface GridSystemProps {
-  /** Initial grid configuration */
-  initialConfig?: Partial<GridConfig>
-  /** Canvas container ref for dimension tracking */
-  canvasRef?: React.RefObject<HTMLDivElement> // FIXED: Changed from HTMLElement to HTMLDivElement
-  /** Show grid controls panel */
-  showControls?: boolean
-  /** Controls panel position */
-  controlsPosition?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
-  /** Component selection handler for drag operations */
-  onComponentDrag?: (elementId: string, position: Position) => void
-  /** Optional className for canvas container */
-  className?: string
-  /** Children to render inside the canvas */
-  children?: React.ReactNode
-}
+// import { forwardRef, useMemo } from 'react'
+// import { cn } from '../../utils'
+// import type { GridSystemProps } from '../../types'
 
-/**
- * Main Grid System component that integrates overlay and controls
- * Provides complete grid functionality for visual builders
- */
-export const GridSystem: React.FC<GridSystemProps> = ({
-  initialConfig,
-  canvasRef: externalCanvasRef,
-  showControls = true,
-  controlsPosition = 'top-right',
-  onComponentDrag,
-  className = '',
-  children,
-}) => {
-  // FIXED: Use HTMLDivElement type for internal ref
-  const internalCanvasRef = useRef<HTMLDivElement>(null)
-  const canvasRef = externalCanvasRef || internalCanvasRef
-
-  const {
-    gridConfig,
-    gridState,
-    responsiveGridSize,
-    canvasDimensions,
-    updateGridConfig,
-    toggleGrid,
-    calculateSnap,
-    updateCanvasDimensions,
-    setDragging,
-  } = useGridSnap(initialConfig)
-
-  /**
-   * Update canvas dimensions on mount and resize
-   */
-  useEffect(() => {
-    const updateDimensions = () => {
-      if (canvasRef.current) {
-        const { width, height } = canvasRef.current.getBoundingClientRect()
-        updateCanvasDimensions({ width, height })
-      }
-    }
-
-    updateDimensions()
+// /**
+//  * GridSystem component with mobile-first responsive design
+//  * Implements CSS Grid with fallback support for older browsers
+//  */
+// const GridSystem = forwardRef<HTMLDivElement, GridSystemProps>(
+//   ({
+//     children,
+//     columns = 12,
+//     gap = '4',
+//     rowGap,
+//     columnGap,
+//     className,
+//     as: Component = 'div',
+//     breakpoints = {
+//       sm: '640px',
+//       md: '768px',
+//       lg: '1024px',
+//       xl: '1280px',
+//       '2xl': '1536px'
+//     },
+//     autoRows = 'auto',
+//     autoFlow = 'row',
+//     placeItems = 'stretch',
+//     role = 'grid',
+//     'aria-label': ariaLabel = 'Grid layout',
+//     ...props
+//   }, ref) => {
     
-    const resizeObserver = new ResizeObserver(updateDimensions)
-    if (canvasRef.current) {
-      resizeObserver.observe(canvasRef.current)
-    }
+//     /**
+//      * Generate responsive grid CSS classes based on props
+//      * Uses Tailwind's responsive prefixes for mobile-first design
+//      */
+//     const gridClasses = useMemo(() => {
+//       const baseClasses = [
+//         'grid', // CSS Grid display
+//         'w-full', // Full width by default
+//       ]
 
-    return () => {
-      resizeObserver.disconnect()
-    }
-  }, [canvasRef, updateCanvasDimensions])
+//       // Handle responsive columns
+//       if (typeof columns === 'object') {
+//         Object.entries(columns).forEach(([breakpoint, cols]) => {
+//           if (breakpoint === 'base') {
+//             baseClasses.push(`grid-cols-${cols}`)
+//           } else {
+//             baseClasses.push(`${breakpoint}:grid-cols-${cols}`)
+//           }
+//         })
+//       } else {
+//         baseClasses.push(`grid-cols-${columns}`)
+//       }
 
-  /**
-   * Handle drag start for canvas elements
-   */
-  const handleDragStart = useCallback((e: React.DragEvent) => {
-    setDragging(true)
-    
-    // Add drag data if element has data attributes
-    const target = e.target as HTMLElement
-    const elementId = target.dataset.elementId
-    
-    if (elementId) {
-      e.dataTransfer.setData('application/json', JSON.stringify({
-        type: 'canvas-element',
-        elementId,
-      }))
-    }
-  }, [setDragging])
+//       // Handle gap spacing with mobile-first approach
+//       if (typeof gap === 'object') {
+//         Object.entries(gap).forEach(([breakpoint, gapValue]) => {
+//           if (breakpoint === 'base') {
+//             baseClasses.push(`gap-${gapValue}`)
+//           } else {
+//             baseClasses.push(`${breakpoint}:gap-${gapValue}`)
+//           }
+//         })
+//       } else if (gap) {
+//         baseClasses.push(`gap-${gap}`)
+//       }
 
-  /**
-   * Handle drag end
-   */
-  const handleDragEnd = useCallback(() => {
-    setDragging(false)
-  }, [setDragging])
+//       // Handle row gap if different from general gap
+//       if (rowGap) {
+//         if (typeof rowGap === 'object') {
+//           Object.entries(rowGap).forEach(([breakpoint, gapValue]) => {
+//             if (breakpoint === 'base') {
+//               baseClasses.push(`gap-y-${gapValue}`)
+//             } else {
+//               baseClasses.push(`${breakpoint}:gap-y-${gapValue}`)
+//             }
+//           })
+//         } else {
+//           baseClasses.push(`gap-y-${rowGap}`)
+//         }
+//       }
 
-  /**
-   * Handle drop with snap calculations
-   */
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault()
-    setDragging(false)
-    
-    if (!canvasRef.current || !onComponentDrag) return
-    
-    const rect = canvasRef.current.getBoundingClientRect()
-    const rawPosition: Position = {
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    }
-    
-    // Calculate snap position
-    const snapResult = calculateSnap(rawPosition, { width: 100, height: 60 })
-    
-    try {
-      const dragData = JSON.parse(e.dataTransfer.getData('application/json'))
-      
-      if (dragData.type === 'canvas-element' || dragData.type === 'component') {
-        onComponentDrag(dragData.elementId || dragData.componentId, snapResult.position)
-        
-        // Provide haptic feedback for snaps
-        if (snapResult.snapped && 'vibrate' in navigator) {
-          navigator.vibrate(10)
-        }
-      }
-    } catch (error) {
-      console.warn('Failed to parse drop data:', error)
-    }
-  }, [canvasRef, onComponentDrag, calculateSnap, setDragging])
+//       // Handle column gap if different from general gap
+//       if (columnGap) {
+//         if (typeof columnGap === 'object') {
+//           Object.entries(columnGap).forEach(([breakpoint, gapValue]) => {
+//             if (breakpoint === 'base') {
+//               baseClasses.push(`gap-x-${gapValue}`)
+//             } else {
+//               baseClasses.push(`${breakpoint}:gap-x-${gapValue}`)
+//             }
+//           })
+//         } else {
+//           baseClasses.push(`gap-x-${columnGap}`)
+//         }
+//       }
 
-  /**
-   * Handle drag over for drop zone
-   */
-  const handleDragOver = useCallback((e: React.DragEvent) => {
-    e.preventDefault()
-    e.dataTransfer.dropEffect = 'copy'
-  }, [])
+//       // Auto rows sizing
+//       if (autoRows !== 'auto') {
+//         baseClasses.push(`auto-rows-${autoRows}`)
+//       }
 
-  /**
-   * Get controls positioning classes
-   */
-  const getControlsClasses = () => {
-    const baseClasses = 'absolute z-20'
-    
-    switch (controlsPosition) {
-      case 'top-left':
-        return `${baseClasses} top-4 left-4`
-      case 'top-right':
-        return `${baseClasses} top-4 right-4`
-      case 'bottom-left':
-        return `${baseClasses} bottom-4 left-4`
-      case 'bottom-right':
-        return `${baseClasses} bottom-4 right-4`
-      default:
-        return `${baseClasses} top-4 right-4`
-    }
-  }
+//       // Grid auto flow direction
+//       if (autoFlow !== 'row') {
+//         baseClasses.push(`grid-flow-${autoFlow}`)
+//       }
 
-  return (
-    <div className="relative w-full h-full">
-      {/* Main canvas container */}
-      <div
-        ref={canvasRef} // FIXED: Now properly typed as HTMLDivElement
-        className={clsx(
-          'relative w-full h-full overflow-hidden',
-          'bg-white border border-gray-200',
-          className
-        )}
-        onDrop={handleDrop}
-        onDragOver={handleDragOver}
-        onDragStart={handleDragStart}
-        onDragEnd={handleDragEnd}
-        role="application"
-        aria-label="Design canvas with grid system"
-        data-testid="grid-canvas"
-      >
-        {/* Grid overlay */}
-        <GridOverlay
-          config={gridConfig}
-          canvasWidth={canvasDimensions.width}
-          canvasHeight={canvasDimensions.height}
-          gridSize={responsiveGridSize}
-        />
+//       // Place items alignment
+//       if (placeItems !== 'stretch') {
+//         baseClasses.push(`place-items-${placeItems}`)
+//       }
 
-        {/* Canvas content */}
-        {children}
-      </div>
+//       return baseClasses
+//     }, [columns, gap, rowGap, columnGap, autoRows, autoFlow, placeItems])
 
-      {/* Grid controls */}
-      {showControls && (
-        <GridControls
-          config={gridConfig}
-          onConfigUpdate={updateGridConfig}
-          onToggle={toggleGrid}
-          className={getControlsClasses()}
-        />
-      )}
-    </div>
-  )
-}
+//     /**
+//      * Generate CSS custom properties for advanced grid features
+//      * This provides fallback support and additional customization
+//      */
+//     const gridStyles = useMemo(() => {
+//       const styles: React.CSSProperties = {}
 
-GridSystem.displayName = 'GridSystem'
+//       // Set CSS custom properties for responsive breakpoints
+//       Object.entries(breakpoints).forEach(([key, value]) => {
+//         styles[`--grid-breakpoint-${key}` as any] = value
+//       })
 
-// Export types
-export type { GridSystemProps }
+//       return styles
+//     }, [breakpoints])
+
+//     return (
+//       <Component
+//         ref={ref}
+//         className={cn(gridClasses, className)}
+//         style={gridStyles}
+//         role={role}
+//         aria-label={ariaLabel}
+//         {...props}
+//       >
+//         {children}
+//       </Component>
+//     )
+//   }
+// )
+
+// // Set display name for debugging and React DevTools
+// GridSystem.displayName = 'GridSystem'
+
+// export default GridSystem
+// export { GridSystem }

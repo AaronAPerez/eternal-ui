@@ -2,12 +2,12 @@
 
 import { useEffect } from 'react'
 import { useBuilderStore } from '@/stores/builderStore'
-import { 
-  Play, 
-  Square, 
-  Grid3X3, 
-  ZoomIn, 
-  ZoomOut, 
+import {
+  Play,
+  Square,
+  Grid3X3,
+  ZoomIn,
+  ZoomOut,
   RotateCcw,
   RotateCw,
   Save,
@@ -23,16 +23,16 @@ import {
 } from 'lucide-react'
 
 export function Toolbar() {
-  const { 
-    mode, 
-    showGrid, 
-    zoom, 
+  const {
+    mode,
+    showGrid,
+    zoom,
     deviceMode,
     leftPanelOpen,
     rightPanelOpen,
     selectedElementId,
-    setMode, 
-    toggleGrid, 
+    setMode,
+    toggleGrid,
     setZoom,
     setDeviceMode,
     toggleLeftPanel,
@@ -45,7 +45,7 @@ export function Toolbar() {
     canUndo,
     canRedo
   } = useBuilderStore()
-  
+
   // Keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -53,7 +53,7 @@ export function Toolbar() {
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
         return
       }
-      
+
       if (e.ctrlKey || e.metaKey) {
         switch (e.key) {
           case 'z':
@@ -95,16 +95,16 @@ export function Toolbar() {
         }
       }
     }
-    
+
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [selectedElementId, undo, redo, duplicateElement, deleteElement])
-  
+
   const handleSave = () => {
     // Implement save functionality
     console.log('Saving project...')
   }
-  
+
   const handleExport = () => {
     if (mode === 'code') {
       // Export as code
@@ -120,7 +120,7 @@ export function Toolbar() {
       downloadFile('eternal-ui-project.json', JSON.stringify(exportData, null, 2), 'application/json')
     }
   }
-  
+
   const downloadFile = (filename: string, content: string, type: string) => {
     const blob = new Blob([content], { type })
     const url = URL.createObjectURL(blob)
@@ -130,21 +130,21 @@ export function Toolbar() {
     a.click()
     URL.revokeObjectURL(url)
   }
-  
+
   const generateReactCode = () => {
     // Basic React code generation
     const imports = `import React from 'react'\n\n`
     const component = `export default function App() {\n  return (\n    <div className="p-8">\n${generateElementsCode(elements, 6)}\n    </div>\n  )\n}`
     return imports + component
   }
-  
+
   const generateElementsCode = (elements: any[], indent: number): string => {
     return elements
       .filter(el => !el.parent)
       .map(el => generateElementCode(el, indent))
       .join('\n')
   }
-  
+
   const generateElementCode = (element: any, indent: number): string => {
     const spaces = ' '.repeat(indent)
     const props = Object.entries(element.props)
@@ -156,17 +156,17 @@ export function Toolbar() {
         return `${key}={${JSON.stringify(value)}}`
       })
       .join(' ')
-    
+
     const tag = element.type === 'input' ? 'input' : 'div'
     const className = getElementClassName(element)
-    
+
     if (element.children?.length > 0) {
       return `${spaces}<${tag} className="${className}" ${props}>\n${generateElementsCode(element.children, indent + 2)}\n${spaces}</${tag}>`
     } else {
       return `${spaces}<${tag} className="${className}" ${props} />`
     }
   }
-  
+
   const getElementClassName = (element: any) => {
     // Generate appropriate CSS classes based on component type
     switch (element.type) {
@@ -178,7 +178,7 @@ export function Toolbar() {
       default: return ''
     }
   }
-  
+
   return (
     <div className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6">
       {/* Left Side - Logo & Project */}
@@ -189,93 +189,87 @@ export function Toolbar() {
           </div>
           <h1 className="text-lg font-semibold">Eternal UI Studio</h1>
         </div>
-        
+
         <div className="text-sm text-gray-500">
           Untitled Project
         </div>
       </div>
-      
+
       {/* Center - Mode Toggle & Device Selector */}
       <div className="flex items-center gap-4">
         {/* Mode Toggle */}
         <div className="flex items-center gap-2">
           <button
             onClick={() => setMode('design')}
-            className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
-              mode === 'design' 
-                ? 'bg-blue-500 text-white' 
+            className={`px-3 py-1.5 text-sm rounded-md transition-colors ${mode === 'design'
+                ? 'bg-blue-500 text-white'
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-            }`}
+              }`}
           >
             <Square className="w-4 h-4 mr-2 inline" />
             Design
           </button>
-          
+
           <button
             onClick={() => setMode('preview')}
-            className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
-              mode === 'preview' 
-                ? 'bg-blue-500 text-white' 
+            className={`px-3 py-1.5 text-sm rounded-md transition-colors ${mode === 'preview'
+                ? 'bg-blue-500 text-white'
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-            }`}
+              }`}
           >
             <Play className="w-4 h-4 mr-2 inline" />
             Preview
           </button>
-          
+
           <button
             onClick={() => setMode('code')}
-            className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
-              mode === 'code' 
-                ? 'bg-blue-500 text-white' 
+            className={`px-3 py-1.5 text-sm rounded-md transition-colors ${mode === 'code'
+                ? 'bg-blue-500 text-white'
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-            }`}
+              }`}
           >
             <Code className="w-4 h-4 mr-2 inline" />
             Code
           </button>
         </div>
-        
+
         {/* Device Selector */}
         <div className="flex items-center gap-1 bg-gray-100 rounded-md p-1">
           <button
             onClick={() => setDeviceMode('desktop')}
-            className={`p-2 rounded transition-colors ${
-              deviceMode === 'desktop'
+            className={`p-2 rounded transition-colors ${deviceMode === 'desktop'
                 ? 'bg-white shadow-sm'
                 : 'hover:bg-gray-200'
-            }`}
+              }`}
             title="Desktop View"
           >
             <Monitor className="w-4 h-4" />
           </button>
-          
+
           <button
             onClick={() => setDeviceMode('tablet')}
-            className={`p-2 rounded transition-colors ${
-              deviceMode === 'tablet'
+            className={`p-2 rounded transition-colors ${deviceMode === 'tablet'
                 ? 'bg-white shadow-sm'
                 : 'hover:bg-gray-200'
-            }`}
+              }`}
             title="Tablet View"
           >
             <Tablet className="w-4 h-4" />
           </button>
-          
+
           <button
             onClick={() => setDeviceMode('mobile')}
-            className={`p-2 rounded transition-colors ${
-              deviceMode === 'mobile'
+            className={`p-2 rounded transition-colors ${deviceMode === 'mobile'
                 ? 'bg-white shadow-sm'
                 : 'hover:bg-gray-200'
-            }`}
+              }`}
             title="Mobile View"
           >
             <Smartphone className="w-4 h-4" />
           </button>
         </div>
       </div>
-      
+
       {/* Right Side - Tools */}
       <div className="flex items-center gap-2">
         {/* History Controls */}
@@ -288,7 +282,7 @@ export function Toolbar() {
           >
             <RotateCcw className="w-4 h-4" />
           </button>
-          
+
           <button
             onClick={redo}
             disabled={!canRedo()}
@@ -298,7 +292,7 @@ export function Toolbar() {
             <RotateCw className="w-4 h-4" />
           </button>
         </div>
-        
+
         {/* Element Actions */}
         {selectedElementId && (
           <div className="flex items-center gap-1 ml-2">
@@ -309,7 +303,7 @@ export function Toolbar() {
             >
               <Copy className="w-4 h-4" />
             </button>
-            
+
             <button
               onClick={() => deleteElement(selectedElementId)}
               className="p-2 rounded-md transition-colors hover:bg-red-100 text-red-600"
@@ -319,47 +313,44 @@ export function Toolbar() {
             </button>
           </div>
         )}
-        
+
         {/* Panel Toggles */}
         <div className="flex items-center gap-1 ml-2">
           <button
             onClick={toggleLeftPanel}
-            className={`p-2 rounded-md transition-colors ${
-              leftPanelOpen
+            className={`p-2 rounded-md transition-colors ${leftPanelOpen
                 ? 'bg-blue-100 text-blue-600'
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-            }`}
+              }`}
             title="Toggle Component Library"
           >
             <PanelLeftClose className="w-4 h-4" />
           </button>
-          
+
           <button
             onClick={toggleRightPanel}
-            className={`p-2 rounded-md transition-colors ${
-              rightPanelOpen
+            className={`p-2 rounded-md transition-colors ${rightPanelOpen
                 ? 'bg-blue-100 text-blue-600'
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-            }`}
+              }`}
             title="Toggle Properties Panel"
           >
             <PanelRightClose className="w-4 h-4" />
           </button>
         </div>
-        
+
         {/* Grid Toggle */}
         <button
           onClick={toggleGrid}
-          className={`p-2 rounded-md transition-colors ${
-            showGrid
+          className={`p-2 rounded-md transition-colors ${showGrid
               ? 'bg-blue-100 text-blue-600'
               : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-          }`}
+            }`}
           title="Toggle Grid"
         >
           <Grid3X3 className="w-4 h-4" />
         </button>
-        
+
         {/* Zoom Controls */}
         <div className="flex items-center gap-1 bg-gray-100 rounded-md p-1">
           <button
@@ -370,11 +361,11 @@ export function Toolbar() {
           >
             <ZoomOut className="w-4 h-4" />
           </button>
-          
+
           <span className="text-sm text-gray-600 min-w-[50px] text-center px-2">
             {zoom}%
           </span>
-          
+
           <button
             onClick={() => setZoom(Math.min(200, zoom + 25))}
             disabled={zoom >= 200}
@@ -384,10 +375,10 @@ export function Toolbar() {
             <ZoomIn className="w-4 h-4" />
           </button>
         </div>
-        
+
         {/* Actions */}
         <div className="flex items-center gap-2 ml-4">
-          <button 
+          <button
             onClick={handleSave}
             className="px-3 py-1.5 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors"
             title="Save Project (Ctrl+S)"
@@ -395,8 +386,8 @@ export function Toolbar() {
             <Save className="w-4 h-4 mr-2 inline" />
             Save
           </button>
-          
-          <button 
+
+          <button
             onClick={handleExport}
             className="px-3 py-1.5 text-sm bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
             title={mode === 'code' ? 'Export React Code' : 'Export Project JSON'}

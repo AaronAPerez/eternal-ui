@@ -1,12 +1,7 @@
-export {
-  calculateSnapPosition,
-  calculateDistance,
-  isWithinSnapThreshold,
-} from './snapCalculations'
+/**
+ * Minimal utility functions
+ */
 
-export {
-  calculateResponsiveGridSize,
-  generateGridLines,
-  clamp,
-  debounce,
-} from './gridHelpers'
+export function cn(...classes: (string | undefined | null | false)[]): string {
+  return classes.filter(Boolean).join(' ')
+}

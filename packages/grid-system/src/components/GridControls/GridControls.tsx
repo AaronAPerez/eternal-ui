@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react'
-import { Grid, Settings, Ruler, MousePointer, RotateCcw, Save, Upload, Bell } from 'lucide-react'
+import { Grid, Settings } from 'lucide-react'
 import { clsx } from 'clsx'
-import type { GridConfig } from '@/types'
 import { useGridSettings } from '@/hooks'
-import { clamp } from '@/utils'
+import { clamp, GridConfig } from '../GridSystem'
+
 
 interface GridControlsProps {
   /** Grid configuration */

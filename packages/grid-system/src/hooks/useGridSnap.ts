@@ -1,124 +1,40 @@
-import { useState, useCallback, useMemo, useEffect } from 'react'
-import type { GridConfig, GridState, Position, ElementSize, SnapResult, CanvasDimensions } from '../types'
-import { calculateSnapPosition, calculateResponsiveGridSize, debounce } from '../utils'
-import { DEFAULT_GRID_CONFIG } from '../constants'
+/**
+ * Minimal hook implementations for basic functionality
+ */
+
+import { useCallback } from 'react'
+import { calculateSnapPosition } from '../utils'
+import type { GridSnapHookProps, GridSnapResult } from '../types'
 
 /**
- * Custom hook for grid snap functionality
- * Manages grid state and provides snap calculations
+ * Simple grid snap hook
  */
-export function useGridSnap(initialConfig?: Partial<GridConfig>) {
-  // Grid configuration state with defaults
-  const [gridConfig, setGridConfig] = useState<GridConfig>(() => ({
-    ...DEFAULT_GRID_CONFIG,
-    ...initialConfig,
-  }))
+export function useGridSnap({
+  gridSize = 20,
+  enabled = true
+}: GridSnapHookProps = {}): GridSnapResult {
+  
+  const snapToGrid = useCallback((x: number, y: number) => {
+    if (!enabled) return { x, y }
+    return calculateSnapPosition(x, y, gridSize)
+  }, [gridSize, enabled])
 
-  // Canvas dimensions for responsive grid calculation
-  const [canvasDimensions, setCanvasDimensions] = useState<CanvasDimensions>({
-    width: 0,
-    height: 0,
-  })
-
-  // Grid state management
-  const [gridState, setGridState] = useState<GridState>({
-    config: gridConfig,
-    isVisible: gridConfig.enabled,
-    isDragging: false,
-    canvasDimensions,
-  })
-
-  /**
-   * Calculate snap position with memoized configuration
-   */
-  const calculateSnap = useCallback(
-    (position: Position, elementSize?: ElementSize): SnapResult => {
-      return calculateSnapPosition(position, gridConfig, elementSize)
-    },
-    [gridConfig]
-  )
-
-  /**
-   * Update grid configuration
-   */
-  const updateGridConfig = useCallback((updates: Partial<GridConfig>) => {
-    setGridConfig(prev => {
-      const newConfig = {
-        ...prev,
-        ...updates,
-        snap: updates.snap ? { ...prev.snap, ...updates.snap } : prev.snap,
-        breakpoints: updates.breakpoints 
-          ? { ...prev.breakpoints, ...updates.breakpoints } 
-          : prev.breakpoints,
-      }
-
-      // Update grid state
-      setGridState(prevState => ({
-        ...prevState,
-        config: newConfig,
-        isVisible: newConfig.enabled,
-      }))
-
-      return newConfig
-    })
-
-    return true
-  }, [])
-
-  /**
-   * Toggle grid visibility
-   */
-  const toggleGrid = useCallback(() => {
-    updateGridConfig({ enabled: !gridConfig.enabled })
-  }, [gridConfig.enabled, updateGridConfig])
-
-  /**
-   * Calculate responsive grid size based on canvas width
-   */
-  const responsiveGridSize = useMemo(() => {
-    return calculateResponsiveGridSize(canvasDimensions.width, gridConfig)
-  }, [canvasDimensions.width, gridConfig])
-
-  /**
-   * Update canvas dimensions with debouncing
-   */
-  const updateCanvasDimensions = useCallback(
-    debounce((dimensions: CanvasDimensions) => {
-      setCanvasDimensions(dimensions)
-      setGridState(prev => ({
-        ...prev,
-        canvasDimensions: dimensions,
-      }))
-    }, 100),
-    []
-  )
-
-  /**
-   * Set dragging state
-   */
-  const setDragging = useCallback((isDragging: boolean) => {
-    setGridState(prev => ({
-      ...prev,
-      isDragging,
-    }))
-  }, [])
+  const getGridSize = useCallback(() => gridSize, [gridSize])
 
   return {
-    // State
-    gridConfig,
-    gridState,
-    responsiveGridSize,
-    canvasDimensions,
-    
-    // Actions
-    updateGridConfig,
-    toggleGrid,
-    calculateSnap,
-    updateCanvasDimensions,
-    setDragging,
-    
-    // Computed values
-    isGridVisible: gridState.isVisible,
-    isSnapEnabled: gridConfig.snap.enabled,
+    snapToGrid,
+    getGridSize,
+    isEnabled: enabled
+  }
+}
+
+/**
+ * Simple responsive grid hook
+ */
+export function useResponsiveGrid() {
+  return {
+    currentBreakpoint: 'base' as const,
+    currentColumns: 12,
+    containerWidth: typeof window !== 'undefined' ? window.innerWidth : 1024
   }
 }

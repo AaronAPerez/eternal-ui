@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+@layer components {
+  .kbd {
+    @apply inline-flex items-center px-2 py-1 text-xs font-mono bg-gray-100 border border-gray-300 rounded;
+  }
+}
+/* 
+
+.grid-overlay {
+  pointer-events: none;
+  z-index: 10;
+}
+
+.draggable-element {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.draggable-element:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.draggable-element.dragging {
+  transform: scale(1.05);
+  z-index: 1000;
+}
+
+
+.element-selected {
+  @apply ring-2 ring-blue-400 ring-offset-2;
+}
+
+
+
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+} */
