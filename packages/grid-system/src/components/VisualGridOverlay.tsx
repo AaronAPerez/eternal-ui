@@ -1,5 +1,31 @@
-import { useState, useMemo, useCallback, useEffect } from "react"
-import { VisualGridOverlayProps } from "../types"
+/**
+ * Visual Grid Overlay - Professional grid lines for visual builder
+ * 
+ * This component adds dotted grid lines and snap zones to make
+ * the grid system feel like a professional design tool
+ */
+
+import React, { useState, useEffect, useCallback, useMemo } from 'react'
+
+export interface VisualGridOverlayProps {
+  /** Grid container dimensions */
+  containerRef: React.RefObject<HTMLDivElement>
+  
+  /** Number of grid columns */
+  columns: number
+  
+  /** Gap between grid items (in pixels) */
+  gap: number
+  
+  /** When to show the grid overlay */
+  visibility?: 'always' | 'on-hover' | 'hidden'
+  
+  /** Grid line color (CSS color value) */
+  gridColor?: string
+  
+  /** Grid line opacity (0-1) */
+  opacity?: string
+}
 
 /**
  * Visual Grid Overlay Component

@@ -15,3 +15,7 @@ export type {
 
 // Utils
 export { cn } from './utils'
+
+// AI-powered features  
+export { AutoLayoutEngine, useAutoLayout } from './ai/AutoLayoutEngine'
+export type { ComponentData, LayoutSuggestion } from './ai/AutoLayoutEngine'

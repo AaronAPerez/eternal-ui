@@ -22,3 +22,18 @@ export interface EnhancedGridSystemProps extends GridSystemProps {
   overlayColor?: string
   studioMode?: boolean
 }
+
+export interface ComponentData {
+  id: string
+  type: 'hero' | 'card' | 'text' | 'image' | 'form' | 'navigation' | 'footer' | 'sidebar'
+  content: string
+  priority: 'high' | 'medium' | 'low'
+}
+
+export interface LayoutSuggestion {
+  id: string
+  name: string
+  description: string
+  confidence: number
+  reasoning: string[]
+}

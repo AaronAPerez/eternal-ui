@@ -1,27 +1,8 @@
-/**
- * Enhanced GridSystem with Visual Overlay
- * Simple version that adds visual grid lines to basic grid
- */
-
-import { forwardRef, useRef } from 'react'
+import React, { forwardRef, useRef } from 'react'
 import { GridSystem } from './GridSystem'
 import { VisualGridOverlay } from './VisualGridOverlay'
 import { cn } from '../utils'
-import { GridSystemProps } from '../types'
-
-export interface EnhancedGridSystemProps extends GridSystemProps {
-  /** Show visual grid overlay */
-  showOverlay?: boolean
-  
-  /** Grid overlay visibility mode */
-  overlayVisibility?: 'always' | 'on-hover' | 'hidden'
-  
-  /** Grid overlay color */
-  overlayColor?: string
-  
-  /** Studio mode styling */
-  studioMode?: boolean
-}
+import type { GridSystemProps, EnhancedGridSystemProps } from '../types'
 
 /**
  * Enhanced GridSystem with Visual Overlay
@@ -41,11 +22,12 @@ export const EnhancedGridSystem = forwardRef<HTMLDivElement, EnhancedGridSystemP
     
     const containerRef = useRef<HTMLDivElement>(null)
 
-    // Convert gap string to pixels
-    const gapPixels = {
+    // Convert gap string to pixels with proper typing
+    const gapMap: Record<string, number> = {
       '0': 0, '1': 4, '2': 8, '3': 12, '4': 16, 
       '5': 20, '6': 24, '7': 28, '8': 32
-    }[gap] || 16
+    }
+    const gapPixels = gapMap[gap] || 16
 
     return (
       <div 
