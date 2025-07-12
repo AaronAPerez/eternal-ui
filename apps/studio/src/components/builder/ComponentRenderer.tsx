@@ -1,8 +1,123 @@
 'use client'
 
-// Simulate our components since we can't import them directly yet
-// In a real implementation, these would be imports from @eternal-ui/core
+// Simulated components with container support
 
+function SimulatedContainer({ children, size = 'lg', padding = 'md', ...props }: any) {
+  const getSizeClasses = () => {
+    switch (size) {
+      case 'sm': return 'max-w-screen-sm'
+      case 'md': return 'max-w-screen-md'
+      case 'lg': return 'max-w-screen-lg'
+      case 'xl': return 'max-w-screen-xl'
+      case '2xl': return 'max-w-screen-2xl'
+      case 'full': return 'max-w-full'
+      default: return 'max-w-screen-lg'
+    }
+  }
+  
+  const getPaddingClasses = () => {
+    switch (padding) {
+      case 'none': return ''
+      case 'sm': return 'p-4'
+      case 'md': return 'p-6'
+      case 'lg': return 'p-8'
+      case 'xl': return 'p-12'
+      default: return 'p-6'
+    }
+  }
+  
+  return (
+    <div 
+      className={`mx-auto w-full ${getSizeClasses()} ${getPaddingClasses()} border-2 border-dashed border-blue-200 bg-blue-50 rounded-lg min-h-[80px] relative`} 
+      {...props}
+    >
+      <div className="absolute top-2 left-2 bg-blue-500 text-white text-xs px-2 py-1 rounded">
+        Container
+      </div>
+      <div className="pt-6">
+        {children}
+      </div>
+    </div>
+  )
+}
+
+function SimulatedGrid({ children, cols = 3, gap = 4, ...props }: any) {
+  const getColsClasses = () => {
+    switch (cols) {
+      case 1: return 'grid-cols-1'
+      case 2: return 'grid-cols-2'
+      case 3: return 'grid-cols-3'
+      case 4: return 'grid-cols-4'
+      case 6: return 'grid-cols-6'
+      case 12: return 'grid-cols-12'
+      default: return 'grid-cols-3'
+    }
+  }
+  
+  const getGapClasses = () => {
+    switch (gap) {
+      case 0: return 'gap-0'
+      case 1: return 'gap-1'
+      case 2: return 'gap-2'
+      case 3: return 'gap-3'
+      case 4: return 'gap-4'
+      case 6: return 'gap-6'
+      case 8: return 'gap-8'
+      case 12: return 'gap-12'
+      default: return 'gap-4'
+    }
+  }
+  
+  return (
+    <div 
+      className={`border-2 border-dashed border-purple-200 bg-purple-50 rounded-lg min-h-[120px] p-4 relative`} 
+      {...props}
+    >
+      <div className="absolute top-2 left-2 bg-purple-500 text-white text-xs px-2 py-1 rounded">
+        Grid ({cols} cols)
+      </div>
+      <div className={`grid ${getColsClasses()} ${getGapClasses()} pt-6`}>
+        {children}
+      </div>
+    </div>
+  )
+}
+
+function SimulatedCard({ children, variant = 'default', padding = 'md', ...props }: any) {
+  const getVariantClasses = () => {
+    switch (variant) {
+      case 'elevated': return 'border border-gray-200 shadow-md'
+      case 'outlined': return 'border-2 border-gray-300 shadow-none'
+      default: return 'border border-gray-200 shadow-sm'
+    }
+  }
+  
+  const getPaddingClasses = () => {
+    switch (padding) {
+      case 'none': return ''
+      case 'sm': return 'p-4'
+      case 'md': return 'p-6'
+      case 'lg': return 'p-8'
+      default: return 'p-6'
+    }
+  }
+  
+  return (
+    <div 
+      className={`rounded-lg bg-white ${getVariantClasses()} ${getPaddingClasses()} border-2 border-dashed border-green-200 bg-green-50 min-h-[100px] relative`} 
+      {...props}
+    >
+      <div className="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded">
+        Card
+      </div>
+      <div className="pt-6">
+        {children}
+      </div>
+    </div>
+  )
+}
+
+// Keep existing button and input components the same...
 function SimulatedButton({ children, variant = 'default', size = 'default', ...props }: any) {
   const getVariantClasses = () => {
     switch (variant) {
@@ -52,97 +167,6 @@ function SimulatedInput({ placeholder, inputSize = 'default', ...props }: any) {
   )
 }
 
-function SimulatedContainer({ children, size = 'lg', padding = 'md', ...props }: any) {
-  const getSizeClasses = () => {
-    switch (size) {
-      case 'sm': return 'max-w-screen-sm'
-      case 'md': return 'max-w-screen-md'
-      case 'lg': return 'max-w-screen-lg'
-      case 'xl': return 'max-w-screen-xl'
-      case '2xl': return 'max-w-screen-2xl'
-      case 'full': return 'max-w-full'
-      default: return 'max-w-screen-lg'
-    }
-  }
-  
-  const getPaddingClasses = () => {
-    switch (padding) {
-      case 'none': return ''
-      case 'sm': return 'px-4'
-      case 'md': return 'px-6'
-      case 'lg': return 'px-8'
-      case 'xl': return 'px-12'
-      default: return 'px-6'
-    }
-  }
-  
-  return (
-    <div className={`mx-auto w-full ${getSizeClasses()} ${getPaddingClasses()}`} {...props}>
-      {children}
-    </div>
-  )
-}
-
-function SimulatedGrid({ children, cols = 3, gap = 4, ...props }: any) {
-  const getColsClasses = () => {
-    switch (cols) {
-      case 1: return 'grid-cols-1'
-      case 2: return 'grid-cols-2'
-      case 3: return 'grid-cols-3'
-      case 4: return 'grid-cols-4'
-      case 6: return 'grid-cols-6'
-      case 12: return 'grid-cols-12'
-      default: return 'grid-cols-3'
-    }
-  }
-  
-  const getGapClasses = () => {
-    switch (gap) {
-      case 0: return 'gap-0'
-      case 1: return 'gap-1'
-      case 2: return 'gap-2'
-      case 3: return 'gap-3'
-      case 4: return 'gap-4'
-      case 6: return 'gap-6'
-      case 8: return 'gap-8'
-      case 12: return 'gap-12'
-      default: return 'gap-4'
-    }
-  }
-  
-  return (
-    <div className={`grid ${getColsClasses()} ${getGapClasses()}`} {...props}>
-      {children}
-    </div>
-  )
-}
-
-function SimulatedCard({ children, variant = 'default', padding = 'md', ...props }: any) {
-  const getVariantClasses = () => {
-    switch (variant) {
-      case 'elevated': return 'border border-gray-200 shadow-md'
-      case 'outlined': return 'border-2 border-gray-300 shadow-none'
-      default: return 'border border-gray-200 shadow-sm'
-    }
-  }
-  
-  const getPaddingClasses = () => {
-    switch (padding) {
-      case 'none': return ''
-      case 'sm': return 'p-4'
-      case 'md': return 'p-6'
-      case 'lg': return 'p-8'
-      default: return 'p-6'
-    }
-  }
-  
-  return (
-    <div className={`rounded-lg bg-white ${getVariantClasses()} ${getPaddingClasses()}`} {...props}>
-      {children || <p className="text-gray-500">Card Content</p>}
-    </div>
-  )
-}
-
 export function ComponentRenderer({ element }: { element: any }) {
   const { type, props } = element
   
@@ -154,22 +178,10 @@ export function ComponentRenderer({ element }: { element: any }) {
       return <SimulatedInput {...props} />
     
     case 'container':
-      return (
-        <SimulatedContainer {...props}>
-          <p className="text-gray-600 text-center py-8">Container - Add components inside</p>
-        </SimulatedContainer>
-      )
+      return <SimulatedContainer {...props} />
     
     case 'grid':
-      return (
-        <SimulatedGrid {...props}>
-          {Array.from({ length: props.cols || 3 }).map((_, index) => (
-            <div key={index} className="bg-gray-100 p-4 rounded text-center text-gray-600">
-              Grid Item {index + 1}
-            </div>
-          ))}
-        </SimulatedGrid>
-      )
+      return <SimulatedGrid {...props} />
     
     case 'card':
       return <SimulatedCard {...props} />

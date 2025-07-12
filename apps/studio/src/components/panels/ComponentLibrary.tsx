@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useDraggable } from '@dnd-kit/core'
 import { useBuilderStore } from '@/stores/builderStore'
 import { componentRegistry, getComponentsByCategory, createElementFromComponent } from '@/lib/componentRegistry'
 
@@ -11,20 +12,63 @@ const categories = [
   { id: 'feedback', name: 'Feedback', icon: '💬' }
 ]
 
-export function ComponentLibrary() {
-  const [selectedCategory, setSelectedCategory] = useState('layout')
+function DraggableComponent({ component }: { component: any }) {
   const { addElement } = useBuilderStore()
   
-  const components = getComponentsByCategory(selectedCategory)
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    isDragging,
+  } = useDraggable({
+    id: `new-${component.type}`,
+    data: {
+      type: 'new-component',
+      componentType: component.type
+    }
+  })
   
-  const handleAddComponent = (componentType: string) => {
+  const style = transform ? {
+    transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+    opacity: isDragging ? 0.5 : 1,
+  } : undefined
+  
+  const handleClick = () => {
     try {
-      const element = createElementFromComponent(componentType)
+      const element = createElementFromComponent(component.type)
       addElement(element)
     } catch (error) {
       console.error('Failed to add component:', error)
     }
   }
+  
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...listeners}
+      {...attributes}
+      onClick={handleClick}
+      className={`p-3 border border-gray-200 rounded-lg hover:border-blue-300 cursor-pointer transition-colors hover:bg-blue-50 ${
+        isDragging ? 'ring-2 ring-blue-400' : ''
+      }`}
+    >
+      <div className="flex items-center gap-3 mb-2">
+        <span className="text-xl">{component.icon}</span>
+        <div>
+          <h3 className="font-medium">{component.name}</h3>
+          <p className="text-sm text-gray-600">{component.description}</p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export function ComponentLibrary() {
+  const [selectedCategory, setSelectedCategory] = useState('layout')
+  
+  const components = getComponentsByCategory(selectedCategory)
   
   return (
     <div className="p-4">
@@ -51,26 +95,14 @@ export function ComponentLibrary() {
       {/* Component List */}
       <div className="space-y-2">
         {components.map((component) => (
-          <div
-            key={component.type}
-            onClick={() => handleAddComponent(component.type)}
-            className="p-3 border border-gray-200 rounded-lg hover:border-blue-300 cursor-pointer transition-colors hover:bg-blue-50"
-          >
-            <div className="flex items-center gap-3 mb-2">
-              <span className="text-xl">{component.icon}</span>
-              <div>
-                <h3 className="font-medium">{component.name}</h3>
-                <p className="text-sm text-gray-600">{component.description}</p>
-              </div>
-            </div>
-          </div>
+          <DraggableComponent key={component.type} component={component} />
         ))}
       </div>
       
       {/* Usage Hint */}
       <div className="mt-6 p-3 bg-blue-50 rounded-lg">
         <p className="text-sm text-blue-700">
-          💡 <strong>Tip:</strong> Click on any component to add it to the canvas
+          💡 <strong>Tip:</strong> Click to add or drag components to the canvas
         </p>
       </div>
     </div>

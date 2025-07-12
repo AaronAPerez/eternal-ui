@@ -7,6 +7,9 @@ export interface ComponentDefinition {
   defaultProps: Record<string, any>
   icon: string
   description: string
+  acceptsChildren?: boolean
+  maxChildren?: number
+  childrenTypes?: string[] // What types of children it accepts
 }
 
 export const componentRegistry: ComponentDefinition[] = [
@@ -20,7 +23,8 @@ export const componentRegistry: ComponentDefinition[] = [
       size: 'default'
     },
     icon: '🔘',
-    description: 'A clickable button component'
+    description: 'A clickable button component',
+    acceptsChildren: false
   },
   
   {
@@ -33,7 +37,8 @@ export const componentRegistry: ComponentDefinition[] = [
       inputSize: 'default'
     },
     icon: '📝',
-    description: 'Text input field'
+    description: 'Text input field',
+    acceptsChildren: false
   },
   
   {
@@ -45,7 +50,10 @@ export const componentRegistry: ComponentDefinition[] = [
       padding: 'md'
     },
     icon: '📦',
-    description: 'A responsive container for content'
+    description: 'A responsive container for content',
+    acceptsChildren: true,
+    maxChildren: 10,
+    childrenTypes: ['button', 'input', 'card', 'grid'] // Can accept most components
   },
   
   {
@@ -58,7 +66,10 @@ export const componentRegistry: ComponentDefinition[] = [
       responsive: false
     },
     icon: '🔲',
-    description: 'A flexible grid layout system'
+    description: 'A flexible grid layout system',
+    acceptsChildren: true,
+    maxChildren: 12,
+    childrenTypes: ['button', 'input', 'card', 'container'] // Grid items
   },
   
   {
@@ -71,7 +82,10 @@ export const componentRegistry: ComponentDefinition[] = [
       hover: false
     },
     icon: '🃏',
-    description: 'A card component with header, content, and footer'
+    description: 'A card component with header, content, and footer',
+    acceptsChildren: true,
+    maxChildren: 5,
+    childrenTypes: ['button', 'input'] // Cards can have buttons and inputs
   }
 ]
 
@@ -83,7 +97,7 @@ export function getComponentsByCategory(category: string): ComponentDefinition[]
   return componentRegistry.filter(comp => comp.category === category)
 }
 
-export function createElementFromComponent(type: string): Omit<BuilderElement, 'id'> {
+export function createElementFromComponent(type: string, parentId?: string): Omit<BuilderElement, 'id'> {
   const componentDef = getComponentByType(type)
   
   if (!componentDef) {
@@ -94,6 +108,18 @@ export function createElementFromComponent(type: string): Omit<BuilderElement, '
     type,
     props: { ...componentDef.defaultProps },
     children: [],
-    position: { x: 0, y: 0 }
+    position: { x: 0, y: 0 },
+    parent: parentId,
+    acceptsChildren: componentDef.acceptsChildren,
+    maxChildren: componentDef.maxChildren
   }
+}
+
+export function canAcceptChild(parentType: string, childType: string): boolean {
+  const parentDef = getComponentByType(parentType)
+  if (!parentDef || !parentDef.acceptsChildren) return false
+  
+  if (!parentDef.childrenTypes) return true // Accept all if not specified
+  
+  return parentDef.childrenTypes.includes(childType)
 }

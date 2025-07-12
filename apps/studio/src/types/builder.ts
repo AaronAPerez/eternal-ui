@@ -9,19 +9,22 @@ export interface BuilderElement {
     y: number
   }
   style?: Record<string, any>
+  // Add container-specific properties
+  acceptsChildren?: boolean
+  maxChildren?: number
 }
 
-export interface BuilderState {
-  elements: BuilderElement[]
-  selectedElementId: string | null
-  hoveredElementId: string | null
-  draggedElementId: string | null
-  mode: 'design' | 'preview' | 'code'
-  showGrid: boolean
-  zoom: number
-  deviceMode: 'desktop' | 'tablet' | 'mobile'
-  leftPanelOpen: boolean
-  rightPanelOpen: boolean
-  history: BuilderElement[][]
-  historyIndex: number
+export interface DragData {
+  type: 'existing-component' | 'new-component'
+  componentType?: string
+  elementId?: string
+  isContainer?: boolean
+}
+
+export interface DropZone {
+  id: string
+  type: 'canvas' | 'container' | 'between'
+  position?: 'before' | 'after' | 'inside'
+  parentId?: string
+  index?: number
 }
