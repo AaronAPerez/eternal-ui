@@ -10,7 +10,36 @@ export default function HomePage() {
   const [gap, setGap] = useState('4')
 
   return (
+    
     <div className="min-h-screen bg-gray-50 p-8">
+<div className="pb-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+  <div className="bg-white rounded-lg shadow-sm border p-6">
+    <h3 className="text-lg font-semibold mb-3">🤖 AI Auto-Layout Demo</h3>
+    <p className="text-gray-600 text-sm mb-4">
+      Experience AI-powered layout suggestions with confidence scoring and reasoning
+    </p>
+    <a 
+      href="/ai-demo"
+      className="inline-block px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+    >
+      Try AI Layouts →
+    </a>
+  </div>
+  
+  <div className="bg-white rounded-lg shadow-sm border p-6">
+    <h3 className="text-lg font-semibold mb-3">🎨 Complete Studio</h3>
+    <p className="text-gray-600 text-sm mb-4">
+      Full visual builder with AI suggestions, drag & drop, and live code export
+    </p>
+    <a 
+      href="/studio"
+      className="inline-block px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+    >
+      Launch Studio →
+    </a>
+  </div>
+</div>
+
       <div className="max-w-6xl mx-auto">
         
         {/* Header */}
