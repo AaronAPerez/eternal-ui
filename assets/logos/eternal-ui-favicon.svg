@@ -1,0 +1,37 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Optimized for favicons - solid colors for maximum contrast at small sizes -->
+    <style>
+      .icon-bg { fill: #6366F1; }
+      .icon-primary { fill: #FFFFFF; }
+      .icon-secondary { fill: #EEF2FF; }
+      .icon-accent { stroke: #FFFFFF; stroke-width: 2.5; fill: none; stroke-linecap: round; }
+    </style>
+  </defs>
+  
+  <!-- Background circle with solid blue -->
+  <circle cx="50" cy="50" r="46" class="icon-bg"/>
+  
+  <!-- Outer ring for depth -->
+  <circle cx="50" cy="50" r="46" fill="none" stroke="#4F46E5" stroke-width="2"/>
+  
+  <!-- Infinity symbol - left circle -->
+  <circle cx="35" cy="50" r="14" class="icon-primary" opacity="0.95"/>
+  
+  <!-- Infinity symbol - right circle -->
+  <circle cx="65" cy="50" r="14" class="icon-primary" opacity="0.95"/>
+  
+  <!-- UI connection lines - creating the cross pattern -->
+  <g class="icon-accent" opacity="0.8">
+    <!-- Diagonal lines connecting the circles -->
+    <line x1="42" y1="42" x2="58" y2="58"/>
+    <line x1="58" y1="42" x2="42" y2="58"/>
+  </g>
+  
+  <!-- Inner highlights for 3D effect -->
+  <circle cx="32" cy="46" r="3" class="icon-secondary" opacity="0.9"/>
+  <circle cx="68" cy="46" r="3" class="icon-secondary" opacity="0.9"/>
+  
+  <!-- Central connection point -->
+  <circle cx="50" cy="50" r="2" class="icon-secondary"/>
+</svg>
