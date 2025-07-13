@@ -33,10 +33,16 @@
       "@eternal-ui/core": ["./packages/core/src"],
       "@eternal-ui/core/*": ["./packages/core/src/*"],
       "@eternal-ui/design-system": ["./packages/design-system/src"],
-      "@eternal-ui/design-system/*": ["./packages/design-system/src/*"]
+      "@eternal-ui/design-system/*": ["./packages/design-system/src/*"],
+        "@/*": ["./src/*"],
+      "@/components/*": ["./src/components/*"],
+      "@/lib/*": ["./src/lib/*"],
+      "@/hooks/*": ["./src/hooks/*"],
+      "@/types/*": ["./src/types/*"]
     }
   },
   "include": [
+    "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     "**/*.js",

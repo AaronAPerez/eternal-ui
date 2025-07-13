@@ -1,0 +1,15 @@
+{
+  "name": "@eternal-ui/design-system",
+  "version": "1.0.0",
+  "description": "Design tokens and themes for Eternal UI",
+  "main": "index.js",
+  "files": ["tokens", "themes", "css", "index.js"],
+  "scripts": {
+    "build": "node build-tokens.js",
+    "dev": "chokidar 'tokens/**/*.json' -c 'npm run build'"
+  },
+  "devDependencies": {
+    "chokidar-cli": "^3.0.0",
+    "style-dictionary": "^3.9.2"
+  }
+}

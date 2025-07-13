@@ -10,3 +10,7 @@ export { Input, inputVariants } from './components/ui/Input'
 export { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, cardVariants } from './components/ui/Card'
 export { Container, containerVariants } from './components/layout/Container'
 export { Grid, gridVariants } from './components/layout/Grid'
+
+export * from './components'
+// export * from './types'
+export const version = '0.1.0'

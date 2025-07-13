@@ -1,0 +1,31 @@
+{
+  "accessibility": {
+    "focus": {
+      "color": { "value": "#ffbf47" },
+      "width": { "value": "2px" },
+      "offset": { "value": "2px" },
+      "style": { "value": "solid" }
+    },
+    "contrast": {
+      "minimum": {
+        "normal": { "value": "4.5" },
+        "large": { "value": "3" }
+      },
+      "enhanced": {
+        "normal": { "value": "7" },
+        "large": { "value": "4.5" }
+      }
+    },
+    "motion": {
+      "reduce": {
+        "duration": { "value": "0.01ms" },
+        "delay": { "value": "0ms" }
+      }
+    },
+    "text": {
+      "minimum-size": { "value": "16px" },
+      "line-height": { "value": "1.5" },
+      "spacing": { "value": "0.12em" }
+    }
+  }
+}

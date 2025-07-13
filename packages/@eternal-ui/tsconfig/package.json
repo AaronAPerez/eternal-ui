@@ -1,0 +1,10 @@
+{
+  "name": "@eternal-ui/tsconfig",
+  "version": "1.0.0",
+  "description": "Shared TypeScript configurations for Eternal UI",
+  "main": "index.js",
+  "files": ["base.json", "nextjs.json", "react-library.json", "node.json"],
+  "publishConfig": {
+    "access": "public"
+  }
+}

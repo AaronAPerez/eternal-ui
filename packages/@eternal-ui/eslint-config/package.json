@@ -1,0 +1,22 @@
+{
+  "name": "@eternal-ui/eslint-config",
+  "version": "1.0.0",
+  "description": "ESLint configurations for Eternal UI",
+  "main": "index.js",
+  "files": ["*.js"],
+  "dependencies": {
+    "@next/eslint-config-next": "^14.1.0",
+    "@typescript-eslint/eslint-plugin": "^6.19.0",
+    "@typescript-eslint/parser": "^6.19.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-testing-library": "^6.2.0"
+  },
+  "peerDependencies": {
+    "eslint": "^8.0.0",
+    "typescript": ">=4.0.0"
+  }
+}

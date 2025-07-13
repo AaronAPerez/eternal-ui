@@ -6,3 +6,8 @@ export { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, 
 // Layout Components
 export { Container, containerVariants } from './layout/Container'
 export { Grid, gridVariants } from './layout/Grid'
+
+export * from '../export/AdvancedExporter'
+
+const EternalUI = { version: '0.1.0' }
+export default EternalUI

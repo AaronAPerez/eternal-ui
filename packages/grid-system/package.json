@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Minimal grid system",
   "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
+  "module": "./dist/index.esm.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
@@ -16,7 +16,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
+     "build": "npm run clean && tsc && rollup -c",
+    "clean": "rimraf dist",
     "dev": "tsup src/index.ts --format cjs,esm --dts --watch"
   },
   "peerDependencies": {

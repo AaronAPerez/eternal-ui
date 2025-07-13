@@ -1,13 +1,19 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Enable transpiling packages from the monorepo
-  transpilePackages: ['@eternal-ui/grid-system'],
+  transpilePackages: ['@eternal-ui/core', '@eternal-ui/design-system', '@eternal-ui/grid-system'],
   
   // Experimental features for better monorepo support
   experimental: {
+    
     // Enable external directory support
     externalDir: true,
+     optimizePackageImports: ['@eternal-ui/core']
   },
+  images: {
+    formats: ['image/webp', 'image/avif']
+  },
+
 
   // Webpack configuration for monorepo packages
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
