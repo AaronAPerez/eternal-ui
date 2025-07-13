@@ -183,12 +183,22 @@ export function EternalUILogo({
     
     return (
       <div className="flex flex-col">
-        <span className={`font-bold tracking-tight ${textSizeClasses[size]} bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent`}>
-          Eternal
-        </span>
-        <span className={`font-medium tracking-wider ${size === 'xs' ? 'text-xs' : size === 'sm' ? 'text-sm' : 'text-base'} text-gray-600 dark:text-gray-400 -mt-1`}>
+        <h1 className={`font-bold tracking-tight ${textSizeClasses[size]} bg-gradient-to-r from-blue-600 via-purple-600 to-orange-600 bg-clip-text text-transparent`}>
+          Eternal UI
+        </h1> 
+        {/* <h1 className={`font-bold tracking-tight ${textSizeClasses[size]} bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent`}>
+          Eternal UI
+        </h1>  */}
+        {/* <span className={`font-bold tracking-tight ${textSizeClasses[size]} bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent`}>
+          Eternal UI
+        </span>  */}
+        <p className="text-xs text-gray-600 dark:text-gray-400 flex justify-start">
+                  Visual Builder
+                </p>
+
+        {/* <span className={`font-medium tracking-wider ${size === 'xs' ? 'text-xs' : size === 'sm' ? 'text-sm' : 'text-base'} text-gray-600 dark:text-gray-400 -mt-1`}>
           UI
-        </span>
+        </span> */}
       </div>
     )
   }
