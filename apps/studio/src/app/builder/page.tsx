@@ -1,29 +1,43 @@
-import { Metadata } from 'next'
-import { Suspense } from 'react'
+'use client'
+
+import { Suspense, useEffect } from 'react'
 import dynamic from 'next/dynamic'
+import { useSearchParams } from 'next/navigation'
+import { useBuilderStore } from '@/stores/builderStore'
 
-const StudioInterface = dynamic(() => import('@/components/builder/BuilderInterface'), {
-  loading: () => (
-    <div className="h-screen bg-gray-50 flex items-center justify-center">
-      <div className="text-center">
-        <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-        <p className="text-gray-600">Loading Studio...</p>
+const StudioBuilderInterface = dynamic(
+  () => import('@/components/builder/StudioBuilderInterface'), 
+  {
+    loading: () => (
+      <div className="h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-gray-600">Loading Studio...</p>
+        </div>
       </div>
-    </div>
-  ),
-  ssr: false // Disable SSR for the builder
-})
+    ),
+    ssr: false
+  }
+)
 
-export const metadata: Metadata = {
-  title: 'Visual Builder | Eternal UI',
-  description: 'Create stunning websites with our AI-powered visual builder. Drag, drop, and build responsive websites in minutes.',
-  robots: { index: false } // Don't index the builder interface
+function BuilderContent() {
+  const searchParams = useSearchParams()
+  const { setMode } = useBuilderStore()
+  
+  useEffect(() => {
+    const mode = searchParams.get('mode')
+    if (mode && ['visual', 'advanced', 'components'].includes(mode)) {
+      setMode(mode as any)
+    }
+  }, [searchParams, setMode])
+  
+  return <StudioBuilderInterface />
 }
 
 export default function BuilderPage() {
   return (
     <Suspense fallback={<div>Loading builder...</div>}>
-      <StudioInterface />
+      <BuilderContent />
     </Suspense>
   )
 }

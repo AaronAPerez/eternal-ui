@@ -428,14 +428,14 @@ export default function HomepageClient() {
               
               {/* Floating Elements with Eternal UI Branding */}
               <FloatingElement delay={0}>
-                <div className="absolute -top-4 -left-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center space-x-1">
+                <div className="absolute -top-12 -left-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center space-x-1 z-30">
                   <EternalUILogo size="xs" variant="mono" showText={false} className="text-white" />
                   <span>Live Demo</span>
                 </div>
               </FloatingElement>
               
               <FloatingElement delay={500}>
-                <div className="absolute -top-2 -right-8 bg-purple-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                <div className="absolute -top-12 -right-4 bg-purple-500 text-white px-3 py-1 rounded-full text-sm font-semibold z-30">
                   <Clock className="w-3 h-3 inline mr-1" />
                   Real-time
                 </div>

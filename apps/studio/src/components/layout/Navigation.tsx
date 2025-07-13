@@ -11,7 +11,10 @@ import {
   Moon,
   Sun,
   Sparkles,
-  ChevronDown
+  ChevronDown,
+  Grid,
+  Palette,
+  Square
 } from 'lucide-react'
 
 // Import the official Eternal UI Logo
@@ -199,11 +202,36 @@ const navigationItems: NavigationItem[] = [
     href: '/features',
     description: 'Discover all our powerful features'
   },
-  { 
-    name: 'Demos', 
-    href: '/demos',
-    description: 'See our builder in action'
-  },
+ {
+  name: 'Builder',
+  href: '/builder',
+  children: [
+    {
+      name: 'Visual Builder',
+      href: '/builder?mode=visual',
+      description: 'Simple drag & drop interface',
+      icon: Palette
+    },
+    {
+      name: 'Advanced Builder',
+      href: '/builder?mode=advanced',
+      description: 'Professional component library',
+      icon: Grid,
+      badge: 'Pro'
+    },
+    {
+      name: 'Components',
+      href: '/builder?mode=components',
+      description: 'Browse & customize components',
+      icon: Square
+    }
+  ]
+},
+  // { 
+  //   name: 'Demos', 
+  //   href: '/demos',
+  //   description: 'See our builder in action'
+  // },
   { 
     name: 'Pricing', 
     href: '/pricing',
