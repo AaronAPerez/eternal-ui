@@ -98,8 +98,9 @@ const ImprovedBuilderInterface: React.FC = () => {
         onFitToScreen={fitToScreen}
         onToggleGrid={toggleGridControls}
         onToggleLibrary={toggleComponentLibrary}
-        onToggleTheme={toggleTheme}
-      />
+        onToggleTheme={toggleTheme} currentMode={''} builderModes={[]} onModeChange={function (mode: string): void {
+          throw new Error('Function not implemented.');
+        } }      />
 
       {/* Main Content Area */}
       <div className="builder-main">

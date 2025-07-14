@@ -72,8 +72,8 @@ function Button({ children, className = '', variant = 'default', size = 'default
   
   const variants = {
     default: 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-lg hover:shadow-xl dark:bg-indigo-500 dark:hover:bg-indigo-600',
-    outline: 'border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white hover:border-gray-400 dark:hover:border-gray-500',
-    secondary: 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700',
+    outline: 'border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-black dark:text-white hover:border-gray-400 dark:hover:border-gray-500',
+    secondary: 'bg-gray-100 dark:bg-gray-800 text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700',
     gradient: 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl dark:from-indigo-500 dark:to-purple-500 dark:hover:from-indigo-600 dark:hover:to-purple-600'
   }
   
@@ -202,7 +202,7 @@ function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 hover:scale-110"
+      className="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 hover:scale-110"
       aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
     >
       {theme === 'light' ? (
@@ -321,7 +321,7 @@ export default function HomepageClient() {
       {/* Hero Section with Enhanced Animations */}
       <section 
         ref={heroRef.ref}
-        className="relative overflow-hidden bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-gray-900 dark:via-black/90 dark:to-black/80 transition-all duration-1000"
+        className="relative overflow-hidden bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-black dark:via-black/90 dark:to-black/80 transition-all duration-1000"
       >
         {/* Animated Background Elements */}
         <div className="absolute inset-0">
@@ -361,7 +361,7 @@ export default function HomepageClient() {
               
               {/* Enhanced Headline with Gradient Animation */}
               <div className="space-y-4">
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-tight animate-fade-in-up animation-delay-300">
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-black dark:text-white leading-tight animate-fade-in-up animation-delay-300">
                   Build Websites{' '}
                   <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent animate-gradient-x bg-300%">
                     10x Faster
@@ -455,8 +455,8 @@ export default function HomepageClient() {
                       className={`
                         flex items-center space-x-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-300 transform hover:scale-105
                         ${activeDemo === tab.id
-                          ? 'bg-white dark:bg-indigo-700 text-gray-900 dark:text-white shadow-lg scale-105'
-                          : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-gray-700/50'
+                          ? 'bg-white dark:bg-indigo-700 text-black dark:text-white shadow-lg scale-105'
+                          : 'text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-white/50 dark:hover:bg-gray-700/50'
                         }
                       `}
                     >
@@ -482,7 +482,7 @@ export default function HomepageClient() {
                   </div>
                 </div>
                 
-                <div className="aspect-video bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-gray-900 dark:to-gray-800 p-8 relative overflow-hidden">
+                <div className="aspect-video bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-black dark:to-gray-800 p-8 relative overflow-hidden">
                   
                   {/* Background Animation */}
                   <div className="absolute inset-0 bg-grid-pattern opacity-10 z-30" />
@@ -563,7 +563,7 @@ export default function HomepageClient() {
       {/* Enhanced Stats Section */}
       <section 
         ref={statsRef.ref}
-        className="py-16 bg-gray-50 dark:bg-gray-900/50 transition-all duration-1000"
+        className="py-16 bg-gray-50 dark:bg-black/50 transition-all duration-1000"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
@@ -576,7 +576,7 @@ export default function HomepageClient() {
                 <div className="flex justify-center mb-2">
                   <stat.icon className="w-8 h-8 text-indigo-500 dark:text-indigo-400 group-hover:scale-110 transition-transform duration-300" />
                 </div>
-                <div className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300">
+                <div className="text-3xl lg:text-4xl font-bold text-black dark:text-white mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300">
                   <AnimatedCounter
                     value={stat.value}
                     suffix={stat.suffix}
@@ -606,7 +606,7 @@ export default function HomepageClient() {
               <Sparkles className="w-3 h-3 mr-1" />
               Features
             </Badge>
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-6">
+            <h2 className="text-3xl lg:text-4xl font-bold text-black dark:text-white mb-6">
               Everything You Need to Build
               <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent animate-gradient-x bg-300%">
                 {' '}Amazing Websites
@@ -638,7 +638,7 @@ export default function HomepageClient() {
                   {/* Enhanced Badge and Title */}
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300">
+                      <h3 className="text-lg font-semibold text-black dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300">
                         {feature.title}
                       </h3>
                       <Badge variant="outline" className="text-xs">
@@ -666,7 +666,7 @@ export default function HomepageClient() {
       </section>
 
       {/* Enhanced Comparison Section */}
-      <section className="py-24 bg-gray-50 dark:bg-gray-900/50 transition-all duration-1000">
+      <section className="py-24 bg-gray-50 dark:bg-black/50 transition-all duration-1000">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           {/* Section Header */}
@@ -675,7 +675,7 @@ export default function HomepageClient() {
               <TrendingUp className="w-3 h-3 mr-1" />
               Comparison
             </Badge>
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-6">
+            <h2 className="text-3xl lg:text-4xl font-bold text-black dark:text-white mb-6">
               Why Choose Eternal UI Over
               <span className="bg-gradient-to-r from-green-600 to-teal-600 bg-clip-text text-transparent">
                 {' '}The Competition?
@@ -708,7 +708,7 @@ export default function HomepageClient() {
                 )}
                 
                 <div className="space-y-4">
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white">{competitor.name}</h3>
+                  <h3 className="text-xl font-bold text-black dark:text-white">{competitor.name}</h3>
                   <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">{competitor.price}</div>
                   
                   <div className="space-y-2">

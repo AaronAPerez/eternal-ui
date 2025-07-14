@@ -5,6 +5,7 @@ const nextConfig = {
     optimizeCss: true,
     scrollRestoration: true,
     legacyBrowsers: false,
+      optimizePackageImports: ['lucide-react', '@headlessui/react'],
   },
   
   // Compiler optimizations
@@ -16,6 +17,8 @@ const nextConfig = {
   images: {
     domains: ['eternal-ui.com', 'cdn.eternal-ui.com'],
     formats: ['image/webp', 'image/avif'],
+     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 31536000,
   },
   
@@ -35,11 +38,23 @@ const nextConfig = {
           },
           {
             key: 'X-Frame-Options',
-            value: 'DENY'
-          }
-        ]
-      }
-    ]
+            value: 'DENY',
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin',
+          },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=()',
+          },
+        ],
+      },
+    ];
   },
   
   // Redirects for SEO
@@ -64,16 +79,37 @@ const nextConfig = {
   },
   
   // Bundle analyzer
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      config.resolve.fallback = {
-        fs: false,
-        net: false,
-        tls: false,
-      }
+  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+    if (process.env.ANALYZE === 'true') {
+      const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+      config.plugins.push(
+        new BundleAnalyzerPlugin({
+          analyzerMode: 'static',
+          openAnalyzer: false,
+        })
+      );
     }
     
     return config
+  },
+  // PWA configuration
+  pwa: {
+    dest: 'public',
+    register: true,
+    skipWaiting: true,
+    runtimeCaching: [
+      {
+        urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
+        handler: 'CacheFirst',
+        options: {
+          cacheName: 'google-fonts',
+          expiration: {
+            maxEntries: 4,
+            maxAgeSeconds: 365 * 24 * 60 * 60, // 365 days
+          },
+        },
+      },
+    ],
   },
 }
 

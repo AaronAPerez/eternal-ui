@@ -1,3 +1,22 @@
+const nextJest = require('next/jest');
+
+const createJestConfig = nextJest({
+  // Provide the path to your Next.js app to load next.config.js and .env files
+  dir: './',
+});
+
+// Add any custom config to be passed to Jest
+const customJestConfig = {
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  testEnvironment: 'jest-environment-jsdom',
+  testPathIgnorePatterns: ['<rootDir>/.next/', '<rootDir>/node_modules/'],
+  moduleNameMapping: {
+    '^@/(.*)
+
+
+**File: `apps/studio/src/app/builder/page.tsx`**
+
+```typescript
 'use client';
 
 import React, { useEffect } from 'react';
@@ -60,9 +79,9 @@ export default function BuilderPage() {
 }
 
 // SEO and accessibility metadata
-// export const metadata = {
-//   title: 'Visual Builder - Eternal UI',
-//   description: 'Professional drag-and-drop website builder with advanced grid system',
-//   keywords: 'visual builder, drag drop, website builder, UI design',
-//   robots: 'noindex, nofollow', // Prevent indexing of builder interface
-// };
+export const metadata = {
+  title: 'Visual Builder - Eternal UI',
+  description: 'Professional drag-and-drop website builder with advanced grid system',
+  keywords: 'visual builder, drag drop, website builder, UI design',
+  robots: 'noindex, nofollow', // Prevent indexing of builder interface
+};
