@@ -170,11 +170,11 @@ function DropdownMenu({ items, isOpen, onClose, trigger, label }: DropdownMenuPr
 
 // FIXED Navigation items with proper typing
 const navigationItems: NavigationItem[] = [
-  { 
-    name: 'Features', 
-    href: '/features',
-    description: 'Discover all our powerful features'
-  },
+  // { 
+  //   name: 'Features', 
+  //   href: '/features',
+  //   description: 'Discover all our powerful features'
+  // },
   {
     name: 'Builder',
     href: '/builder',

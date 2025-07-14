@@ -1,24 +1,28 @@
 'use client';
 
-import dynamic from 'next/dynamic';
-import { Suspense } from 'react';
-import LoadingSpinner from '@/components/ui/LoadingSpinner';
+import React, { useEffect } from 'react';
+import '@/styles/builder-layout-fixes.css';
+import CompleteStudioBuilderInterface from '../../components/builder/CompleteStudioBuilderInterface';
 
-// Dynamic import to avoid SSR issues
-const BrowserGridSystem = dynamic(
-  () => import('@/components/grid/BrowserGridSystem'),
-  {
-    ssr: false,
-    loading: () => <LoadingSpinner />,
-  }
-);
-
+/**
+ * Builder Page - Fixed Layout Version
+ * 
+ * This page implements the fixed layout structure to prevent
+ * grid cutoff and ensure proper scrolling behavior.
+ */
 export default function BuilderPage() {
+  // Apply builder-specific body classes
+  useEffect(() => {
+    document.body.classList.add('builder-page-active');
+    
+    return () => {
+      document.body.classList.remove('builder-page-active');
+    };
+  }, []);
+
   return (
-    <main className="h-screen overflow-hidden">
-      <Suspense fallback={<LoadingSpinner />}>
-        <BrowserGridSystem />
-      </Suspense>
-    </main>
+    <div className="h-screen">
+      <CompleteStudioBuilderInterface />
+    </div>
   );
 }

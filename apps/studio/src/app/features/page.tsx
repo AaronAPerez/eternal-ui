@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { FeaturesShowcase } from '@/components/features/FeaturesShowcase'
+// import { FeaturesShowcase } from '@/components/features/FeaturesShowcase'
 
 export const metadata: Metadata = {
   title: 'Features | Eternal UI - AI-Powered Website Builder',
@@ -7,5 +7,6 @@ export const metadata: Metadata = {
 }
 
 export default function FeaturesPage() {
-  return <FeaturesShowcase />
+  return 
+  // <FeaturesShowcase />
 }

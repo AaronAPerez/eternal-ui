@@ -3,7 +3,7 @@ export { GridSystem } from './components/GridSystem'
 export { GridSystem as default } from './components/GridSystem'
 
 // Enhanced GridSystem with visual overlay
-export { EnhancedGridSystem } from './components/EnhancedGridSystem'
+// export { EnhancedGridSystem } from './components/EnhancedGridSystem'
 export { VisualGridOverlay } from './components/VisualGridOverlay'
 
 // Types
@@ -19,3 +19,8 @@ export { cn } from './utils'
 // AI-powered features  
 export { AutoLayoutEngine, useAutoLayout } from './ai/AutoLayoutEngine'
 export type { ComponentData, LayoutSuggestion } from './ai/AutoLayoutEngine'
+
+export * from './hooks';
+export * from './components';
+export * from './types';
+export * from './utils';
