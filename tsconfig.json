@@ -16,7 +16,11 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "ES2022",
-    "lib": ["dom", "dom.iterable", "es2022"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "es2022"
+    ],
     "allowJs": true,
     "noEmit": true,
     "module": "esnext",
@@ -30,23 +34,42 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@eternal-ui/core": ["./packages/core/src"],
-      "@eternal-ui/core/*": ["./packages/core/src/*"],
-      "@eternal-ui/design-system": ["./packages/design-system/src"],
-      "@eternal-ui/design-system/*": ["./packages/design-system/src/*"],
-        "@/*": ["./src/*"],
-      "@/components/*": ["./src/components/*"],
-      "@/lib/*": ["./src/lib/*"],
-      "@/hooks/*": ["./src/hooks/*"],
-      "@/types/*": ["./src/types/*"]
+      "@eternal-ui/core": [
+        "./packages/core/src"
+      ],
+      "@eternal-ui/core/*": [
+        "./packages/core/src/*"
+      ],
+      "@eternal-ui/design-system": [
+        "./packages/design-system/src"
+      ],
+      "@eternal-ui/design-system/*": [
+        "./packages/design-system/src/*"
+      ],
+      "@/*": [
+        "./src/*"
+      ],
+      "@/components/*": [
+        "./src/components/*"
+      ],
+      "@/lib/*": [
+        "./src/lib/*"
+      ],
+      "@/hooks/*": [
+        "./src/hooks/*"
+      ],
+      "@/types/*": [
+        "./src/types/*"
+      ]
     }
   },
   "include": [
-    "next-env.d.ts",
+    "**/*.js",
+    "**/*.jsx",
     "**/*.ts",
     "**/*.tsx",
-    "**/*.js",
-    "**/*.jsx"
+    "next-env.d.ts",
+    ".next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules",

@@ -1,46 +1,25 @@
-'use client'
+import { useState, useEffect } from 'react';
 
-import { useState, useEffect } from 'react'
-
-type Theme = 'light' | 'dark' | 'system'
-
-export function useTheme() {
-  const [theme, setTheme] = useState<Theme>('system')
-  const [mounted, setMounted] = useState(false)
+export const useTheme = () => {
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
   useEffect(() => {
-    setMounted(true)
-    // Get saved theme or default to system
-    const savedTheme = localStorage.getItem('eternal-ui-theme') as Theme | null
+    const savedTheme = localStorage.getItem('theme') as 'light' | 'dark';
     if (savedTheme) {
-      setTheme(savedTheme)
+      setTheme(savedTheme);
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      setTheme('dark');
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
-    if (!mounted) return
-
-    const root = window.document.documentElement
-    root.classList.remove('light', 'dark')
-
-    if (theme === 'system') {
-      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-      root.classList.add(systemTheme)
-    } else {
-      root.classList.add(theme)
-    }
-
-    localStorage.setItem('eternal-ui-theme', theme)
-  }, [theme, mounted])
+    localStorage.setItem('theme', theme);
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+  }, [theme]);
 
   const toggleTheme = () => {
-    setTheme(current => current === 'light' ? 'dark' : 'light')
-  }
+    setTheme(prev => prev === 'light' ? 'dark' : 'light');
+  };
 
-  return {
-    theme,
-    setTheme,
-    toggleTheme,
-    mounted
-  }
-}
+  return { theme, toggleTheme };
+};

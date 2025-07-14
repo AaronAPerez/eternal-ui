@@ -263,8 +263,8 @@ export function Navigation() {
               className="flex items-center space-x-3 group"
               aria-label="Eternal UI Home"
             >
-              <EternalUILogo className="w-12 h-12 transition-transform group-hover:scale-110"
-              size='xl' />
+              <EternalUILogo className="w-10 h-10 transition-transform group-hover:scale-110"
+              size='lg' />
               {/* <span className="text-xl font-bold text-gray-900 dark:text-white">
                 Eternal UI
               </span> */}
