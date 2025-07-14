@@ -183,7 +183,7 @@ export function EternalUILogo({
     
     return (
       <div className="flex flex-col">
-        <h1 className={`font-bold tracking-tight ${textSizeClasses[size]} bg-gradient-to-r from-blue-600 via-purple-600 to-orange-600 bg-clip-text text-transparent`}>
+        <h1 className={`font-bold tracking-tight ${textSizeClasses[size]} bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent animate-gradient-x bg-300%t`}>
           Eternal UI
         </h1> 
         {/* <h1 className={`font-bold tracking-tight ${textSizeClasses[size]} bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent`}>

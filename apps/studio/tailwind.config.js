@@ -33,6 +33,9 @@ module.exports = {
           900: '#312e81',
           950: '#1e1b4b',
         },
+      animation: {
+        'spin-slow': 'spin 3s linear infinite',
+      },
         secondary: {
           DEFAULT: 'hsl(var(--secondary))',
           foreground: 'hsl(var(--secondary-foreground))',

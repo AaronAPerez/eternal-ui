@@ -8,25 +8,22 @@ import {
   Layers, 
   Sun, 
   Moon, 
-  Palette,
-  RotateCcw,
-  Download,
-  Upload,
-  Copy,
-  Trash2,
-  AlignCenter,
-  AlignLeft,
-  AlignRight,
   Code,
   Plus,
-  Maximize,
-  Minimize
+  Download,
+  Library,
+  Maximize2,
+  Minimize2
 } from 'lucide-react';
-import DarkModePropertiesPanel from '../builder/DarkModePropertiesPanel';
-import DraggableResizableComponent from '../builder/DraggableResizableComponent';
-import DarkModeGridControlsPanel from '../builder/DarkModeGridControlsPanel';
+import { useGridSnap, EnhancedGridOverlay, SnapGuides } from './GridSnapSystem';
 
-// Enhanced Types for Drag & Drop and Resizing
+import ComponentLibrary from './ComponentLibrary';
+import DraggableResizableComponent from './DraggableResizableComponent';
+import DarkModePropertiesPanel from './DarkModePropertiesPanel';
+import DarkModeGridControlsPanel from './DarkModeGridControlsPanel';
+
+
+// Enhanced Types
 interface GridConfig {
   visible: boolean;
   snapEnabled: boolean;
@@ -39,6 +36,33 @@ interface GridConfig {
   style: 'lines' | 'dots' | 'solid';
 }
 
+interface CanvasComponent {
+  id: string;
+  type: string;
+  content: string;
+  position: { x: number; y: number };
+  size: { width: number; height: number };
+  styles: Record<string, string>;
+  isMinimized?: boolean;
+  isLocked?: boolean;
+  isHidden?: boolean;
+  zIndex?: number;
+}
+
+interface ComponentTemplate {
+  id: string;
+  name: string;
+  category: string;
+  icon: React.ComponentType<{ className?: string }>;
+  description: string;
+  tags: string[];
+  preview: string;
+  defaultSize: { width: number; height: number };
+  defaultContent: string;
+  defaultStyles: Record<string, string>;
+  isTemplate?: boolean;
+}
+
 interface GridSection {
   id: string;
   name: string;
@@ -48,22 +72,6 @@ interface GridSection {
   endRow: number;
   color: string;
   visible: boolean;
-}
-
-interface CanvasComponent {
-  id: string;
-  type: string;
-  content: string;
-  position: {
-    x: number;
-    y: number;
-  };
-  size: {
-    width: number;
-    height: number;
-  };
-  styles: Record<string, string>;
-  isMinimized?: boolean;
 }
 
 interface DragState {
@@ -81,27 +89,21 @@ interface ResizeState {
   startPosition: { x: number; y: number };
 }
 
-interface ColorPreset {
-  name: string;
-  value: string;
-}
-
 interface DarkModeEnhancedGridSystemProps {
   initialTheme?: 'light' | 'dark';
 }
 
 /**
- * Dark Mode Enhanced Grid System with Drag & Drop and Resizing
- * Professional-grade visual builder component
+ * Enhanced Grid System with Component Library and Fixed Snap Alignment
  */
 const DarkModeEnhancedGridSystem: React.FC<DarkModeEnhancedGridSystemProps> = ({ 
   initialTheme = 'light' 
 }) => {
-  // Theme state management
+  // Theme state
   const [theme, setTheme] = useState<'light' | 'dark'>(initialTheme);
   const [mounted, setMounted] = useState(false);
 
-  // Grid configuration state
+  // Grid configuration
   const [gridConfig, setGridConfig] = useState<GridConfig>({
     visible: true,
     snapEnabled: true,
@@ -116,6 +118,7 @@ const DarkModeEnhancedGridSystem: React.FC<DarkModeEnhancedGridSystemProps> = ({
 
   // UI state
   const [showGridControls, setShowGridControls] = useState(true);
+  const [showComponentLibrary, setShowComponentLibrary] = useState(true);
   const [selectedComponent, setSelectedComponent] = useState<string | null>(null);
   const [showCode, setShowCode] = useState(false);
 
@@ -135,10 +138,23 @@ const DarkModeEnhancedGridSystem: React.FC<DarkModeEnhancedGridSystemProps> = ({
     startPosition: { x: 0, y: 0 }
   });
 
+  // Snap state
+  const [currentSnapResult, setCurrentSnapResult] = useState<any>(null);
+
   // Refs
   const canvasRef = useRef<HTMLDivElement>(null);
 
-  // Grid sections state
+  // Grid snap system
+  const { 
+    calculateSnapPosition, 
+    pixelToGrid, 
+    gridToPixel,
+    generateGridBackground,
+    getBackgroundSize,
+    getBackgroundPosition 
+  } = useGridSnap(gridConfig, canvasRef);
+
+  // Sample sections
   const [sections, setSections] = useState<GridSection[]>([
     {
       id: '1',
@@ -182,33 +198,8 @@ const DarkModeEnhancedGridSystem: React.FC<DarkModeEnhancedGridSystemProps> = ({
     }
   ]);
 
-  // Canvas components state with sample components
-  const [canvasComponents, setCanvasComponents] = useState<CanvasComponent[]>([
-    {
-      id: 'comp-1',
-      type: 'button',
-      content: 'Click Me',
-      position: { x: 100, y: 100 },
-      size: { width: 120, height: 40 },
-      styles: { backgroundColor: '#3b82f6', color: 'white' }
-    },
-    {
-      id: 'comp-2',
-      type: 'text',
-      content: 'Sample Text',
-      position: { x: 300, y: 150 },
-      size: { width: 200, height: 60 },
-      styles: { fontSize: '16px', padding: '10px' }
-    },
-    {
-      id: 'comp-3',
-      type: 'card',
-      content: 'Card Component',
-      position: { x: 150, y: 250 },
-      size: { width: 250, height: 120 },
-      styles: { border: '1px solid #e5e7eb', borderRadius: '8px', padding: '16px' }
-    }
-  ]);
+  // Canvas components
+  const [canvasComponents, setCanvasComponents] = useState<CanvasComponent[]>([]);
 
   // Theme effects
   useEffect(() => {
@@ -231,30 +222,38 @@ const DarkModeEnhancedGridSystem: React.FC<DarkModeEnhancedGridSystemProps> = ({
     }
   }, [theme, mounted]);
 
-  // Theme toggle function
+  // Theme toggle
   const toggleTheme = useCallback(() => {
     setTheme(prev => prev === 'light' ? 'dark' : 'light');
   }, []);
 
-  // Snap to grid function
-  const snapToGrid = useCallback((x: number, y: number) => {
-    if (!gridConfig.snapEnabled) return { x, y };
-    
-    const cellWithGap = gridConfig.cellSize + gridConfig.gap;
-    const snappedX = Math.round(x / cellWithGap) * cellWithGap;
-    const snappedY = Math.round(y / cellWithGap) * cellWithGap;
-    
-    return { x: snappedX, y: snappedY };
-  }, [gridConfig.snapEnabled, gridConfig.cellSize, gridConfig.gap]);
+  // Add component from library
+  const handleAddComponent = useCallback((template: ComponentTemplate) => {
+    const newComponent: CanvasComponent = {
+      id: `${template.id}-${Date.now()}`,
+      type: template.id,
+      content: template.isTemplate ? template.defaultContent : template.name,
+      position: { x: 100, y: 100 },
+      size: template.defaultSize,
+      styles: template.defaultStyles,
+      zIndex: canvasComponents.length + 1
+    };
 
-  // Drag handlers
+    setCanvasComponents(prev => [...prev, newComponent]);
+    setSelectedComponent(newComponent.id);
+  }, [canvasComponents.length]);
+
+  // Enhanced drag handlers with snap
   const handleMouseDown = useCallback((e: React.MouseEvent, componentId: string) => {
-    if (e.button !== 0) return; // Only left click
+    if (e.button !== 0) return;
     
     const component = canvasComponents.find(c => c.id === componentId);
-    if (!component) return;
+    if (!component || component.isLocked) return;
 
     const rect = e.currentTarget.getBoundingClientRect();
+    const canvasRect = canvasRef.current?.getBoundingClientRect();
+    if (!canvasRect) return;
+
     setDragState({
       isDragging: true,
       draggedId: componentId,
@@ -272,22 +271,29 @@ const DarkModeEnhancedGridSystem: React.FC<DarkModeEnhancedGridSystemProps> = ({
   const handleMouseMove = useCallback((e: MouseEvent) => {
     if (dragState.isDragging && dragState.draggedId && canvasRef.current) {
       const canvasRect = canvasRef.current.getBoundingClientRect();
-      const newPosition = {
+      const rawPosition = {
         x: e.clientX - canvasRect.left - dragState.dragOffset.x,
         y: e.clientY - canvasRect.top - dragState.dragOffset.y
       };
 
-      const snappedPosition = snapToGrid(newPosition.x, newPosition.y);
+      const component = canvasComponents.find(c => c.id === dragState.draggedId);
+      if (!component) return;
 
+      // Calculate snap position
+      const snapResult = calculateSnapPosition(rawPosition, component.size);
+      setCurrentSnapResult(snapResult);
+
+      // Update component position
       setCanvasComponents(prev => 
         prev.map(comp => 
           comp.id === dragState.draggedId 
-            ? { ...comp, position: snappedPosition }
+            ? { ...comp, position: snapResult.position }
             : comp
         )
       );
     }
 
+    // Handle resize logic (existing code)
     if (resizeState.isResizing && resizeState.resizeId && canvasRef.current) {
       const canvasRect = canvasRef.current.getBoundingClientRect();
       const currentX = e.clientX - canvasRect.left;
@@ -303,38 +309,38 @@ const DarkModeEnhancedGridSystem: React.FC<DarkModeEnhancedGridSystemProps> = ({
       const deltaY = currentY - resizeState.startPosition.y;
 
       switch (resizeState.resizeHandle) {
-        case 'se': // Southeast
+        case 'se':
           newSize.width = Math.max(50, resizeState.startSize.width + deltaX);
           newSize.height = Math.max(30, resizeState.startSize.height + deltaY);
           break;
-        case 'sw': // Southwest
+        case 'sw':
           newSize.width = Math.max(50, resizeState.startSize.width - deltaX);
           newSize.height = Math.max(30, resizeState.startSize.height + deltaY);
           newPosition.x = component.position.x + deltaX;
           break;
-        case 'ne': // Northeast
+        case 'ne':
           newSize.width = Math.max(50, resizeState.startSize.width + deltaX);
           newSize.height = Math.max(30, resizeState.startSize.height - deltaY);
           newPosition.y = component.position.y + deltaY;
           break;
-        case 'nw': // Northwest
+        case 'nw':
           newSize.width = Math.max(50, resizeState.startSize.width - deltaX);
           newSize.height = Math.max(30, resizeState.startSize.height - deltaY);
           newPosition.x = component.position.x + deltaX;
           newPosition.y = component.position.y + deltaY;
           break;
-        case 'e': // East
+        case 'e':
           newSize.width = Math.max(50, resizeState.startSize.width + deltaX);
           break;
-        case 'w': // West
+        case 'w':
           newSize.width = Math.max(50, resizeState.startSize.width - deltaX);
           newPosition.x = component.position.x + deltaX;
           break;
-        case 'n': // North
+        case 'n':
           newSize.height = Math.max(30, resizeState.startSize.height - deltaY);
           newPosition.y = component.position.y + deltaY;
           break;
-        case 's': // South
+        case 's':
           newSize.height = Math.max(30, resizeState.startSize.height + deltaY);
           break;
       }
@@ -347,7 +353,7 @@ const DarkModeEnhancedGridSystem: React.FC<DarkModeEnhancedGridSystemProps> = ({
         )
       );
     }
-  }, [dragState, resizeState, snapToGrid, canvasComponents]);
+  }, [dragState, resizeState, canvasComponents, calculateSnapPosition]);
 
   const handleMouseUp = useCallback(() => {
     setDragState({
@@ -364,6 +370,8 @@ const DarkModeEnhancedGridSystem: React.FC<DarkModeEnhancedGridSystemProps> = ({
       startSize: { width: 0, height: 0 },
       startPosition: { x: 0, y: 0 }
     });
+
+    setCurrentSnapResult(null);
   }, []);
 
   // Resize handlers
@@ -390,6 +398,42 @@ const DarkModeEnhancedGridSystem: React.FC<DarkModeEnhancedGridSystemProps> = ({
     e.preventDefault();
   }, [canvasComponents]);
 
+  // Component management
+  const toggleMinimize = useCallback((componentId: string) => {
+    setCanvasComponents(prev => 
+      prev.map(comp => 
+        comp.id === componentId 
+          ? { ...comp, isMinimized: !comp.isMinimized }
+          : comp
+      )
+    );
+  }, []);
+
+  const deleteComponent = useCallback((componentId: string) => {
+    setCanvasComponents(prev => prev.filter(comp => comp.id !== componentId));
+    if (selectedComponent === componentId) {
+      setSelectedComponent(null);
+    }
+  }, [selectedComponent]);
+
+  const duplicateComponent = useCallback((componentId: string) => {
+    const component = canvasComponents.find(c => c.id === componentId);
+    if (!component) return;
+
+    const newComponent: CanvasComponent = {
+      ...component,
+      id: `${component.id}-copy-${Date.now()}`,
+      position: {
+        x: component.position.x + 20,
+        y: component.position.y + 20
+      },
+      zIndex: (component.zIndex || 0) + 1
+    };
+
+    setCanvasComponents(prev => [...prev, newComponent]);
+    setSelectedComponent(newComponent.id);
+  }, [canvasComponents]);
+
   // Global mouse events
   useEffect(() => {
     if (dragState.isDragging || resizeState.isResizing) {
@@ -405,45 +449,8 @@ const DarkModeEnhancedGridSystem: React.FC<DarkModeEnhancedGridSystemProps> = ({
     }
   }, [dragState.isDragging, resizeState.isResizing, handleMouseMove, handleMouseUp]);
 
-  // Add new component
-  const addComponent = useCallback(() => {
-    const newComponent: CanvasComponent = {
-      id: `comp-${Date.now()}`,
-      type: 'element',
-      content: 'New Element',
-      position: { x: 50, y: 50 },
-      size: { width: 150, height: 80 },
-      styles: { 
-        backgroundColor: theme === 'dark' ? '#374151' : '#f3f4f6',
-        border: '2px solid #6366f1',
-        borderRadius: '8px',
-        padding: '12px'
-      }
-    };
-    
-    setCanvasComponents(prev => [...prev, newComponent]);
-    setSelectedComponent(newComponent.id);
-  }, [theme]);
-
-  // Toggle component minimized state
-  const toggleMinimize = useCallback((componentId: string) => {
-    setCanvasComponents(prev => 
-      prev.map(comp => 
-        comp.id === componentId 
-          ? { ...comp, isMinimized: !comp.isMinimized }
-          : comp
-      )
-    );
-  }, []);
-
-  // Delete component
-  const deleteComponent = useCallback((componentId: string) => {
-    setCanvasComponents(prev => prev.filter(comp => comp.id !== componentId));
-    setSelectedComponent(null);
-  }, []);
-
-  // Color presets for theme-aware colors
-  const colorPresets: ColorPreset[] = [
+  // Color presets
+  const colorPresets = [
     { name: 'Blue', value: theme === 'dark' ? '#60a5fa' : '#3b82f6' },
     { name: 'Purple', value: theme === 'dark' ? '#a78bfa' : '#8b5cf6' },
     { name: 'Green', value: theme === 'dark' ? '#4ade80' : '#10b981' },
@@ -454,7 +461,6 @@ const DarkModeEnhancedGridSystem: React.FC<DarkModeEnhancedGridSystemProps> = ({
     { name: 'Gray', value: theme === 'dark' ? '#9ca3af' : '#6b7280' }
   ];
 
-  // Prevent hydration mismatch
   if (!mounted) {
     return null;
   }
@@ -497,14 +503,18 @@ const DarkModeEnhancedGridSystem: React.FC<DarkModeEnhancedGridSystemProps> = ({
             <span className="text-sm">Snap</span>
           </button>
 
-          {/* Add Component */}
+          {/* Component Library Toggle */}
           <button
-            onClick={addComponent}
-            className="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-800/50 transition-all duration-300"
-            aria-label="Add new component"
+            onClick={() => setShowComponentLibrary(!showComponentLibrary)}
+            className={`flex items-center space-x-2 px-3 py-1.5 rounded-lg transition-all duration-300 ${
+              showComponentLibrary 
+                ? 'bg-purple-100 dark:bg-purple-900/50 text-purple-700 dark:text-purple-300' 
+                : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
+            }`}
+            aria-label="Toggle component library"
           >
-            <Plus className="w-4 h-4" />
-            <span className="text-sm">Add</span>
+            <Library className="w-4 h-4" />
+            <span className="text-sm">Library</span>
           </button>
 
           {/* Controls Panel Toggle */}
@@ -523,6 +533,17 @@ const DarkModeEnhancedGridSystem: React.FC<DarkModeEnhancedGridSystemProps> = ({
         </div>
 
         <div className="flex items-center space-x-3">
+          {/* Stats Display */}
+          <div className="hidden md:flex items-center space-x-4 text-xs text-gray-600 dark:text-gray-400">
+            <span>Components: {canvasComponents.length}</span>
+            <span>Grid: {gridConfig.columns}×{gridConfig.rows}</span>
+            {selectedComponent && (
+              <span className="text-indigo-600 dark:text-indigo-400">
+                Selected: {pixelToGrid(canvasComponents.find(c => c.id === selectedComponent)?.position || { x: 0, y: 0 }).col},{pixelToGrid(canvasComponents.find(c => c.id === selectedComponent)?.position || { x: 0, y: 0 }).row}
+              </span>
+            )}
+          </div>
+
           {/* Code Toggle */}
           <button
             onClick={() => setShowCode(!showCode)}
@@ -549,6 +570,21 @@ const DarkModeEnhancedGridSystem: React.FC<DarkModeEnhancedGridSystemProps> = ({
 
           {/* Export Button */}
           <button
+            onClick={() => {
+              const exportData = {
+                gridConfig,
+                components: canvasComponents,
+                sections,
+                exportedAt: new Date().toISOString()
+              };
+              const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = 'grid-layout.json';
+              a.click();
+              URL.revokeObjectURL(url);
+            }}
             className="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white transition-all duration-300"
             aria-label="Export grid configuration"
           >
@@ -559,6 +595,14 @@ const DarkModeEnhancedGridSystem: React.FC<DarkModeEnhancedGridSystemProps> = ({
       </div>
 
       <div className="flex-1 flex overflow-hidden">
+        {/* Component Library */}
+        {showComponentLibrary && (
+          <ComponentLibrary
+            onAddComponent={handleAddComponent}
+            theme={theme}
+          />
+        )}
+
         {/* Grid Controls Panel */}
         {showGridControls && (
           <DarkModeGridControlsPanel 
@@ -577,36 +621,56 @@ const DarkModeEnhancedGridSystem: React.FC<DarkModeEnhancedGridSystemProps> = ({
             ref={canvasRef}
             className="relative min-h-full min-w-full p-4"
             style={{ 
-              backgroundImage: gridConfig.visible ? generateGridBackground(gridConfig, theme) : 'none',
-              backgroundSize: `${gridConfig.cellSize + gridConfig.gap}px ${gridConfig.cellSize + gridConfig.gap}px`,
-              backgroundPosition: `${gridConfig.gap}px ${gridConfig.gap}px`
+              backgroundImage: gridConfig.visible ? generateGridBackground(theme) : 'none',
+              backgroundSize: getBackgroundSize(),
+              backgroundPosition: getBackgroundPosition(),
+              backgroundRepeat: 'repeat'
             }}
           >
+            {/* Enhanced Grid Overlay */}
+            <EnhancedGridOverlay 
+              gridConfig={gridConfig}
+              theme={theme}
+              canvasRef={canvasRef}
+            />
+
             {/* Grid Sections Overlay */}
-            {gridConfig.visible && sections.filter(section => section.visible).map(section => (
-              <div
-                key={section.id}
-                className="absolute pointer-events-none border-2 border-dashed rounded-lg"
-                style={{
-                  left: (section.startCol - 1) * (gridConfig.cellSize + gridConfig.gap) + gridConfig.gap,
-                  top: (section.startRow - 1) * (gridConfig.cellSize + gridConfig.gap) + gridConfig.gap,
-                  width: (section.endCol - section.startCol + 1) * gridConfig.cellSize + (section.endCol - section.startCol) * gridConfig.gap,
-                  height: (section.endRow - section.startRow + 1) * gridConfig.cellSize + (section.endRow - section.startRow) * gridConfig.gap,
-                  borderColor: section.color,
-                  backgroundColor: `${section.color}10`,
-                }}
-              >
-                <div 
-                  className="absolute -top-6 left-0 text-xs font-medium px-2 py-1 rounded"
-                  style={{ 
-                    backgroundColor: section.color,
-                    color: 'white'
+            {gridConfig.visible && sections.filter(section => section.visible).map(section => {
+              const startPos = gridToPixel({ col: section.startCol - 1, row: section.startRow - 1 });
+              const endPos = gridToPixel({ col: section.endCol, row: section.endRow });
+              
+              return (
+                <div
+                  key={section.id}
+                  className="absolute pointer-events-none border-2 border-dashed rounded-lg"
+                  style={{
+                    left: startPos.x,
+                    top: startPos.y,
+                    width: endPos.x - startPos.x,
+                    height: endPos.y - startPos.y,
+                    borderColor: section.color,
+                    backgroundColor: `${section.color}10`,
                   }}
                 >
-                  {section.name}
+                  <div 
+                    className="absolute -top-6 left-0 text-xs font-medium px-2 py-1 rounded"
+                    style={{ 
+                      backgroundColor: section.color,
+                      color: 'white'
+                    }}
+                  >
+                    {section.name}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
+
+            {/* Snap Guides */}
+            <SnapGuides 
+              snapResult={currentSnapResult}
+              gridConfig={gridConfig}
+              theme={theme}
+            />
 
             {/* Canvas Components */}
             {canvasComponents.map(component => (
@@ -618,9 +682,27 @@ const DarkModeEnhancedGridSystem: React.FC<DarkModeEnhancedGridSystemProps> = ({
                 onResizeStart={(e, handle) => handleResizeStart(e, component.id, handle)}
                 onMinimize={() => toggleMinimize(component.id)}
                 onDelete={() => deleteComponent(component.id)}
+                onDuplicate={() => duplicateComponent(component.id)}
                 theme={theme}
+                gridConfig={gridConfig}
+                showGrid={gridConfig.visible}
               />
             ))}
+
+            {/* Empty State */}
+            {canvasComponents.length === 0 && (
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div className="text-center">
+                  <Grid className="w-16 h-16 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
+                  <h3 className="text-xl font-semibold text-gray-600 dark:text-gray-400 mb-2">
+                    Start Building
+                  </h3>
+                  <p className="text-gray-500 dark:text-gray-500 max-w-sm">
+                    Drag components from the library to start building your layout
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
@@ -628,22 +710,60 @@ const DarkModeEnhancedGridSystem: React.FC<DarkModeEnhancedGridSystemProps> = ({
         {showCode && (
           <div className="w-96 bg-gray-900 text-green-400 p-4 font-mono text-sm overflow-auto">
             <div className="mb-4">
-              <h3 className="text-white font-bold mb-2">Generated Code</h3>
-              <pre className="whitespace-pre-wrap">
-{`// Grid Configuration
-const gridConfig = ${JSON.stringify(gridConfig, null, 2)};
-
-// Components
-const components = [
+              <h3 className="text-white font-bold mb-2 flex items-center">
+                <Code className="w-4 h-4 mr-2" />
+                Generated Code
+              </h3>
+              <div className="mb-4">
+                <h4 className="text-green-300 text-xs mb-2">GRID CONFIGURATION:</h4>
+                <pre className="whitespace-pre-wrap text-xs">
+{`const gridConfig = ${JSON.stringify(gridConfig, null, 2)};`}
+                </pre>
+              </div>
+              
+              <div className="mb-4">
+                <h4 className="text-green-300 text-xs mb-2">COMPONENTS:</h4>
+                <pre className="whitespace-pre-wrap text-xs">
+{`const components = [
 ${canvasComponents.map(comp => `  {
     id: "${comp.id}",
     type: "${comp.type}",
-    content: "${comp.content}",
+    content: "${comp.content.replace(/"/g, '\\"')}",
     position: { x: ${comp.position.x}, y: ${comp.position.y} },
-    size: { width: ${comp.size.width}, height: ${comp.size.height} }
+    size: { width: ${comp.size.width}, height: ${comp.size.height} },
+    grid: { col: ${pixelToGrid(comp.position).col}, row: ${pixelToGrid(comp.position).row} }
   }`).join(',\n')}
 ];`}
-              </pre>
+                </pre>
+              </div>
+
+              <div>
+                <h4 className="text-green-300 text-xs mb-2">REACT COMPONENT:</h4>
+                <pre className="whitespace-pre-wrap text-xs">
+{`function GridLayout() {
+  return (
+    <div className="grid-layout" style={{
+      display: 'grid',
+      gridTemplateColumns: 'repeat(${gridConfig.columns}, 1fr)',
+      gridTemplateRows: 'repeat(${gridConfig.rows}, 1fr)',
+      gap: '${gridConfig.gap}px',
+      minHeight: '100vh'
+    }}>
+${canvasComponents.map(comp => {
+  const gridPos = pixelToGrid(comp.position);
+  return `      <div className="${comp.type}" style={{
+        gridColumn: '${gridPos.col + 1}',
+        gridRow: '${gridPos.row + 1}',
+        ...${JSON.stringify(comp.styles, null, 8).replace(/\n/g, '\n        ')}
+      }}>
+        ${comp.content}
+      </div>`;
+}).join('\n')}
+    </div>
+  );
+}`}
+                </pre>
+              </div>
             </div>
           </div>
         )}
@@ -667,70 +787,4 @@ ${canvasComponents.map(comp => `  {
   );
 };
 
-// Helper function to generate grid background
-const generateGridBackground = (gridConfig: GridConfig, theme: 'light' | 'dark'): string => {
-  const size = gridConfig.cellSize + gridConfig.gap;
-  const color = gridConfig.color;
-  const opacity = gridConfig.opacity;
-  
-  if (gridConfig.style === 'dots') {
-    return `radial-gradient(circle, ${color}${Math.round(opacity * 255).toString(16).padStart(2, '0')} 1px, transparent 1px)`;
-  } else if (gridConfig.style === 'lines') {
-    return `
-      linear-gradient(to right, ${color}${Math.round(opacity * 255).toString(16).padStart(2, '0')} 1px, transparent 1px),
-      linear-gradient(to bottom, ${color}${Math.round(opacity * 255).toString(16).padStart(2, '0')} 1px, transparent 1px)
-    `;
-  } else {
-    return `
-      repeating-linear-gradient(
-        to right,
-        ${color}${Math.round(opacity * 255).toString(16).padStart(2, '0')},
-        ${color}${Math.round(opacity * 255).toString(16).padStart(2, '0')} 1px,
-        transparent 1px,
-        transparent ${size}px
-      ),
-      repeating-linear-gradient(
-        to bottom,
-        ${color}${Math.round(opacity * 255).toString(16).padStart(2, '0')},
-        ${color}${Math.round(opacity * 255).toString(16).padStart(2, '0')} 1px,
-        transparent 1px,
-        transparent ${size}px
-      )
-    `;
-  }
-};
-
 export default DarkModeEnhancedGridSystem;
-
-// // Draggable and Resizable Component
-// interface DraggableResizableComponentProps {
-//   component: CanvasComponent;
-//   isSelected: boolean;
-//   onMouseDown: (e: React.MouseEvent) => void;
-//   onResizeStart: (e: React.MouseEvent, handle: string) => void;
-//   onMinimize: () => void;
-//   onDelete: () => void;
-//   theme: 'light' | 'dark';
-// }
-
-// const DraggableResizableComponent: React.FC<DraggableResizableComponentProps> = ({
-//   component,
-//   isSelected,
-//   onMouseDown,
-//   onResizeStart,
-//   onMinimize,
-//   onDelete,
-//   theme
-// }) => {
-//   const resizeHandles = [
-//     { id: 'nw', className: 'top-0 left-0 cursor-nw-resize' },
-//     { id: 'n', className: 'top-0 left-1/2 -translate-x-1/2 cursor-n-resize' },
-//     { id: 'ne', className: 'top-0 right-0 cursor-ne-resize' },
-//     { id: 'e', className: 'top-1/2 right-0 -translate-y-1/2 cursor-e-resize' },
-//     { id: 'se', className: 'bottom-0 right-0 cursor-se-resize' },
-//     { id: 's', className: 'bottom-0 left-1/2 -translate-x-1/2 cursor-s-resize' },
-//     { id: 'sw', className: 'bottom-0 left-0 cursor-sw-resize' },
-//     { id: 'w', className: 'top-1/2 left-0 -translate-y-1/2 cursor-w-resize' },
-//   ];
-
-//   return (

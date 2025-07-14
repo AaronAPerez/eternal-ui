@@ -68,13 +68,13 @@ function useTheme() {
 
 // Enhanced Button component with animations
 function Button({ children, className = '', variant = 'default', size = 'default', asChild = false, ...props }: any) {
-  const baseClasses = 'inline-flex items-center justify-center rounded-md text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none transform hover:scale-105 active:scale-95 group'
+  const baseClasses = 'inline-flex items-center justify-center rounded-md text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none transform hover:scale-105 active:scale-95 group'
   
   const variants = {
-    default: 'bg-blue-600 text-white hover:bg-blue-700 shadow-lg hover:shadow-xl dark:bg-blue-500 dark:hover:bg-blue-600',
+    default: 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-lg hover:shadow-xl dark:bg-indigo-500 dark:hover:bg-indigo-600',
     outline: 'border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white hover:border-gray-400 dark:hover:border-gray-500',
     secondary: 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700',
-    gradient: 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl dark:from-blue-500 dark:to-purple-500 dark:hover:from-blue-600 dark:hover:to-purple-600'
+    gradient: 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl dark:from-indigo-500 dark:to-purple-500 dark:hover:from-indigo-600 dark:hover:to-purple-600'
   }
   
   const sizes = {
@@ -95,7 +95,7 @@ function Button({ children, className = '', variant = 'default', size = 'default
 // Enhanced Badge component
 function Badge({ children, className = '', variant = 'default' }: any) {
   const variants = {
-    default: 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 border-blue-200 dark:border-blue-700',
+    default: 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-800 dark:text-indigo-300 border-indigo-200 dark:border-indigo-700',
     outline: 'border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300',
     success: 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 border-green-200 dark:border-green-700',
     warning: 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300 border-yellow-200 dark:border-yellow-700'
@@ -249,7 +249,7 @@ const features = [
     title: 'Clean Code Export',
     description: 'Export production-ready, optimized code to React, Vue, Svelte, or Angular with TypeScript support',
     badge: 'Export',
-    gradient: 'from-blue-400 to-purple-500',
+    gradient: 'from-indigo-400 to-purple-500',
     stats: '4 frameworks'
   },
   {
@@ -273,7 +273,7 @@ const features = [
     title: 'Global CDN',
     description: 'Lightning-fast loading with 99.9% uptime worldwide and edge computing optimization',
     badge: 'Performance',
-    gradient: 'from-indigo-400 to-blue-500',
+    gradient: 'from-indigo-400 to-indigo-500',
     stats: '99.9% uptime'
   },
   {
@@ -321,13 +321,13 @@ export default function HomepageClient() {
       {/* Hero Section with Enhanced Animations */}
       <section 
         ref={heroRef.ref}
-        className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-black/90 dark:to-black/80 transition-all duration-1000"
+        className="relative overflow-hidden bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-gray-900 dark:via-black/90 dark:to-black/80 transition-all duration-1000"
       >
         {/* Animated Background Elements */}
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-grid-pattern opacity-5 dark:opacity-10" />
           <div 
-            className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-400/10 dark:bg-blue-400/5 rounded-full blur-3xl animate-pulse-slow"
+            className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-400/10 dark:bg-indigo-400/5 rounded-full blur-3xl animate-pulse-slow"
             style={{
               transform: `translate(${mousePosition.x}px, ${mousePosition.y}px)`
             }}
@@ -350,11 +350,11 @@ export default function HomepageClient() {
               {/* Enhanced Badges with Animations */}
               <div className="flex items-center space-x-4">
                 <Badge variant="default" className="animate-slide-in-left">
-                  <Zap className="w-3 h-3 mr-1 animate-pulse" />
+                  <Zap className="w-6 h-6 mr-1 animate-pulse" />
                   AI-Powered
                 </Badge>
                 <Badge variant="success" className="animate-slide-in-right animation-delay-200">
-                  <TrendingUp className="w-3 h-3 mr-1" />
+                  <TrendingUp className="w-6 h-6 mr-1" />
                   85% Cost Savings
                 </Badge>
               </div>
@@ -363,7 +363,7 @@ export default function HomepageClient() {
               <div className="space-y-4">
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-tight animate-fade-in-up animation-delay-300">
                   Build Websites{' '}
-                  <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-clip-text text-transparent animate-gradient-x bg-300%">
+                  <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent animate-gradient-x bg-300%">
                     10x Faster
                   </span>
                   {' '}with AI
@@ -407,17 +407,17 @@ export default function HomepageClient() {
               {/* Authentic Features List */}
               <div className="flex flex-wrap items-center gap-6 text-sm text-gray-600 dark:text-gray-400 animate-fade-in-up animation-delay-1000">
                 <div className="flex items-center space-x-2">
-                  <Check className="w-4 h-4 text-green-500" />
+                  <Check className="w-6 h-6 text-green-500" />
                   <span className="font-medium">Free forever plan</span>
                 </div>
                 
                 <div className="flex items-center space-x-2">
-                  <Shield className="w-4 h-4 text-blue-500" />
+                  <Shield className="w-6 h-6 text-indigo-500" />
                   <span className="font-medium">No credit card required</span>
                 </div>
                 
                 <div className="flex items-center space-x-2">
-                  <Code className="w-4 h-4 text-purple-500" />
+                  <Code className="w-6 h-6 text-purple-500" />
                   <span className="font-medium">Export clean code</span>
                 </div>
               </div>
@@ -482,10 +482,10 @@ export default function HomepageClient() {
                   </div>
                 </div>
                 
-                <div className="aspect-video bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-gray-800 p-8 relative overflow-hidden">
+                <div className="aspect-video bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-gray-900 dark:to-gray-800 p-8 relative overflow-hidden">
                   
                   {/* Background Animation */}
-                  <div className="absolute inset-0 bg-grid-pattern opacity-10" />
+                  <div className="absolute inset-0 bg-grid-pattern opacity-10 z-30" />
                   
                   {activeDemo === 'visual' && (
                     <div className="h-full flex items-center justify-center animate-fade-in">
@@ -503,7 +503,7 @@ export default function HomepageClient() {
                           {[1, 2, 3].map((i) => (
                             <div
                               key={i}
-                              className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"
+                              className="w-2 h-2 bg-indigo-500 rounded-full animate-bounce"
                               style={{ animationDelay: `${i * 200}ms` }}
                             />
                           ))}
@@ -516,15 +516,15 @@ export default function HomepageClient() {
                     <div className="h-full bg-black rounded-lg p-4 overflow-hidden animate-fade-in">
                       <div className="space-y-2 font-mono text-sm">
                         <div className="text-green-400 animate-slide-in-left">import React from 'react'</div>
-                        <div className="text-blue-400 animate-slide-in-left animation-delay-100">import { EternalUILogo } from '@/components'</div>
-                        <div className="text-blue-400 animate-slide-in-left animation-delay-200">export default function Component() </div>
+                        <div className="text-indigo-400 animate-slide-in-left animation-delay-100">import { EternalUILogo } from '@/components'</div>
+                        <div className="text-indigo-400 animate-slide-in-left animation-delay-200">export default function Component() </div>
                         <div className="text-gray-300 ml-4 animate-slide-in-left animation-delay-300">return (</div>
                         <div className="text-yellow-400 ml-8 animate-slide-in-left animation-delay-400">&lt;div className="hero-section"&gt;</div>
                         <div className="text-purple-400 ml-12 animate-slide-in-left animation-delay-500">&lt;EternalUILogo size="lg" /&gt;</div>
                         <div className="text-purple-400 ml-12 animate-slide-in-left animation-delay-600">&lt;h1&gt;Beautiful Website&lt;/h1&gt;</div>
                         <div className="text-yellow-400 ml-8 animate-slide-in-left animation-delay-700">&lt;/div&gt;</div>
                         <div className="text-gray-300 ml-4 animate-slide-in-left animation-delay-800">)</div>
-                        <div className="text-blue-400 animate-slide-in-left animation-delay-900"></div>
+                        <div className="text-indigo-400 animate-slide-in-left animation-delay-900"></div>
                       </div>
                     </div>
                   )}
@@ -574,9 +574,9 @@ export default function HomepageClient() {
                 style={{ animationDelay: `${index * 200}ms` }}
               >
                 <div className="flex justify-center mb-2">
-                  <stat.icon className="w-8 h-8 text-blue-500 dark:text-blue-400 group-hover:scale-110 transition-transform duration-300" />
+                  <stat.icon className="w-8 h-8 text-indigo-500 dark:text-indigo-400 group-hover:scale-110 transition-transform duration-300" />
                 </div>
-                <div className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">
+                <div className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300">
                   <AnimatedCounter
                     value={stat.value}
                     suffix={stat.suffix}
@@ -608,7 +608,7 @@ export default function HomepageClient() {
             </Badge>
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-6">
               Everything You Need to Build
-              <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-clip-text text-transparent animate-gradient-x bg-300%">
+              <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent animate-gradient-x bg-300%">
                 {' '}Amazing Websites
               </span>
             </h2>
@@ -638,7 +638,7 @@ export default function HomepageClient() {
                   {/* Enhanced Badge and Title */}
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300">
                         {feature.title}
                       </h3>
                       <Badge variant="outline" className="text-xs">
@@ -652,10 +652,10 @@ export default function HomepageClient() {
                     
                     {/* Feature Stats */}
                     <div className="flex items-center justify-between pt-2 border-t border-gray-100 dark:border-gray-700">
-                      <span className="text-sm font-medium text-blue-600 dark:text-blue-400">
+                      <span className="text-sm font-medium text-indigo-600 dark:text-indigo-400">
                         {feature.stats}
                       </span>
-                      <ArrowUpRight className="w-4 h-4 text-gray-400 group-hover:text-blue-500 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
+                      <ArrowUpRight className="w-4 h-4 text-gray-400 group-hover:text-indigo-500 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
                     </div>
                   </div>
                 </div>
@@ -695,13 +695,13 @@ export default function HomepageClient() {
             ].map((competitor, index) => (
               <Card 
                 key={competitor.name}
-                className={`p-6 text-center relative ${competitor.popular ? 'ring-2 ring-blue-500 dark:ring-blue-400 scale-105' : ''} animate-fade-in-up`}
+                className={`p-6 text-center relative ${competitor.popular ? 'ring-2 ring-indigo-500 dark:ring-indigo-400 scale-105' : ''} animate-fade-in-up`}
                 style={{ animationDelay: `${index * 200}ms` }}
               >
                 {competitor.popular && (
-                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                    <Badge variant="default" className="bg-blue-500 text-white">
-                      <EternalUILogo size="xs" variant="mono" showText={false} className="text-white mr-1" />
+                  <div className="absolute -top-2 left-1/2 transform -translate-x-1/2">
+                    <Badge variant="default" className="bg-indigo-800 text-white z-20">
+                      <EternalUILogo size="xs" variant="gradient" showText={false} className="text-white mr-1" />
                       Best Choice
                     </Badge>
                   </div>
@@ -709,7 +709,7 @@ export default function HomepageClient() {
                 
                 <div className="space-y-4">
                   <h3 className="text-xl font-bold text-gray-900 dark:text-white">{competitor.name}</h3>
-                  <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">{competitor.price}</div>
+                  <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">{competitor.price}</div>
                   
                   <div className="space-y-2">
                     {competitor.features.map((feature, featureIndex) => (
@@ -733,7 +733,7 @@ export default function HomepageClient() {
       </section>
 
       {/* Enhanced Final CTA Section */}
-      <section className="py-24 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 text-white relative overflow-hidden animate-gradient-x bg-300%">
+      <section className="py-24 bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 text-white relative overflow-hidden animate-gradient-x bg-300%">
         <div className="absolute inset-0">
           <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-pulse-slow" />
           <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-pulse-slow animation-delay-1000" />
@@ -752,7 +752,7 @@ export default function HomepageClient() {
               <h2 className="text-3xl lg:text-4xl font-bold animate-fade-in-up animation-delay-200">
                 Ready to Build the Future?
               </h2>
-              <p className="text-xl text-blue-100 max-w-2xl mx-auto animate-fade-in-up animation-delay-300">
+              <p className="text-xl text-indigo-100 max-w-2xl mx-auto animate-fade-in-up animation-delay-300">
                 Experience the future of website building with our revolutionary visual builder. 
                 Join the early access program and start creating today.
               </p>
@@ -762,21 +762,21 @@ export default function HomepageClient() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animation-delay-500">
               <Button 
                 size="lg"
-                className="bg-white text-blue-600 hover:bg-gray-100 shadow-lg hover:shadow-xl transition-all duration-300 group relative overflow-hidden"
+                className="bg-white text-indigo-600 hover:bg-gray-100 shadow-lg hover:shadow-xl transition-all duration-300 group relative overflow-hidden"
                 asChild
               >
                 <Link href="/builder" className="flex items-center space-x-2">
                   <EternalUILogo size="xs" variant="gradient" showText={false} />
                   <span>Get Early Access</span>
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  <div className="absolute inset-0 bg-blue-100 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 skew-x-12" />
+                  <div className="absolute inset-0 bg-indigo-100 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 skew-x-12" />
                 </Link>
               </Button>
               
               <Button 
                 size="lg"
                 variant="outline"
-                className="border-white text-white hover:bg-white hover:text-blue-600 transition-all duration-300 group"
+                className="border-white text-white hover:bg-white hover:text-indigo-600 transition-all duration-300 group"
                 asChild
               >
                 <Link href="/contact" className="flex items-center space-x-2">
@@ -787,7 +787,7 @@ export default function HomepageClient() {
             </div>
             
             {/* Enhanced Trust Indicators */}
-            <div className="flex flex-wrap items-center justify-center gap-8 text-sm text-blue-100 pt-8 animate-fade-in-up animation-delay-700">
+            <div className="flex flex-wrap items-center justify-center gap-8 text-sm text-indigo-100 pt-8 animate-fade-in-up animation-delay-700">
               {[
                 { icon: Check, text: 'Free forever plan' },
                 { icon: Shield, text: 'No credit card required' },

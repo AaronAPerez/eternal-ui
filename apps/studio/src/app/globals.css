@@ -129,3 +129,95 @@
     box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
   }
 }
+
+/* Custom scrollbar styles */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  @apply bg-gray-100 dark:bg-gray-800;
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 dark:bg-gray-600;
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-400 dark:bg-gray-500;
+}
+
+/* Grid overlay animations */
+@keyframes gridFade {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.grid-overlay {
+  animation: gridFade 0.3s ease-in-out;
+}
+
+/* Component selection animation */
+@keyframes componentSelect {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+.component-selected {
+  animation: componentSelect 0.3s ease-in-out;
+}
+
+/* Snap guide animations */
+@keyframes snapGuide {
+  0% { opacity: 0; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.snap-guide {
+  animation: snapGuide 0.2s ease-out;
+}
+
+/* Browser frame styling */
+.browser-frame {
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.25),
+    0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+/* Dark mode transitions */
+* {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Focus styles for accessibility */
+.focus-visible:focus {
+  @apply outline-none ring-2 ring-indigo-500 ring-offset-2 ring-offset-white dark:ring-offset-gray-900;
+}
+
+/* Custom slider styles */
+input[type="range"] {
+  @apply appearance-none bg-transparent cursor-pointer;
+}
+
+input[type="range"]::-webkit-slider-track {
+  @apply bg-gray-200 dark:bg-gray-700 rounded-lg h-2;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  @apply appearance-none w-4 h-4 rounded-full bg-indigo-600 shadow-lg;
+  margin-top: -4px;
+}
+
+input[type="range"]::-moz-range-track {
+  @apply bg-gray-200 dark:bg-gray-700 rounded-lg h-2 border-none;
+}
+
+input[type="range"]::-moz-range-thumb {
+  @apply w-4 h-4 rounded-full bg-indigo-600 shadow-lg border-none;
+}

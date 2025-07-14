@@ -20,6 +20,40 @@ export interface CanvasComponent {
   isMinimized?: boolean;
   isLocked?: boolean;
   isHidden?: boolean;
+  zIndex?: number;
+  sectionId?: string;
+}
+
+export interface WebPageSection {
+  id: string;
+  name: string;
+  type: 'header' | 'navigation' | 'hero' | 'content' | 'sidebar' | 'footer';
+  height: number;
+  backgroundColor: string;
+  order: number;
+  visible: boolean;
+  required: boolean;
+}
+
+export interface ViewportSize {
+  width: number;
+  height: number;
+  name: string;
+  icon: React.ComponentType<{ className?: string }>;
+}
+
+export interface ComponentTemplate {
+  id: string;
+  name: string;
+  category: string;
+  icon: React.ComponentType<{ className?: string }>;
+  description: string;
+  tags: string[];
+  preview: string;
+  defaultSize: { width: number; height: number };
+  defaultContent: string;
+  defaultStyles: Record<string, string>;
+  isTemplate?: boolean;
 }
 
 export interface GridSection {
