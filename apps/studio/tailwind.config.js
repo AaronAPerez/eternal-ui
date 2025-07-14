@@ -1,13 +1,17 @@
+// tailwind.config.js
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/**/*.{js,ts,jsx,tsx,mdx}',
+    './apps/**/*.{js,ts,jsx,tsx,mdx}',
+    './packages/**/*.{js,ts,jsx,tsx,mdx}',
+    './components/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
+        // Fix the border-border issue by defining proper colors
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
@@ -16,6 +20,17 @@ module.exports = {
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',
+          50: '#eef2ff',
+          100: '#e0e7ff',
+          200: '#c7d2fe',
+          300: '#a5b4fc',
+          400: '#818cf8',
+          500: '#6366f1',
+          600: '#4f46e5',
+          700: '#4338ca',
+          800: '#3730a3',
+          900: '#312e81',
+          950: '#1e1b4b',
         },
         secondary: {
           DEFAULT: 'hsl(var(--secondary))',
@@ -42,18 +57,6 @@ module.exports = {
           foreground: 'hsl(var(--card-foreground))',
         },
       },
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-      },
-      animation: {
-        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        'bounce-gentle': 'bounce 2s infinite',
-      },
-      screens: {
-        'xs': '475px',
-      },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
@@ -61,10 +64,5 @@ module.exports = {
       },
     },
   },
-  plugins: [
-    require('@tailwindcss/forms'),
-    require('@tailwindcss/typography'),
-    require('@tailwindcss/aspect-ratio'),
-  ],
-  darkMode: 'class',
+  plugins: [],
 }

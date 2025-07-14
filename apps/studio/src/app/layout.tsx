@@ -6,6 +6,7 @@ import './globals.css'
 // Components
 import { Navigation } from '@/components/layout/Navigation'
 import { Footer } from '@/components/ui/Footer'
+import { ThemeProvider } from '@/components/ThemeProvider'
 
 // Font optimization
 const inter = Inter({
@@ -143,8 +144,8 @@ export default function RootLayout({
   children: React.ReactNode
 }): JSX.Element {
   return (
-    <html 
-      lang="en" 
+    <html
+      lang="en"
       className={inter.variable}
       suppressHydrationWarning
     >
@@ -156,38 +157,38 @@ export default function RootLayout({
             __html: JSON.stringify(structuredData)
           }}
         />
-        
+
         {/* Preconnect to external domains for performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        
+
         {/* Favicon and icons */}
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/site.webmanifest" />
-        
+
         {/* Theme color for mobile browsers */}
         <meta name="theme-color" content="#3b82f6" />
         <meta name="msapplication-TileColor" content="#3b82f6" />
-        
+
         {/* Performance hints */}
         <link rel="dns-prefetch" href="//cdn.eternal-ui.com" />
         <link rel="preload" href="/hero-image.webp" as="image" />
-        
+
         {/* Viewport for responsive design */}
         <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
       </head>
-      
-      <body className="font-sans antialiased bg-white text-gray-900 dark:bg-black dark:text-white overflow-x-hidden">
+
+      <body className={`${inter.className} bg-white dark:bg-gray-900 transition-colors duration-300`}>
         {/* Screen reader announcements */}
-        <div 
+        <div
           id="live-announcer"
           className="sr-only"
           aria-live="polite"
           aria-atomic="true"
         />
-        
+
         {/* 
           Main layout container with proper spacing fixes:
           - min-h-screen ensures full viewport height
@@ -205,7 +206,7 @@ export default function RootLayout({
             - No overlap with main content due to proper padding
           */}
           <Navigation />
-          
+
           {/* 
             Main Content Area
             - flex-grow fills available space between nav and footer
@@ -213,15 +214,17 @@ export default function RootLayout({
             - Prevents any content from being hidden behind navigation
             - Proper semantic HTML structure
           */}
-          <main 
+          <main
             id="main-content"
             className="flex-grow"
             role="main"
             tabIndex={-1}
           >
-            {children}
+            <ThemeProvider>
+              {children}
+            </ThemeProvider>
           </main>
-          
+
           {/* 
             Footer Component
             - Always positioned at bottom of page
@@ -231,7 +234,7 @@ export default function RootLayout({
           */}
           <Footer />
         </div>
-        
+
         {/* 
           Performance monitoring and analytics
           - Non-blocking script loading

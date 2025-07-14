@@ -72,7 +72,7 @@ const ROICalculator = () => {
               type="number"
               value={teamSize}
               onChange={(e) => setTeamSize(Number(e.target.value))}
-              className="w-full p-2 border border-gray-300 rounded-md"
+              className="w-full p-2 border border-gray-300 rounded-md text-gray-900 bg-gray-200"
               min="1"
               max="100"
             />
@@ -86,7 +86,7 @@ const ROICalculator = () => {
               type="number"
               value={projectsPerMonth}
               onChange={(e) => setProjectsPerMonth(Number(e.target.value))}
-              className="w-full p-2 border border-gray-300 rounded-md"
+              className="w-full p-2 border border-gray-300 rounded-md text-gray-900 bg-gray-200 "
               min="1"
               max="50"
             />
@@ -100,7 +100,7 @@ const ROICalculator = () => {
               type="number"
               value={developerHourlyRate}
               onChange={(e) => setDeveloperHourlyRate(Number(e.target.value))}
-              className="w-full p-2 border border-gray-300 rounded-md"
+              className="w-full p-2 border border-gray-300 rounded-md text-gray-900 bg-gray-200"
               min="50"
               max="300"
             />
@@ -133,11 +133,11 @@ const ROICalculator = () => {
       </Card>
 
       {/* Competitor Comparison */}
-      <Card className="p-6">
+      <Card className="p-6 text-gray-900 bg-gray-200">
         <h3 className="text-xl font-semibold mb-4">Savings vs. Competitors</h3>
         
         <div className="space-y-4">
-          <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+          <div className="flex justify-between items-center p-3 bg-gray-50 text-gray-900 rounded-lg">
             <div>
               <span className="font-medium">vs. Framer</span>
               <Badge variant="destructive" className="ml-2">85% More Expensive</Badge>
@@ -147,7 +147,7 @@ const ROICalculator = () => {
             </div>
           </div>
           
-          <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+          <div className="flex justify-between items-center p-3 bg-gray-50 text-gray-900 rounded-lg">
             <div>
               <span className="font-medium">vs. Webflow</span>
               <Badge variant="destructive" className="ml-2">75% More Expensive</Badge>
@@ -157,7 +157,7 @@ const ROICalculator = () => {
             </div>
           </div>
           
-          <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+          <div className="flex justify-between items-center p-3 bg-gray-50 text-gray-900 rounded-lg">
             <div>
               <span className="font-medium">vs. WordPress Agencies</span>
               <Badge variant="destructive" className="ml-2">60% More Expensive</Badge>

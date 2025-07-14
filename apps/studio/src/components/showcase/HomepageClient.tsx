@@ -341,7 +341,7 @@ export default function HomepageClient() {
           />
         </div>
         
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 lg:pt-32 lg:pb-24">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-16 lg:pt-22 lg:pb-24">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             
             {/* Hero Content with Staggered Animations */}
@@ -384,7 +384,7 @@ export default function HomepageClient() {
                   asChild
                 >
                   <Link href="/builder" className="flex items-center space-x-2">
-                    <EternalUILogo size="xs" variant="mono" className="text-white" />
+                    {/* <EternalUILogo size="xs" variant="mono" className="text-white" /> */}
                     <span>Start Building Free</span>
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
                     <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 skew-x-12" />
@@ -428,21 +428,21 @@ export default function HomepageClient() {
               
               {/* Floating Elements with Eternal UI Branding */}
               <FloatingElement delay={0}>
-                <div className="absolute -top-12 -left-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center space-x-1 z-30">
+                <div className="absolute -top-6 -left-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center space-x-1 z-30">
                   <EternalUILogo size="xs" variant="mono" showText={false} className="text-white" />
                   <span>Live Demo</span>
                 </div>
               </FloatingElement>
               
               <FloatingElement delay={500}>
-                <div className="absolute -top-12 -right-4 bg-purple-500 text-white px-3 py-1 rounded-full text-sm font-semibold z-30">
+                <div className="absolute -top-6 -right-4 bg-purple-500 text-white px-3 py-1 rounded-full text-sm font-semibold z-30">
                   <Clock className="w-3 h-3 inline mr-1" />
                   Real-time
                 </div>
               </FloatingElement>
               
               {/* Enhanced Demo Tabs */}
-              <div className="mb-6">
+              <div className="mb-4">
                 <div className="flex space-x-2 bg-gray-100 dark:bg-gray-800 p-1 rounded-lg backdrop-blur-sm">
                   {[
                     { id: 'visual', label: 'Visual Builder', icon: Palette },
@@ -455,7 +455,7 @@ export default function HomepageClient() {
                       className={`
                         flex items-center space-x-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-300 transform hover:scale-105
                         ${activeDemo === tab.id
-                          ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-lg scale-105'
+                          ? 'bg-white dark:bg-indigo-700 text-gray-900 dark:text-white shadow-lg scale-105'
                           : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-gray-700/50'
                         }
                       `}
@@ -513,7 +513,7 @@ export default function HomepageClient() {
                   )}
                   
                   {activeDemo === 'code' && (
-                    <div className="h-full bg-gray-900 rounded-lg p-4 overflow-hidden animate-fade-in">
+                    <div className="h-full bg-black rounded-lg p-4 overflow-hidden animate-fade-in">
                       <div className="space-y-2 font-mono text-sm">
                         <div className="text-green-400 animate-slide-in-left">import React from 'react'</div>
                         <div className="text-blue-400 animate-slide-in-left animation-delay-100">import { EternalUILogo } from '@/components'</div>

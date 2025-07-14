@@ -1,45 +1,46 @@
-// src/hooks/useTheme.ts
-'use client';
+'use client'
 
 import { useState, useEffect } from 'react'
-import { useLocalStorage } from './useLocalStorage'
 
 type Theme = 'light' | 'dark' | 'system'
 
-/**
- * 🎨 PROFESSIONAL THEME MANAGEMENT
- * Handles dark mode with system preference detection
- */
 export function useTheme() {
-  const [theme, setTheme] = useLocalStorage<Theme>('theme', 'system')
-  const [systemTheme, setSystemTheme] = useState<'light' | 'dark'>('light')
+  const [theme, setTheme] = useState<Theme>('system')
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-    setSystemTheme(mediaQuery.matches ? 'dark' : 'light')
-
-    const handleChange = (e: MediaQueryListEvent) => {
-      setSystemTheme(e.matches ? 'dark' : 'light')
+    setMounted(true)
+    // Get saved theme or default to system
+    const savedTheme = localStorage.getItem('eternal-ui-theme') as Theme | null
+    if (savedTheme) {
+      setTheme(savedTheme)
     }
-
-    mediaQuery.addEventListener('change', handleChange)
-    return () => mediaQuery.removeEventListener('change', handleChange)
   }, [])
 
   useEffect(() => {
+    if (!mounted) return
+
     const root = window.document.documentElement
     root.classList.remove('light', 'dark')
 
     if (theme === 'system') {
+      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
       root.classList.add(systemTheme)
     } else {
       root.classList.add(theme)
     }
-  }, [theme, systemTheme])
+
+    localStorage.setItem('eternal-ui-theme', theme)
+  }, [theme, mounted])
+
+  const toggleTheme = () => {
+    setTheme(current => current === 'light' ? 'dark' : 'light')
+  }
 
   return {
     theme,
     setTheme,
-    effectiveTheme: theme === 'system' ? systemTheme : theme
+    toggleTheme,
+    mounted
   }
 }

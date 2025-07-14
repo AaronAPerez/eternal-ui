@@ -45,3 +45,42 @@ export interface DragState {
   currentPosition: Position | null
   elementId: string | null
 }
+
+
+export interface GridSection {
+  id: string
+  name: string
+  startRow: number
+  endRow: number
+  startColumn?: number
+  endColumn?: number
+  color: string
+  opacity?: number
+  locked?: boolean
+  visible?: boolean
+  zIndex?: number
+  metadata?: {
+    description?: string
+    tags?: string[]
+    createdAt?: Date
+    updatedAt?: Date
+  }
+}
+
+export interface SectionConstraints {
+  minHeight: number
+  maxHeight: number
+  minWidth: number
+  maxWidth: number
+  snapToGrid: boolean
+  maintainAspectRatio: boolean
+}
+
+export interface SectionTemplate {
+  id: string
+  name: string
+  description: string
+  preview: string
+  sections: Omit<GridSection, 'id'>[]
+  category: 'layout' | 'content' | 'navigation' | 'custom'
+}

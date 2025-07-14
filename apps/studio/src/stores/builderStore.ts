@@ -4,43 +4,52 @@ interface BuilderState {
   // UI State
   leftPanelOpen: boolean
   rightPanelOpen: boolean
-  mode: 'visual' | 'advanced' | 'components'
+  mode: 'visual' | 'advanced' | 'components' | 'grid' // Add grid mode
   
-  // Visual Builder State
-  selectedElement: string | null
-  canvasElements: any[]
+  // Theme state
+  theme: 'light' | 'dark' | 'system'
   
-  // Advanced Builder State
-  selectedComponent: string | null
-  canvasComponents: any[]
-  selectedTemplate: string | null
-  viewMode: 'desktop' | 'tablet' | 'mobile'
-  showCode: boolean
-  activeTab: 'components' | 'templates'
-  
-  // Components Page State
-  selectedLibraryComponent: string
-  componentCode: string
-  showResetModal: boolean
-  isFullscreen: boolean
-  searchTerm: string
+  // Grid state
+  gridConfig: {
+    enabled: boolean
+    visible: boolean
+    columns: number
+    rows: number
+    gap: number
+    cellSize: number
+    color: string
+    opacity: number
+    snapEnabled: boolean
+    snapThreshold: number
+    showLabels: boolean
+    showGuides: boolean
+    magneticSnap: boolean
+    type: string
+  }
   
   // Actions
   setLeftPanelOpen: (open: boolean) => void
   setRightPanelOpen: (open: boolean) => void
-  setMode: (mode: 'visual' | 'advanced' | 'components') => void
-  setSelectedElement: (id: string | null) => void
-  setSelectedComponent: (id: string | null) => void
-  setCanvasComponents: (components: any[]) => void
-  setSelectedTemplate: (id: string | null) => void
-  setViewMode: (mode: 'desktop' | 'tablet' | 'mobile') => void
-  setShowCode: (show: boolean) => void
-  setActiveTab: (tab: 'components' | 'templates') => void
-  setSelectedLibraryComponent: (component: string) => void
-  setComponentCode: (code: string) => void
-  setShowResetModal: (show: boolean) => void
-  setIsFullscreen: (fullscreen: boolean) => void
-  setSearchTerm: (term: string) => void
+  setMode: (mode: 'visual' | 'advanced' | 'components' | 'grid') => void
+  setTheme: (theme: 'light' | 'dark' | 'system') => void
+  updateGridConfig: (updates: Partial<typeof initialGridConfig>) => void
+}
+
+const initialGridConfig = {
+  enabled: true,
+  visible: true,
+  columns: 12,
+  rows: 8,
+  gap: 16,
+  cellSize: 40,
+  color: '#3b82f6',
+  opacity: 0.3,
+  snapEnabled: true,
+  snapThreshold: 10,
+  showLabels: true,
+  showGuides: true,
+  magneticSnap: true,
+  type: 'standard'
 }
 
 export const useBuilderStore = create<BuilderState>((set) => ({
@@ -48,34 +57,15 @@ export const useBuilderStore = create<BuilderState>((set) => ({
   leftPanelOpen: true,
   rightPanelOpen: true,
   mode: 'visual',
-  selectedElement: null,
-  canvasElements: [],
-  selectedComponent: null,
-  canvasComponents: [],
-  selectedTemplate: null,
-  viewMode: 'desktop',
-  showCode: false,
-  activeTab: 'components',
-  selectedLibraryComponent: 'button',
-  componentCode: '',
-  showResetModal: false,
-  isFullscreen: false,
-  searchTerm: '',
+  theme: 'system',
+  gridConfig: initialGridConfig,
   
   // Actions
   setLeftPanelOpen: (open) => set({ leftPanelOpen: open }),
   setRightPanelOpen: (open) => set({ rightPanelOpen: open }),
   setMode: (mode) => set({ mode }),
-  setSelectedElement: (id) => set({ selectedElement: id }),
-  setSelectedComponent: (id) => set({ selectedComponent: id }),
-  setCanvasComponents: (components) => set({ canvasComponents: components }),
-  setSelectedTemplate: (id) => set({ selectedTemplate: id }),
-  setViewMode: (mode) => set({ viewMode: mode }),
-  setShowCode: (show) => set({ showCode: show }),
-  setActiveTab: (tab) => set({ activeTab: tab }),
-  setSelectedLibraryComponent: (component) => set({ selectedLibraryComponent: component }),
-  setComponentCode: (code) => set({ componentCode: code }),
-  setShowResetModal: (show) => set({ showResetModal: show }),
-  setIsFullscreen: (fullscreen) => set({ isFullscreen: fullscreen }),
-  setSearchTerm: (term) => set({ searchTerm: term }),
+  setTheme: (theme) => set({ theme }),
+  updateGridConfig: (updates) => set((state) => ({
+    gridConfig: { ...state.gridConfig, ...updates }
+  })),
 }))
