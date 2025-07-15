@@ -1221,46 +1221,46 @@ const REAL_WORLD_COMPONENT_LIBRARY: ComponentMeta[] = [
   },
 
   // New Real-World Components
-  {
-    id: 'feature-grid',
-    name: 'Feature Grid',
-    description: 'Responsive feature grid with customizable layouts and styles',
-    category: '',
-      tags: ['hero', 'landing', 'cta', 'gradient'],
-    complexity: 'intermediate',
-    popularity: 95,
-    isPremium: false,
-    bundleSize: 12,
-    renderScore: 92,
-    wcagLevel: 'AA',
-    rating: 4.8,
-    downloadCount: 15420,
-    lastUpdated: '2025-01-10',
-    component: () => <div className="bg-indigo-600 text-white p-8 rounded-lg text-center">
-      <h1 className="text-3xl font-bold mb-4">Welcome to Our Platform</h1>
-      <p className="text-xl mb-6">Build amazing experiences</p>
-      <button className="bg-white text-indigo-600 px-6 py-2 rounded-lg font-semibold">Get Started</button>
-    </div>,
-    propsSchema: {
-      title: { type: 'string', label: 'Title', default: 'Welcome to Our Platform' },
-      subtitle: { type: 'string', label: 'Subtitle', default: 'Build amazing experiences' },
-      backgroundColor: { type: 'color', label: 'Background Color', default: '#6366f1' },
-      showButton: { type: 'boolean', label: 'Show CTA Button', default: true },
-      buttonText: { type: 'string', label: 'Button Text', default: 'Get Started' }
-    },
-    defaultProps: {
-      title: 'Welcome to Our Platform',
-      subtitle: 'Build amazing experiences',
-      backgroundColor: '#6366f1',
-      showButton: true,
-      buttonText: 'Get Started'
-    },
-    codeExample: `<HeroSection 
-  title="Welcome to Our Platform"
-  subtitle="Build amazing experiences"
-  backgroundColor="#6366f1"
-  showButton={true}
-  buttonText="Get Started"
-/>`
-  },
+//   {
+//     id: 'feature-grid',
+//     name: 'Feature Grid',
+//     description: 'Responsive feature grid with customizable layouts and styles',
+//     category: '',
+//       tags: ['hero', 'landing', 'cta', 'gradient'],
+//     complexity: 'intermediate',
+//     popularity: 95,
+//     isPremium: false,
+//     bundleSize: 12,
+//     renderScore: 92,
+//     wcagLevel: 'AA',
+//     rating: 4.8,
+//     downloadCount: 15420,
+//     lastUpdated: '2025-01-10',
+//     component: () => <div className="bg-indigo-600 text-white p-8 rounded-lg text-center">
+//       <h1 className="text-3xl font-bold mb-4">Welcome to Our Platform</h1>
+//       <p className="text-xl mb-6">Build amazing experiences</p>
+//       <button className="bg-white text-indigo-600 px-6 py-2 rounded-lg font-semibold">Get Started</button>
+//     </div>,
+//     propsSchema: {
+//       title: { type: 'string', label: 'Title', default: 'Welcome to Our Platform' },
+//       subtitle: { type: 'string', label: 'Subtitle', default: 'Build amazing experiences' },
+//       backgroundColor: { type: 'color', label: 'Background Color', default: '#6366f1' },
+//       showButton: { type: 'boolean', label: 'Show CTA Button', default: true },
+//       buttonText: { type: 'string', label: 'Button Text', default: 'Get Started' }
+//     },
+//     defaultProps: {
+//       title: 'Welcome to Our Platform',
+//       subtitle: 'Build amazing experiences',
+//       backgroundColor: '#6366f1',
+//       showButton: true,
+//       buttonText: 'Get Started'
+//     },
+//     codeExample: `<HeroSection 
+//   title="Welcome to Our Platform"
+//   subtitle="Build amazing experiences"
+//   backgroundColor="#6366f1"
+//   showButton={true}
+//   buttonText="Get Started"
+// />`
+//   },
 ];
