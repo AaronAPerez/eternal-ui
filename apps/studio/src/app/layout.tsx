@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
+import { StudioNavigation } from '@/components/StudioNavigation';
 import { Navigation } from '@/components/layout/Navigation';
 
 const inter = Inter({ 
@@ -104,7 +105,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <Navigation/>
+ 
       <body className={inter.className}>
         <noscript>
           <div style={{

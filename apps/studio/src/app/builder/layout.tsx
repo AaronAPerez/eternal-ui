@@ -1,7 +1,6 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import '@/styles/builder-layout-fixes.css';
-
 export const metadata: Metadata = {
   title: 'Grid Builder - Eternal UI',
   description: 'Create responsive layouts with our visual grid builder',
@@ -22,6 +21,7 @@ export default function BuilderLayout({
 }) {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900">
+  
       {children}
     </div>
   );

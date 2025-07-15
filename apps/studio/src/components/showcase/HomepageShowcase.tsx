@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
 
 // Components - Dynamically imported for performance
-const HomepageShowcase = dynamic(() => import('@/components/showcase/HomepageShowcase'), {
+export const HomepageShowcase = dynamic(() => import('@/components/showcase/HomepageShowcase'), {
   loading: () => (
     <div className="min-h-screen bg-white dark:bg-gray-900">
       {/* Hero Section Skeleton */}
@@ -51,6 +51,7 @@ const HomepageShowcase = dynamic(() => import('@/components/showcase/HomepageSho
   ),
   ssr: true // Enable SSR for better SEO
 })
+
 
 // Enhanced metadata for homepage SEO
 export const metadata: Metadata = {
