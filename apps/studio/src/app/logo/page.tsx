@@ -1,5 +1,3 @@
-'use client';
-
 import LogoShowcase from '@/components/Logo/LogoShowcase'
 import React from 'react'
 
