@@ -4,6 +4,8 @@ import { ComponentsPage } from '../../components/ComponentsPage/ComponentsPage'
 
 
 
+
+
 export const metadata: Metadata = {
   title: 'Component Library - Eternal UI',
   description: 'Professional-grade components for modern web development',
