@@ -1,6 +1,7 @@
 import { ComponentType } from "react";
+import React from "react";  
 import { ComponentCategory } from "./categories";
-import HeroSection from "@/app/components/ModernWebsiteComponents/HeroSection";
+import HeroSection from "@/components/ModernWebsiteComponents/HeroSection";
 
 
 
@@ -162,3 +163,13 @@ export const componentRegistry: ComponentMetadata[] = [
   // ... Additional components
 ];
 
+//  premium: false,
+//     popularity: 98,
+//     lastUpdated: "2025-01-15",
+//     version: "2.1.0",
+//     examples: []
+//   },
+  
+  
+//   // ... Additional components
+// ];

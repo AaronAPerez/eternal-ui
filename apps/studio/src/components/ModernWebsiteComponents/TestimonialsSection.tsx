@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
 const TestimonialsSection: React.FC<{
   variant: 'carousel' | 'grid' | 'featured' | 'minimal'

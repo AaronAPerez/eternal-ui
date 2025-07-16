@@ -1,6 +1,6 @@
 import React from 'react'
 import { Metadata } from 'next'
-import { ComponentsPage } from './ComponentsPage/ComponentsPage'
+import { ComponentsPage } from '../../components/ComponentsPage/ComponentsPage'
 
 
 
