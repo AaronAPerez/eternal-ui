@@ -208,10 +208,15 @@ const navigationItems: NavigationItem[] = [
     ]
   },
   { 
-    name: 'Pricing', 
-    href: '/pricing',
+    name: 'Components', 
+    href: '/components',
     description: 'Simple, transparent pricing'
   },
+  // { 
+  //   name: 'Pricing', 
+  //   href: '/pricing',
+  //   description: 'Simple, transparent pricing'
+  // },
   { 
     name: 'Export Demo', 
     href: '/export-demo',

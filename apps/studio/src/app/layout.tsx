@@ -128,6 +128,7 @@ export default function RootLayout({
         
         {/* Main content with proper accessibility landmarks */}
         <div className="min-h-screen flex flex-col">
+          <Navigation/>
           <main 
             id="main-content"
             className="flex-grow"

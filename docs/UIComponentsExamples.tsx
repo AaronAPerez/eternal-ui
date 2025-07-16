@@ -116,8 +116,10 @@ tsx// Export progress tracking
   showPercentage
   variant="default"
 />
-For Export Status:
-tsx// Success notification
+
+
+// For Export Status:
+// Success notification
 <Alert variant="success" icon={<CheckCircleIcon />}>
   <AlertTitle>Export Complete!</AlertTitle>
   <AlertDescription>
@@ -132,8 +134,10 @@ tsx// Success notification
     {errorMessage}
   </AlertDescription>
 </Alert>
-For Configuration Modal:
-tsx// Export configuration
+
+
+// For Configuration Modal:
+// Export configuration
 <Modal open={showConfig} onClose={closeConfig} size="lg">
   <ModalHeader onClose={closeConfig}>
     <ModalTitle>Export Settings</ModalTitle>
@@ -145,3 +149,25 @@ tsx// Export configuration
     <Button onClick={handleExport}>Export</Button>
   </ModalFooter>
 </Modal>
+
+
+// Import and use any component
+import { HeroSection, NavigationHeader } from './ModernWebsiteComponents'
+
+// Fully customizable props
+<HeroSection 
+  variant="split"
+  title="Your Title"
+  primaryCTA="Get Started"
+  showImage={true}
+/>
+
+
+import { ComponentCategories } from './ComponentCategories'
+// ComponentsPage
+<ComponentCategories
+  categories={componentCategories}
+  selectedCategory={selectedCategory}
+  onCategorySelect={setSelectedCategory}
+  className="w-64 flex-shrink-0"
+/>
