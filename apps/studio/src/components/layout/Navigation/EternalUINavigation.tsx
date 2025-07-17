@@ -1,13 +1,16 @@
 'use client';
 
 import React, { useState, useCallback, useEffect, ReactNode } from 'react';
-import { 
-  Search, Filter, Grid, List, Monitor, Tablet, Smartphone, 
-  Download, Zap, Menu, X, Home, Layers, Code, Book, 
+import {
+  Search, Filter, Grid, List, Monitor, Tablet, Smartphone,
+  Download, Zap, Menu, X, Home, Layers, Code, Book,
   Settings, ChevronDown, Sun, Moon, Star, Bell, User,
   Command, Copy, Eye, Play, Pause, RotateCcw, Plus,
-  HelpCircle, ExternalLink, Github, Twitter, Mail
+  HelpCircle, ExternalLink, Github, Twitter, Mail,
+  BrainCircuit,
+  BrainIcon
 } from 'lucide-react';
+import { EternalUILogo } from '@/components/Logo/eternal-ui-logo';
 
 // =================================================================
 // TYPES AND INTERFACES
@@ -72,24 +75,30 @@ const navigationItems: NavigationItem[] = [
     href: '/templates',
     badge: '45'
   },
+  // {
+  //   id: 'documentation',
+  //   label: 'Documentation',
+  //   icon: Book,
+  //   href: '/docs',
+  //   children: [
+  //     { id: 'getting-started', label: 'Getting Started', icon: Play, href: '/docs/getting-started' },
+  //     { id: 'installation', label: 'Installation', icon: Download, href: '/docs/installation' },
+  //     { id: 'customization', label: 'Customization', icon: Settings, href: '/docs/customization' },
+  //     { id: 'theming', label: 'Theming', icon: Sun, href: '/docs/theming' }
+  //   ]
+  // },
   {
-    id: 'documentation',
-    label: 'Documentation',
-    icon: Book,
-    href: '/docs',
-    children: [
-      { id: 'getting-started', label: 'Getting Started', icon: Play, href: '/docs/getting-started' },
-      { id: 'installation', label: 'Installation', icon: Download, href: '/docs/installation' },
-      { id: 'customization', label: 'Customization', icon: Settings, href: '/docs/customization' },
-      { id: 'theming', label: 'Theming', icon: Sun, href: '/docs/theming' }
-    ]
-  },
-  {
-    id: 'examples',
-    label: 'Examples',
-    icon: Eye,
-    href: '/examples'
+    id: 'AI Generate',
+    label: 'AI Generate',
+    icon: BrainIcon,
+    href: '/ai-demo'
   }
+  // {
+  //   id: 'examples',
+  //   label: 'Examples',
+  //   icon: Eye,
+  //   href: '/examples'
+  // }
 ];
 
 // =================================================================
@@ -133,11 +142,10 @@ export function ComponentPageActions({
         <div className="relative">
           <button
             onClick={() => setIsFilterOpen(!isFilterOpen)}
-            className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-              selectedCategory !== 'all' 
-                ? 'bg-indigo-100 text-indigo-700 border border-indigo-200' 
+            className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${selectedCategory !== 'all'
+                ? 'bg-indigo-100 text-indigo-700 border border-indigo-200'
                 : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
-            }`}
+              }`}
           >
             <Filter className="w-4 h-4" />
             <span className="hidden sm:inline">
@@ -145,7 +153,7 @@ export function ComponentPageActions({
             </span>
             <ChevronDown className="w-4 h-4" />
           </button>
-          
+
           {isFilterOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
               <div className="py-1">
@@ -156,9 +164,8 @@ export function ComponentPageActions({
                       onCategoryChange(category);
                       setIsFilterOpen(false);
                     }}
-                    className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-50 ${
-                      selectedCategory === category ? 'bg-indigo-50 text-indigo-700' : 'text-gray-700'
-                    }`}
+                    className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-50 ${selectedCategory === category ? 'bg-indigo-50 text-indigo-700' : 'text-gray-700'
+                      }`}
                   >
                     {category === 'all' ? 'All Categories' : category}
                   </button>
@@ -172,22 +179,20 @@ export function ComponentPageActions({
         <div className="flex items-center bg-white border border-gray-300 rounded-lg">
           <button
             onClick={() => onViewModeChange('grid')}
-            className={`p-2 rounded-l-lg transition-colors ${
-              viewMode === 'grid'
+            className={`p-2 rounded-l-lg transition-colors ${viewMode === 'grid'
                 ? 'bg-indigo-100 text-indigo-700'
                 : 'text-gray-500 hover:text-gray-700'
-            }`}
+              }`}
             title="Grid View"
           >
             <Grid className="w-4 h-4" />
           </button>
           <button
             onClick={() => onViewModeChange('list')}
-            className={`p-2 rounded-r-lg transition-colors ${
-              viewMode === 'list'
+            className={`p-2 rounded-r-lg transition-colors ${viewMode === 'list'
                 ? 'bg-indigo-100 text-indigo-700'
                 : 'text-gray-500 hover:text-gray-700'
-            }`}
+              }`}
             title="List View"
           >
             <List className="w-4 h-4" />
@@ -198,33 +203,30 @@ export function ComponentPageActions({
         <div className="flex items-center bg-white border border-gray-300 rounded-lg">
           <button
             onClick={() => onDeviceModeChange('desktop')}
-            className={`p-2 rounded-l-lg transition-colors ${
-              deviceMode === 'desktop'
+            className={`p-2 rounded-l-lg transition-colors ${deviceMode === 'desktop'
                 ? 'bg-indigo-100 text-indigo-700'
                 : 'text-gray-500 hover:text-gray-700'
-            }`}
+              }`}
             title="Desktop View"
           >
             <Monitor className="w-4 h-4" />
           </button>
           <button
             onClick={() => onDeviceModeChange('tablet')}
-            className={`p-2 transition-colors ${
-              deviceMode === 'tablet'
+            className={`p-2 transition-colors ${deviceMode === 'tablet'
                 ? 'bg-indigo-100 text-indigo-700'
                 : 'text-gray-500 hover:text-gray-700'
-            }`}
+              }`}
             title="Tablet View"
           >
             <Tablet className="w-4 h-4" />
           </button>
           <button
             onClick={() => onDeviceModeChange('mobile')}
-            className={`p-2 rounded-r-lg transition-colors ${
-              deviceMode === 'mobile'
+            className={`p-2 rounded-r-lg transition-colors ${deviceMode === 'mobile'
                 ? 'bg-indigo-100 text-indigo-700'
                 : 'text-gray-500 hover:text-gray-700'
-            }`}
+              }`}
             title="Mobile View"
           >
             <Smartphone className="w-4 h-4" />
@@ -234,11 +236,10 @@ export function ComponentPageActions({
         {/* Quick Build Toggle */}
         <button
           onClick={() => onQuickBuildModeChange(!isQuickBuildMode)}
-          className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-            isQuickBuildMode
+          className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${isQuickBuildMode
               ? 'bg-indigo-600 text-white'
               : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
-          }`}
+            }`}
           title="Quick Build Mode"
         >
           <Zap className="w-4 h-4" />
@@ -270,9 +271,9 @@ export function ComponentPageActions({
 // MAIN NAVIGATION COMPONENT
 // =================================================================
 
-export default function EternalUINavigation({ 
-  children, 
-  className = '' 
+export default function EternalUINavigation({
+  children,
+  className = ''
 }: EternalUINavigationProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -293,7 +294,7 @@ export default function EternalUINavigation({
 
   // Toggle expanded navigation items
   const toggleExpanded = useCallback((itemId: string) => {
-    setExpandedItems(prev => 
+    setExpandedItems(prev =>
       prev.includes(itemId)
         ? prev.filter(id => id !== itemId)
         : [...prev, itemId]
@@ -312,8 +313,8 @@ export default function EternalUINavigation({
           className={`
             flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer
             ${level > 0 ? 'ml-4' : ''}
-            ${item.isActive 
-              ? 'bg-indigo-100 text-indigo-700' 
+            ${item.isActive
+              ? 'bg-indigo-100 text-indigo-700'
               : 'text-gray-700 hover:bg-gray-100'
             }
           `}
@@ -335,12 +336,12 @@ export default function EternalUINavigation({
             )}
           </div>
           {hasChildren && (
-            <ChevronDown 
+            <ChevronDown
               className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
             />
           )}
         </div>
-        
+
         {hasChildren && isExpanded && (
           <div className="mt-1 space-y-1">
             {item.children?.map(child => renderNavigationItem(child, level + 1))}
@@ -409,13 +410,14 @@ export default function EternalUINavigation({
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-3">
                 {/* Logo */}
-                <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
-                  <Layers className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <h1 className="text-xl font-bold text-gray-900">EternalUI</h1>
+
+                <EternalUILogo className="w-10 h-10 transition-transform group-hover:scale-110"
+                  size='lg' />
+
+                {/* <div>
+                  {/* <h1 className="text-xl font-bold text-gray-900">Eternal UI</h1>
                   <p className="text-xs text-gray-500 hidden sm:block">Component Library</p>
-                </div>
+                </div> */}
               </div>
 
               {/* Desktop Navigation */}
@@ -426,8 +428,8 @@ export default function EternalUINavigation({
                       href={item.href}
                       className={`
                         flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors
-                        ${item.isActive 
-                          ? 'bg-indigo-100 text-indigo-700' 
+                        ${item.isActive
+                          ? 'bg-indigo-100 text-indigo-700'
                           : 'text-gray-700 hover:bg-gray-100'
                         }
                       `}
@@ -519,7 +521,7 @@ export default function EternalUINavigation({
 
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
           onClick={() => setIsMobileMenuOpen(false)}
         />

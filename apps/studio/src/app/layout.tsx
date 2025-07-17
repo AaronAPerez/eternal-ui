@@ -1,9 +1,11 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
+import { Navigation } from '@/components/layout/Navigation/Navigation';
+import EternalUINavigation from '@/components/layout/Navigation/EternalUINavigation';
 
 
-const inter = Inter({ 
+const inter = Inter({
   subsets: ['latin'],
   display: 'swap', // Optimize font loading
   preload: true
@@ -78,11 +80,11 @@ export default function RootLayout({
         {/* Performance optimizations */}
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="" />
-        
+
         {/* Theme color for mobile browsers */}
         <meta name="theme-color" content="#6366f1" />
         <meta name="msapplication-TileColor" content="#6366f1" />
-        
+
         {/* Structured data for SEO */}
         <script
           type="application/ld+json"
@@ -104,7 +106,7 @@ export default function RootLayout({
           }}
         />
       </head>
- 
+
       <body className={inter.className}>
         <noscript>
           <div style={{
@@ -124,10 +126,11 @@ export default function RootLayout({
             <p>This application requires JavaScript to function properly.</p>
           </div>
         </noscript>
-        
+      
+        {/* <EternalUINavigation/> */}
         {/* Main content with proper accessibility landmarks */}
         <div className="min-h-screen flex flex-col">
-          <main 
+          <main
             id="main-content"
             className="flex-grow"
             role="main"
