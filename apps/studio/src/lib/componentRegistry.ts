@@ -123,3 +123,4 @@ export function canAcceptChild(parentType: string, childType: string): boolean {
   
   return parentDef.childrenTypes.includes(childType)
 }
+

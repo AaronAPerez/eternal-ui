@@ -33,10 +33,7 @@ module.exports = {
           900: '#312e81',
           950: '#1e1b4b',
         },
-      animation: {
-        'spin-slow': 'spin 3s linear infinite',
-      },
-        secondary: {
+           secondary: {
           DEFAULT: 'hsl(var(--secondary))',
           foreground: 'hsl(var(--secondary-foreground))',
         },
@@ -67,6 +64,21 @@ module.exports = {
         sm: 'calc(var(--radius) - 4px)',
       },
     },
-  },
+      animation: {
+        'spin-slow': 'spin 3s linear infinite',
+        'fade-in': 'fadeIn 0.3s ease-in-out',
+        'slide-in-from-bottom': 'slideInFromBottom 0.3s ease-out',
+      },
+        keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        slideInFromBottom: {
+          '0%': { transform: 'translateY(20px)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
+      },
+    },
   plugins: [],
 }

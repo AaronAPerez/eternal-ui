@@ -1,6 +1,6 @@
 import React from 'react'
 import { Metadata } from 'next'
-import { ComponentsPage } from '../../components/ComponentsPage/ComponentsPage'
+import IntegratedComponentsPage from '@/components/ComponentsPage/ComponentsPage';
 
 
 
@@ -17,6 +17,6 @@ export const metadata: Metadata = {
   },
 }
 
-export default function Components() {
-  return <ComponentsPage />
+export default function ComponentsPageRoute() {
+  return <IntegratedComponentsPage />;
 }

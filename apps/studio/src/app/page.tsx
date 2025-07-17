@@ -1,7 +1,8 @@
+import React from 'react'
 import { Metadata } from 'next'
 import { Suspense } from 'react'
 import dynamic from 'next/dynamic'
-import { Navigation } from '@/components/layout/Navigation'
+import { Navigation } from '@/components/layout/Navigation/Navigation'
 import { HomepageShowcase } from '@/components/showcase/HomepageShowcase'
 
 // Dynamic import for client component

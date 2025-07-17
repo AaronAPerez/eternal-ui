@@ -1,63 +1,113 @@
+// =================================================================
+// @/data/categories.ts - Component Categories Configuration
+// =================================================================
+
 export interface ComponentCategory {
-  toLowerCase: any
-  id: string
-  name: string
-  description: string
-  icon: string
-  color: string
-  subcategories: string[]
-  count: number
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  color: string;
 }
 
 export const componentCategories: ComponentCategory[] = [
   {
-    id: 'layout',
-    name: 'Layout & Structure',
-    description: 'Fundamental layout components for page structure',
-    icon: '🏗️',
-    color: '#6366F1',
-    subcategories: ['sections', 'containers', 'grids', 'headers', 'footers'],
-    count: 12,
-    toLowerCase: undefined
+    id: 'buttons',
+    name: 'Buttons',
+    description: 'Interactive button components with various styles and states',
+    icon: 'MousePointer',
+    color: 'blue'
+  },
+  {
+    id: 'forms',
+    name: 'Forms',
+    description: 'Form inputs, controls, and validation components',
+    icon: 'FormInput',
+    color: 'green'
   },
   {
     id: 'navigation',
     name: 'Navigation',
-    description: 'Navigation components for user movement',
-    icon: '🧭',
-    color: '#8B5CF6',
-    subcategories: ['headers', 'menus', 'breadcrumbs', 'pagination'],
-    count: 8,
-    toLowerCase: undefined
+    description: 'Navigation menus, breadcrumbs, and routing components',
+    icon: 'Navigation',
+    color: 'purple'
   },
   {
-    id: 'content',
-    name: 'Content Display',
-    description: 'Components for displaying various types of content',
-    icon: '📄',
-    color: '#10B981',
-    subcategories: ['text', 'images', 'media', 'galleries'],
-    count: 15,
-    toLowerCase: undefined
+    id: 'layout',
+    name: 'Layout',
+    description: 'Grid systems, containers, and structural components',
+    icon: 'Layout',
+    color: 'orange'
   },
   {
-    id: 'forms',
-    name: 'Forms & Input',
-    description: 'Form components and input controls',
-    icon: '📝',
-    color: '#F59E0B',
-    subcategories: ['inputs', 'forms', 'validation', 'submission'],
-    count: 18,
-    toLowerCase: undefined
+    id: 'data-display',
+    name: 'Data Display',
+    description: 'Tables, lists, cards, and data visualization components',
+    icon: 'BarChart3',
+    color: 'red'
   },
   {
-    id: 'marketing',
-    name: 'Marketing',
-    description: 'Marketing and conversion-focused components',
-    icon: '📈',
-    color: '#EF4444',
-    subcategories: ['cta', 'pricing', 'testimonials', 'features'],
-    count: 10,
-    toLowerCase: undefined
+    id: 'feedback',
+    name: 'Feedback',
+    description: 'Alerts, notifications, modals, and status indicators',
+    icon: 'Bell',
+    color: 'yellow'
+  },
+  {
+    id: 'media',
+    name: 'Media',
+    description: 'Image galleries, video players, and media components',
+    icon: 'Image',
+    color: 'pink'
+  },
+  {
+    id: 'commerce',
+    name: 'Commerce',
+    description: 'Shopping carts, product displays, and e-commerce components',
+    icon: 'ShoppingCart',
+    color: 'indigo'
   }
-]
+];
+
+// =================================================================
+// @/data/components.ts - Component Registry and Metadata
+// =================================================================
+
+import React from 'react';
+
+// Type definitions for component metadata
+export interface PropType {
+  type: 'string' | 'number' | 'boolean' | 'select' | 'color' | 'array';
+  default?: any;
+  options?: string[];
+  description?: string;
+  required?: boolean;
+}
+
+export interface ComponentVariant {
+  name: string;
+  description: string;
+  props: Record<string, any>;
+  propTypes: Record<string, PropType>;
+  code: string;
+}
+
+export interface ComponentMetadata {
+  id: string;
+  name: string;
+  description: string;
+  category: string;
+  tags: string[];
+  component: React.ComponentType<any>;
+  variants: ComponentVariant[];
+  accessibility: {
+    ariaSupport: boolean;
+    keyboardSupport: boolean;
+    screenReaderSupport: boolean;
+    wcagLevel: 'A' | 'AA' | 'AAA';
+  };
+  responsive: boolean;
+  dependencies: string[];
+  version: string;
+  lastUpdated: string;
+}

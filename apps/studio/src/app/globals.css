@@ -61,6 +61,29 @@
   }
 }
 
+* {
+  transition-property: background-color, border-color, color;
+  transition-duration: 200ms;
+  transition-timing-function: ease-in-out;
+}
+
+/* Mobile First Approach */
+.component {
+  /* Mobile styles (default) */
+}
+
+@media (min-width: 640px) {
+  /* Tablet styles */
+}
+
+@media (min-width: 1024px) {
+  /* Desktop styles */
+}
+
+@media (min-width: 1280px) {
+  /* Large desktop styles */
+}
+
 /* Base styles */
 @layer base {
   * {
@@ -565,3 +588,31 @@ input[type="range"]::-moz-range-thumb {
   }
 }
   
+
+.animate-in {
+  animation-fill-mode: both;
+}
+
+.fade-in {
+  animation-name: fadeIn;
+}
+
+.slide-in-from-bottom {
+  animation-name: slideInFromBottom;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInFromBottom {
+  from { 
+    transform: translateY(20px); 
+    opacity: 0; 
+  }
+  to { 
+    transform: translateY(0); 
+    opacity: 1; 
+  }
+}

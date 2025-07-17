@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { StudioNavigation } from '@/components/StudioNavigation';
-import { Navigation } from '@/components/layout/Navigation';
+
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -128,7 +127,6 @@ export default function RootLayout({
         
         {/* Main content with proper accessibility landmarks */}
         <div className="min-h-screen flex flex-col">
-          <Navigation/>
           <main 
             id="main-content"
             className="flex-grow"
