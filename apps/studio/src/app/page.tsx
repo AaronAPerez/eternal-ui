@@ -1,175 +1,48 @@
-import React from 'react'
-import { Metadata } from 'next'
-import { Suspense } from 'react'
-import dynamic from 'next/dynamic'
-import { Navigation } from '@/components/layout/Navigation/Navigation'
-import { HomepageShowcase } from '@/components/showcase/HomepageShowcase'
+// src/app/page.tsx
+import Link from 'next/link'
+import { ArrowRight, Zap, Shield, BarChart } from 'lucide-react'
 
-// Dynamic import for client component
-const HomepageClient = dynamic(() => import('@/components/showcase/HomepageClient'), {
-  loading: () => <HomepageLoading />,
-  // ssr: false
-})
-
-// Enhanced metadata for homepage SEO
-export const metadata: Metadata = {
-  title: 'Eternal UI - AI-Powered Visual Website Builder | Create Stunning Websites 10x Faster',
-  description: 'Build beautiful, responsive websites with our AI-powered visual builder. Export clean code to React, Vue, Svelte, or Angular. 85% cheaper than Framer with superior performance. Start free today.',
-  keywords: [
-    'website builder',
-    'visual editor',
-    'ai website builder',
-    'drag and drop builder',
-    'react code generator',
-    'vue code generator',
-    'svelte code generator',
-    'angular code generator',
-    'no code website builder',
-    'responsive web design',
-    'website templates',
-    'web development tools',
-    'frontend builder',
-    'ui builder',
-    'website creator',
-    'web design software',
-    'landing page builder',
-    'framer alternative',
-    'webflow alternative',
-    'wordpress alternative'
-  ],
-  authors: [{ name: 'Eternal UI Team', url: 'https://eternal-ui.com/team' }],
-  creator: 'Eternal UI',
-  publisher: 'Eternal UI',
-  category: 'Web Development Tools',
-  classification: 'Website Builder',
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
-  openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    url: 'https://eternal-ui.com',
-    siteName: 'Eternal UI',
-    title: 'Eternal UI - AI-Powered Visual Website Builder',
-    description: 'Create stunning websites 10x faster with AI-powered layouts. Export clean code to any framework. Start building for free.',
-    images: [
-      {
-        url: '/og-homepage.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'Eternal UI - AI-Powered Visual Website Builder Interface',
-        type: 'image/jpeg',
-      }
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    site: '@EternalUI',
-    creator: '@EternalUI',
-    title: 'Eternal UI - Build Websites 10x Faster with AI',
-    description: 'AI-powered visual builder that exports clean code. 85% cheaper than Framer. Start free.',
-    images: ['/twitter-homepage.jpg'],
-  },
-  alternates: {
-    canonical: 'https://eternal-ui.com',
-  },
-}
-
-// Enhanced structured data for homepage
-const structuredData = {
-  '@context': 'https://schema.org',
-  '@type': 'SoftwareApplication',
-  name: 'Eternal UI',
-  description: 'AI-powered visual website builder with code export capabilities',
-  url: 'https://eternal-ui.com',
-  applicationCategory: 'DesignApplication',
-  applicationSubCategory: 'Website Builder',
-  operatingSystem: 'Web Browser',
-  offers: [
-    {
-      '@type': 'Offer',
-      name: 'Free Plan',
-      price: '0',
-      priceCurrency: 'USD',
-      description: 'Free tier with core features',
-    }
-  ],
-  featureList: [
-    'AI-powered layout suggestions',
-    'Visual drag-and-drop editor',
-    'Clean code export (React, Vue, Svelte, Angular)',
-    'Real-time collaboration',
-    'Responsive design tools',
-    'Performance optimization',
-    'SEO optimization',
-    'Accessibility compliance (WCAG 2.1 AA)'
-  ],
-  aggregateRating: {
-    '@type': 'AggregateRating',
-    ratingValue: '4.9',
-    ratingCount: '1247',
-    bestRating: '5'
-  }
-}
-
-// Loading component
-function HomepageLoading() {
+export default function Home() {
   return (
-    <div className="min-h-screen bg-white dark:bg-black">
-      {/* Hero Section Skeleton */}
-      <div className="bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-black/90 dark:to-black/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 lg:pt-32 lg:pb-24">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            <div className="space-y-8">
-              <div className="space-y-4">
-                <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-32 animate-pulse" />
-                <div className="h-12 bg-gray-200 dark:bg-gray-700 rounded w-96 animate-pulse" />
-                <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-80 animate-pulse" />
-              </div>
-              <div className="flex space-x-4">
-                <div className="h-12 bg-gray-200 dark:bg-gray-700 rounded w-40 animate-pulse" />
-                <div className="h-12 bg-gray-200 dark:bg-gray-700 rounded w-32 animate-pulse" />
-              </div>
+    <main className="flex min-h-screen flex-col items-center justify-center p-24">
+      <div className="max-w-4xl mx-auto text-center">
+        <h1 className="text-4xl font-bold mb-4">Welcome to Eternal UI Studio</h1>
+        <p className="text-lg text-gray-600 mb-8">Visual website builder</p>
+        
+        {/* Migration Demo Card */}
+        <div className="bg-white rounded-2xl border border-gray-200 p-8 shadow-xl mb-8">
+          <h2 className="text-2xl font-bold mb-4">WordPress Migration Tool</h2>
+          <p className="text-gray-600 mb-6">
+            Transform your WordPress site into a modern, lightning-fast React application
+          </p>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="text-center">
+              <Zap className="w-8 h-8 text-green-600 mx-auto mb-2" />
+              <h3 className="font-semibold">10x Faster</h3>
+              <p className="text-sm text-gray-600">Lightning-fast loading</p>
             </div>
-            <div className="h-96 bg-gray-200 dark:bg-gray-700 rounded-xl animate-pulse" />
+            <div className="text-center">
+              <Shield className="w-8 h-8 text-blue-600 mx-auto mb-2" />
+              <h3 className="font-semibold">Secure</h3>
+              <p className="text-sm text-gray-600">No vulnerabilities</p>
+            </div>
+            <div className="text-center">
+              <BarChart className="w-8 h-8 text-purple-600 mx-auto mb-2" />
+              <h3 className="font-semibold">90% Cheaper</h3>
+              <p className="text-sm text-gray-600">Reduced hosting costs</p>
+            </div>
           </div>
+          
+          <Link 
+            href="/migration"
+            className="inline-flex items-center space-x-2 bg-indigo-600 text-white px-8 py-4 rounded-xl font-semibold hover:bg-indigo-700 transition-colors"
+          >
+            <span>Try Migration Demo</span>
+            <ArrowRight className="w-5 h-5" />
+          </Link>
         </div>
       </div>
-    </div>
-  )
-}
-
-/**
- * Homepage Server Component
- * 
- * This component handles:
- * - SEO metadata and structured data
- * - Server-side rendering setup
- * - Loading states and error boundaries
- */
-export default function HomePage() {
-  return (
-    <>
-      {/* Structured data for SEO */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(structuredData)
-        }}
-      />
-      
-      {/* Main homepage content */}
-      <Suspense fallback={<HomepageLoading />}>
-        <HomepageClient />
-      </Suspense>
-    </>
+    </main>
   )
 }
