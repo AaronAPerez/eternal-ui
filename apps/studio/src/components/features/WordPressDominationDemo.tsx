@@ -22,14 +22,8 @@ import {
     Flame,
     Trophy,
     Rocket,
-    Star,
-    Heart,
-    ThumbsUp,
     MessageSquare,
     Search,
-    Smartphone,
-    Monitor,
-    Tablet
 } from 'lucide-react'
 
 // WordPress Pain Points vs Eternal UI Solutions
@@ -286,7 +280,6 @@ export default function WordPressDominationDemo() {
     const [selectedPersona, setSelectedPersona] = useState<UserPersona>(USER_PERSONAS[0])
     const [animationProgress, setAnimationProgress] = useState(0)
     const [autoPlay, setAutoPlay] = useState(false)
-    const [showComparison, setShowComparison] = useState(false)
 
     // Animation control
     const intervalRef = useRef<NodeJS.Timeout | null>(null)
@@ -298,7 +291,7 @@ export default function WordPressDominationDemo() {
         if (autoPlay) {
             intervalRef.current = setInterval(() => {
                 setAnimationProgress(prev => (prev + 1) % 100)
-                
+
                 // Cycle through pain points every 8 seconds
                 if (animationProgress % 20 === 0) {
                     const currentIndex = PAIN_POINTS.findIndex(p => p.id === selectedPainPoint.id)
@@ -348,7 +341,7 @@ export default function WordPressDominationDemo() {
                     transition={{ delay: 0.3 }}
                     className="text-xl text-gray-600 dark:text-gray-400 max-w-4xl mx-auto mb-8"
                 >
-                    Every WordPress pain point solved. Every feature reimagined better. 
+                    Every WordPress pain point solved. Every feature reimagined better.
                     <span className="text-red-600 dark:text-red-400 font-semibold"> This is how we completely destroy WordPress and capture their 680 million websites.</span>
                 </motion.p>
 
@@ -501,7 +494,7 @@ export default function WordPressDominationDemo() {
                         🎯 Market Domination Plan
                     </h2>
                     <p className="text-gray-600 dark:text-gray-400">
-                        How we capture WordPress's 680 million websites
+                        How we capture WordPress&apos;s 680 million websites
                     </p>
                 </div>
 
@@ -584,19 +577,17 @@ export default function WordPressDominationDemo() {
                     <motion.button
                         key={painPoint.id}
                         onClick={() => setSelectedPainPoint(painPoint)}
-                        className={`p-4 rounded-xl border-2 transition-all text-center ${
-                            selectedPainPoint.id === painPoint.id
+                        className={`p-4 rounded-xl border-2 transition-all text-center ${selectedPainPoint.id === painPoint.id
                                 ? `border-${painPoint.color}-500 bg-${painPoint.color}-50 dark:bg-${painPoint.color}-900/20`
                                 : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
-                        }`}
+                            }`}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                     >
-                        <painPoint.icon className={`w-8 h-8 mx-auto mb-2 ${
-                            selectedPainPoint.id === painPoint.id
+                        <painPoint.icon className={`w-8 h-8 mx-auto mb-2 ${selectedPainPoint.id === painPoint.id
                                 ? `text-${painPoint.color}-600 dark:text-${painPoint.color}-400`
                                 : 'text-gray-600 dark:text-gray-400'
-                        }`} />
+                            }`} />
                         <div className="text-sm font-medium text-gray-900 dark:text-white">
                             {painPoint.problem}
                         </div>
@@ -644,7 +635,7 @@ export default function WordPressDominationDemo() {
                                 <p className="text-red-700 dark:text-red-300 mb-4">
                                     {selectedPainPoint.wpSolution}
                                 </p>
-                                
+
                                 {/* WordPress Rating */}
                                 <div className="space-y-3">
                                     <div className="flex justify-between items-center">
@@ -680,7 +671,7 @@ export default function WordPressDominationDemo() {
                                 <p className="text-green-700 dark:text-green-300 mb-4">
                                     {selectedPainPoint.eternalSolution}
                                 </p>
-                                
+
                                 {/* Eternal UI Rating */}
                                 <div className="space-y-3">
                                     <div className="flex justify-between items-center">
@@ -729,7 +720,7 @@ export default function WordPressDominationDemo() {
                     👥 WordPress User Liberation Stories
                 </h2>
                 <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-                    Real WordPress users, real pain, real solutions. See how we solve every user type's biggest problems.
+                    Real WordPress users, real pain, real solutions. See how we solve every user type&apos;s biggest problems.
                 </p>
             </div>
 
@@ -739,11 +730,10 @@ export default function WordPressDominationDemo() {
                     <motion.button
                         key={persona.id}
                         onClick={() => setSelectedPersona(persona)}
-                        className={`p-6 rounded-xl border-2 transition-all text-center ${
-                            selectedPersona.id === persona.id
+                        className={`p-6 rounded-xl border-2 transition-all text-center ${selectedPersona.id === persona.id
                                 ? `border-${persona.color}-500 bg-${persona.color}-50 dark:bg-${persona.color}-900/20`
                                 : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
-                        }`}
+                            }`}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                     >
@@ -751,11 +741,10 @@ export default function WordPressDominationDemo() {
                         <h3 className="font-bold text-gray-900 dark:text-white mb-2">
                             {persona.name}
                         </h3>
-                        <div className={`px-3 py-1 text-xs rounded-full ${
-                            selectedPersona.id === persona.id
+                        <div className={`px-3 py-1 text-xs rounded-full ${selectedPersona.id === persona.id
                                 ? `bg-${persona.color}-200 dark:bg-${persona.color}-800 text-${persona.color}-800 dark:text-${persona.color}-200`
                                 : 'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400'
-                        }`}>
+                            }`}>
                             {persona.type}
                         </div>
                     </motion.button>
@@ -847,7 +836,7 @@ export default function WordPressDominationDemo() {
                                 Annual ROI with Eternal UI
                             </div>
                         </div>
-                        
+
                         <div className="text-center p-6 bg-blue-50 dark:bg-blue-900/10 rounded-xl border border-blue-200 dark:border-blue-800">
                             <Clock className="w-8 h-8 text-blue-600 dark:text-blue-400 mx-auto mb-3" />
                             <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-1">
@@ -874,7 +863,7 @@ export default function WordPressDominationDemo() {
                     ⚔️ Feature-by-Feature Domination
                 </h2>
                 <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-                    Every WordPress feature reimagined better. We don't just match - we completely destroy their offerings.
+                    Every WordPress feature reimagined better. We don&apos;t just match - we completely destroy their offerings.
                 </p>
             </div>
 
@@ -914,7 +903,7 @@ export default function WordPressDominationDemo() {
                                     <p className="font-medium text-red-800 dark:text-red-200 mb-4">
                                         {comparison.wordpress.solution}
                                     </p>
-                                    
+
                                     <div className="space-y-3 mb-4">
                                         <h5 className="text-sm font-medium text-red-700 dark:text-red-300">Problems:</h5>
                                         {comparison.wordpress.problems.map((problem, idx) => (
@@ -929,18 +918,17 @@ export default function WordPressDominationDemo() {
                                         <span className="text-sm font-medium text-red-700 dark:text-red-300">Cost:</span>
                                         <span className="text-sm text-red-600 dark:text-red-400">{comparison.wordpress.cost}</span>
                                     </div>
-                                    
+
                                     <div className="flex justify-between items-center mt-2">
                                         <span className="text-sm font-medium text-red-700 dark:text-red-300">Complexity:</span>
                                         <div className="flex space-x-1">
                                             {[...Array(10)].map((_, i) => (
                                                 <div
                                                     key={i}
-                                                    className={`w-2 h-2 rounded-full ${
-                                                        i < comparison.wordpress.complexity
+                                                    className={`w-2 h-2 rounded-full ${i < comparison.wordpress.complexity
                                                             ? 'bg-red-500'
                                                             : 'bg-red-200 dark:bg-red-800'
-                                                    }`}
+                                                        }`}
                                                 />
                                             ))}
                                         </div>
@@ -963,7 +951,7 @@ export default function WordPressDominationDemo() {
                                     <p className="font-medium text-green-800 dark:text-green-200 mb-4">
                                         {comparison.eternal.solution}
                                     </p>
-                                    
+
                                     <div className="space-y-3 mb-4">
                                         <h5 className="text-sm font-medium text-green-700 dark:text-green-300">Benefits:</h5>
                                         {comparison.eternal.benefits.map((benefit, idx) => (
@@ -978,18 +966,17 @@ export default function WordPressDominationDemo() {
                                         <span className="text-sm font-medium text-green-700 dark:text-green-300">Cost:</span>
                                         <span className="text-sm text-green-600 dark:text-green-400">{comparison.eternal.cost}</span>
                                     </div>
-                                    
+
                                     <div className="flex justify-between items-center mt-2">
                                         <span className="text-sm font-medium text-green-700 dark:text-green-300">Complexity:</span>
                                         <div className="flex space-x-1">
                                             {[...Array(10)].map((_, i) => (
                                                 <div
                                                     key={i}
-                                                    className={`w-2 h-2 rounded-full ${
-                                                        i < comparison.eternal.complexity
+                                                    className={`w-2 h-2 rounded-full ${i < comparison.eternal.complexity
                                                             ? 'bg-green-500'
                                                             : 'bg-green-200 dark:bg-green-800'
-                                                    }`}
+                                                        }`}
                                                 />
                                             ))}
                                         </div>
@@ -1014,7 +1001,7 @@ export default function WordPressDominationDemo() {
                     🚀 WordPress Migration Domination
                 </h2>
                 <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-                    Make switching from WordPress so easy and beneficial that users can't resist.
+                    Make switching from WordPress so easy and beneficial that users can&apos;t resist.
                 </p>
             </div>
 
@@ -1109,7 +1096,7 @@ export default function WordPressDominationDemo() {
                         💰 Migration ROI Calculator
                     </h3>
                     <p className="text-gray-600 dark:text-gray-400">
-                        See exactly how much you'll save by switching from WordPress
+                        See exactly how much you&apos;ll save by switching from WordPress
                     </p>
                 </div>
 
@@ -1126,7 +1113,7 @@ export default function WordPressDominationDemo() {
                                 { item: 'Security & Backups', cost: '$300' },
                                 { item: 'Maintenance Time (20h)', cost: '$1,000' },
                                 { item: 'Performance Issues', cost: '$800' }
-                            ].map((cost, index) => (
+                            ].map((cost) => (
                                 <div key={cost.item} className="flex justify-between items-center p-4 bg-red-50 dark:bg-red-900/10 rounded-lg">
                                     <span className="text-red-700 dark:text-red-300">{cost.item}</span>
                                     <span className="font-bold text-red-600 dark:text-red-400">{cost.cost}</span>
@@ -1153,7 +1140,7 @@ export default function WordPressDominationDemo() {
                                 { item: 'Security & Backups', cost: '$0' },
                                 { item: 'Maintenance Time (0h)', cost: '$0' },
                                 { item: 'Eternal UI Pro Plan', cost: '$348' }
-                            ].map((cost, index) => (
+                            ].map((cost) => (
                                 <div key={cost.item} className="flex justify-between items-center p-4 bg-green-50 dark:bg-green-900/10 rounded-lg">
                                     <span className="text-green-700 dark:text-green-300">{cost.item}</span>
                                     <span className="font-bold text-green-600 dark:text-green-400">{cost.cost}</span>
@@ -1181,7 +1168,7 @@ export default function WordPressDominationDemo() {
                 </div>
             </motion.div>
 
-             {/* Call to Action */}
+            {/* Call to Action */}
             <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -1230,8 +1217,8 @@ export default function WordPressDominationDemo() {
                 </motion.button>
                 <div className="mt-4">
                     <p className="text-sm text-gray-500 dark:text-gray-400">
-                        ⚡ <span className="font-semibold">Free migration</span> • 
-                        No credit card required • 
+                        ⚡ <span className="font-semibold">Free migration</span> •
+                        No credit card required •
                         <span className="font-semibold">10x performance guarantee</span>
                     </p>
                 </div>
@@ -1257,11 +1244,10 @@ export default function WordPressDominationDemo() {
                             <motion.button
                                 key={id}
                                 onClick={() => setActiveSection(id as any)}
-                                className={`flex items-center space-x-2 py-4 px-2 border-b-2 font-medium text-sm transition-colors ${
-                                    activeSection === id
+                                className={`flex items-center space-x-2 py-4 px-2 border-b-2 font-medium text-sm transition-colors ${activeSection === id
                                         ? 'border-orange-500 text-orange-600 dark:text-orange-400'
                                         : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
-                                }`}
+                                    }`}
                                 whileHover={{ y: -1 }}
                                 whileTap={{ y: 0 }}
                             >
@@ -1275,11 +1261,10 @@ export default function WordPressDominationDemo() {
                     <div className="flex items-center space-x-4">
                         <button
                             onClick={() => setAutoPlay(!autoPlay)}
-                            className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-colors ${
-                                autoPlay
+                            className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-colors ${autoPlay
                                     ? 'bg-orange-100 dark:bg-orange-900/20 text-orange-700 dark:text-orange-300'
                                     : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-                            }`}
+                                }`}
                         >
                             {autoPlay ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
                             <span>{autoPlay ? 'Auto Demo' : 'Start Auto'}</span>
@@ -1366,7 +1351,7 @@ export default function WordPressDominationDemo() {
                             🎯 WordPress Domination Statistics
                         </h3>
                         <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-                            The numbers that prove Eternal UI's complete superiority over WordPress
+                            The numbers that prove Eternal UI&apos;s complete superiority over WordPress
                         </p>
                     </div>
 
@@ -1404,7 +1389,7 @@ export default function WordPressDominationDemo() {
                                 ⚔️ The WordPress War Has Begun
                             </h4>
                             <p className="text-lg text-orange-100 mb-6">
-                                Join the revolution that will liberate millions from WordPress suffering. 
+                                Join the revolution that will liberate millions from WordPress suffering.
                                 Together, we&apos;ll build the future of web development.
                             </p>
                             <motion.button

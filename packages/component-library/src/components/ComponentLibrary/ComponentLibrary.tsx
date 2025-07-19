@@ -30,7 +30,8 @@ import {
   Play,
   FileText,
   Settings,
-  Zap
+  Zap,
+  Bell
 } from 'lucide-react'
 
 // =================================================================
@@ -390,7 +391,7 @@ export const useComponentLibrary = () => {
  * Comprehensive component library with 50+ pre-built elements
  * Production-ready components for modern web applications
  */
-const COMPONENT_LIBRARY: ComponentMeta[] = [
+export const COMPONENT_LIBRARY: ComponentMeta[] = [
   // LAYOUT COMPONENTS
   {
     id: 'hero-section',

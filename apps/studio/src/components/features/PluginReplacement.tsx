@@ -3,8 +3,8 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { 
-  Search, Shield, Rocket, Download, ShoppingCart, Mail, 
-  BarChart, Users, MessageSquare, Image, Settings, Zap 
+  Search, Shield, Rocket, ShoppingCart, Mail, 
+  MessageSquare, Settings, Zap 
 } from 'lucide-react'
 
 interface Plugin {
