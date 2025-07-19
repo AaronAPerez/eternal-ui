@@ -27,11 +27,14 @@
     "typecheck": "turbo run typecheck"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.11",
     "@testing-library/react": "^16.3.0",
     "@types/jest": "^30.0.0",
     "@types/node": "^20.10.0",
     "eslint": "^8.57.0",
+    "postcss": "^8.5.6",
     "prettier": "^3.6.2",
+    "tailwindcss": "^4.1.11",
     "turbo": "^2.5.4",
     "typescript": "^5.3.0"
   },

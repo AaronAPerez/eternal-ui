@@ -563,7 +563,7 @@ const CanvasArea: React.FC<{
 /**
  * Main Visual Builder Component
  */
-export const VisualBuilder: React.FC<{
+const VisualBuilder: React.FC<{
     className?: string
     initialElements?: any[]
 }> = ({ className, initialElements = [] }) => {
@@ -668,7 +668,7 @@ export const VisualBuilder: React.FC<{
         </CanvasProvider>
     )
 }
-export default VisualBuilder
+export default VisualBuilder;
 export type { BuilderLayout, BuilderState }
 
 

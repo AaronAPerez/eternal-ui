@@ -1,5 +1,5 @@
 // app/studio/page.tsx
-import VisualBuilder from '../../../../packages/studio/components/VisualBuilder/VisualBuilder';
+
 
 
 export default function StudioPage() {
@@ -15,6 +15,7 @@ export default function StudioPage() {
 // // src/app/page.tsx
 // import Link from 'next/link'
 // import { ArrowRight, Zap, Shield, BarChart } from 'lucide-react'
+import VisualBuilder from '../../../../packages/studio/components/VisualBuilder/VisualBuilder';
 
 // export default function Home() {
 //   return (

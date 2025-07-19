@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useRef, useCallback, useEffect } from 'react'
+import React, { useRef, useCallback, useEffect } from 'react'
 import { 
   DndContext, 
   DragOverlay, 
@@ -11,18 +11,15 @@ import {
   DragStartEvent,
   DragOverEvent,
   DragEndEvent,
-  closestCenter,
   rectIntersection
 } from '@dnd-kit/core'
 import {
-  arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
   verticalListSortingStrategy
 } from '@dnd-kit/sortable'
 import {
   useSortable,
-  CSS
 } from '@dnd-kit/sortable'
 
 /**

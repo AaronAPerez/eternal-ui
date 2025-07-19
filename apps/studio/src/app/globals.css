@@ -1,64 +1,25 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+@layer base {
+  body {
+    @apply bg-gray-900 text-gray-900;
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
-
-@keyframes gradient-shift {
-  0%, 100% { background-position: 0% 50% }
-  50% { background-position: 100% 50% }
-}
-
-.gradient-animate {
-  background: linear-gradient(-45deg, #6366f1, #8b5cf6, #06b6d4, #10b981);
-  background-size: 400% 400%;
-  animation: gradient-shift 15s ease infinite;
-}
-
-.glow-effect {
-  box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
-  transition: box-shadow 0.3s ease;
-}
-
-.glow-effect:hover {
-  box-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px) }
-  50% { transform: translateY(-20px) }
-}
-
-.floating {
-  animation: float 6s ease-in-out infinite;
-}
-
-.floating:nth-child(2) {
-  animation-delay: 2s;
-}
-
-.floating:nth-child(3) {
-  animation-delay: 4s;
+@layer components {
+  .visual-builder {
+    @apply h-screen bg-gray-50 overflow-hidden;
+  }
+  
+  .panel {
+    @apply bg-white border-gray-200;
+  }
+  
+  .toolbar {
+    @apply bg-white border-b border-gray-200;
+  }
+  
+  .component-item {
+    @apply bg-white border border-gray-200 rounded-lg hover:bg-gray-50;
+  }
 }
