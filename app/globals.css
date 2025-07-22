@@ -1,9 +1,14 @@
 @import "tailwindcss";
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import './theme.css';
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* Add Inter font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
+
+
 
 @theme inline {
   --color-background: var(--background);
