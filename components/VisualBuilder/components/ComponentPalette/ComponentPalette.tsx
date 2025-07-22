@@ -15,7 +15,7 @@ export const ComponentPalette: React.FC = () => {
   const filteredComponents = COMPONENT_LIBRARY.filter(component => {
     const matchesSearch = component.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       component.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      component.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+      component.tags.some((tag: string) => tag.toLowerCase().includes(searchQuery.toLowerCase()));
 
     const matchesCategory = selectedCategory === 'all' || component.category === selectedCategory;
 

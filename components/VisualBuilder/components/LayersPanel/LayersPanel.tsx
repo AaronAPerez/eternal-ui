@@ -1,6 +1,9 @@
 import React from 'react';
 import { Layers, Eye, EyeOff, Lock, Unlock } from 'lucide-react';
 import { useCanvas } from '../../hooks/useCanvas';
+import { COMPONENT_LIBRARY } from '@/lib/components';
+import { CanvasElement } from '../../types';
+
 
 
 

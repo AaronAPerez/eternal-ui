@@ -1,291 +1,225 @@
-import React, { useRef, useCallback, useState, useEffect } from 'react';
-import { useDroppable } from '@dnd-kit/core';
-import { Layers } from 'lucide-react';
-import { useCanvas } from '../../hooks/useCanvas';
-import { CanvasElementComponent } from './CanvasElement';
-import { CanvasElement } from '../../types';
+// src/components/builder/Canvas/Canvas.tsx
+import * as React from "react"
+import { DndContext, DragEndEvent, DragOverEvent } from "@dnd-kit/core"
+import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable"
+import { cn, generateId } from "@/lib/utils"
+import { useBuilderStore } from "@/stores/builder-store"
 
-export const Canvas: React.FC = () => {
-  const { state, actions } = useCanvas();
-  const canvasRef = useRef<HTMLDivElement>(null);
-  const [dragPosition, setDragPosition] = useState<{ x: number; y: number } | null>(null);
 
-  // Set up droppable canvas
-  const { setNodeRef, isOver } = useDroppable({
-    id: 'canvas',
-    data: { type: 'canvas' }
-  });
+interface CanvasProps {
+  className?: string
+}
 
-  // Get root elements (elements without parent)
-  const rootElements = Array.from(state.elements.values()).filter(el => !el.parent);
+/**
+ * Visual Builder Canvas
+ * 
+ * The main canvas where users can drag, drop, and arrange components
+ * to build their pages visually.
+ */
+export function Canvas({ className }: CanvasProps) {
+  const {
+    sections,
+    selectedComponentId,
+    viewportMode,
+    isPreviewMode,
+    addSection,
+    moveComponent,
+    selectComponent,
+    getComponentById
+  } = useBuilderStore()
 
-  // Handle canvas click to clear selection
-  const handleCanvasClick = useCallback((e: React.MouseEvent) => {
-    // Only clear selection if clicking directly on canvas (not on elements)
-    if (e.target === e.currentTarget) {
-      actions.clearSelection();
+  const canvasRef = React.useRef<HTMLDivElement>(null)
+  const [draggedComponent, setDraggedComponent] = React.useState<any>(null)
+
+  // Handle drag end for components
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event
+
+    if (!over) return
+
+    // Check if dragging from component library
+    if (active.data.current?.type === 'component-library') {
+      const componentType = active.data.current.component.id
+      const targetSectionId = over.id as string
+      
+      // Add new component to section
+      addSection({
+        id: generateId(),
+        type: componentType,
+        props: active.data.current.component.defaultProps,
+        style: {
+          mobile: {},
+          tablet: {},
+          desktop: {}
+        },
+        sectionId: targetSectionId
+      })
+    } else {
+      // Handle reordering existing components
+      moveComponent(active.id as string, over.id as string)
     }
-  }, [actions]);
 
-  // Handle canvas keyboard shortcuts
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      // Only handle shortcuts when canvas is focused or no input is focused
-      const activeElement = document.activeElement;
-      const isInputFocused = activeElement && (
-        activeElement.tagName === 'INPUT' || 
-        activeElement.tagName === 'TEXTAREA' ||
-        activeElement.contentEditable === 'true'
-      );
-
-      if (isInputFocused) return;
-
-      switch (e.key) {
-        case 'Delete':
-        case 'Backspace':
-          if (state.selectedElements.size > 0) {
-            e.preventDefault();
-            state.selectedElements.forEach(id => actions.deleteElement(id));
-          }
-          break;
-        
-        case 'c':
-          if (e.metaKey || e.ctrlKey) {
-            e.preventDefault();
-            // Copy selected elements to clipboard
-            const selectedElements = Array.from(state.selectedElements)
-              .map(id => state.elements.get(id))
-              .filter(Boolean) as CanvasElement[];
-            
-            if (selectedElements.length > 0) {
-              // Store in clipboard (simplified - in real app would use actual clipboard API)
-              console.log('Copied elements:', selectedElements);
-            }
-          }
-          break;
-        
-        case 'd':
-          if (e.metaKey || e.ctrlKey) {
-            e.preventDefault();
-            // Duplicate selected elements
-            state.selectedElements.forEach(id => actions.duplicateElement(id));
-          }
-          break;
-        
-        case 'z':
-          if (e.metaKey || e.ctrlKey) {
-            e.preventDefault();
-            if (e.shiftKey) {
-              actions.redo();
-            } else {
-              actions.undo();
-            }
-          }
-          break;
-        
-        case 'a':
-          if (e.metaKey || e.ctrlKey) {
-            e.preventDefault();
-            // Select all elements
-            const allElementIds = Array.from(state.elements.keys());
-            allElementIds.forEach(id => actions.selectElement(id, true));
-          }
-          break;
-        
-        case 'Escape':
-          actions.clearSelection();
-          break;
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [state.selectedElements, state.elements, actions]);
+    setDraggedComponent(null)
+  }
 
   // Handle drag over for visual feedback
-  const handleDragOver = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    const rect = canvasRef.current?.getBoundingClientRect();
-    if (rect) {
-      setDragPosition({
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top
-      });
+  const handleDragOver = (event: DragOverEvent) => {
+    const { active } = event
+    
+    if (active.data.current?.type === 'component-library') {
+      setDraggedComponent(active.data.current.component)
     }
-  }, []);
+  }
 
-  const handleDragLeave = useCallback(() => {
-    setDragPosition(null);
-  }, []);
-
-  // Calculate device-specific styles
-  const getDeviceStyles = () => {
-    const baseStyles = {
-      minHeight: '100vh',
-      transition: 'all 0.3s ease',
-      backgroundColor: 'white',
-      position: 'relative' as const
-    };
-
-    switch (state.device) {
+  // Get canvas viewport classes
+  const getCanvasClasses = () => {
+    const baseClasses = "transition-all duration-300 mx-auto bg-white shadow-lg"
+    
+    switch (viewportMode) {
       case 'mobile':
-        return {
-          ...baseStyles,
-          maxWidth: '375px',
-          margin: '0 auto',
-          boxShadow: '0 0 20px rgba(0,0,0,0.1)'
-        };
+        return cn(baseClasses, "w-[375px] min-h-[667px]")
       case 'tablet':
-        return {
-          ...baseStyles,
-          maxWidth: '768px',
-          margin: '0 auto',
-          boxShadow: '0 0 20px rgba(0,0,0,0.1)'
-        };
+        return cn(baseClasses, "w-[768px] min-h-[1024px]")
       case 'desktop':
+        return cn(baseClasses, "w-full max-w-[1440px] min-h-screen")
       default:
-        return {
-          ...baseStyles,
-          width: '100%'
-        };
+        return cn(baseClasses, "w-full min-h-screen")
     }
-  };
+  }
 
   return (
-    <div
-      ref={(node) => {
-        setNodeRef(node);
-        if (canvasRef.current !== node) {
-          canvasRef.current = node;
-        }
-      }}
-      className={`flex-1 relative overflow-auto transition-colors duration-200 ${
-        isOver ? 'bg-indigo-50' : 'bg-gray-50'
-      }`}
-      style={{
-        transform: `scale(${state.viewport.zoom}) translate(${state.viewport.panX}px, ${state.viewport.panY}px)`,
-        transformOrigin: 'top left'
-      }}
-      onClick={handleCanvasClick}
+    <DndContext
+      onDragEnd={handleDragEnd}
       onDragOver={handleDragOver}
-      onDragLeave={handleDragLeave}
     >
-      {/* Grid overlay */}
-      {state.grid.enabled && (
-        <div
-          className="absolute inset-0 opacity-20 pointer-events-none z-0"
-          style={{
-            backgroundImage: `
-              linear-gradient(to right, #000 1px, transparent 1px),
-              linear-gradient(to bottom, #000 1px, transparent 1px)
-            `,
-            backgroundSize: `${state.grid.size}px ${state.grid.size}px`,
-            backgroundPosition: `${state.viewport.panX}px ${state.viewport.panY}px`
-          }}
-        />
-      )}
+      <div className={cn("relative flex-1 overflow-auto bg-gray-100 p-8", className)}>
+        {/* Canvas Toolbar */}
+        <CanvasToolbar />
 
-      {/* Device frame */}
-      <div
-        className="mx-auto shadow-lg"
-        style={getDeviceStyles()}
-      >
-        {/* Device header (for mobile/tablet preview) */}
-        {(state.device === 'mobile' || state.device === 'tablet') && (
-          <div className="h-6 bg-gray-900 rounded-t-lg flex items-center justify-center">
-            <div className="w-12 h-1 bg-gray-600 rounded-full"></div>
+        {/* Canvas Container */}
+        <div className="relative">
+          {/* Viewport Frame */}
+          <div className={getCanvasClasses()} ref={canvasRef}>
+            {/* Canvas Content */}
+            <div className="relative min-h-full">
+              {sections.length === 0 ? (
+                <EmptyCanvasState draggedComponent={draggedComponent} />
+              ) : (
+                <SortableContext
+                  items={sections.map(s => s.id)}
+                  strategy={verticalListSortingStrategy}
+                >
+                  {sections.map((section, index) => (
+                    <DroppableSection
+                      key={section.id}
+                      section={section}
+                      index={index}
+                      isSelected={selectedComponentId === section.id}
+                      onClick={() => selectComponent(section.id)}
+                    >
+                      <ComponentRenderer
+                        component={section}
+                        viewportMode={viewportMode}
+                        isPreviewMode={isPreviewMode}
+                      />
+                    </DroppableSection>
+                  ))}
+                </SortableContext>
+              )}
+
+              {/* Selection Overlay */}
+              {selectedComponentId && !isPreviewMode && (
+                <SelectionOverlay
+                  componentId={selectedComponentId}
+                  component={getComponentById(selectedComponentId)}
+                />
+              )}
+
+              {/* Drop Zones */}
+              {draggedComponent && (
+                <DropZoneIndicators 
+                  sections={sections}
+                  draggedComponent={draggedComponent}
+                />
+              )}
+            </div>
           </div>
-        )}
 
-        {/* Canvas content area */}
-        <div className="relative p-8 min-h-screen">
-          {/* Render all root elements */}
-          {rootElements.map(element => (
-            <CanvasElementComponent
-              key={element.id}
-              element={element}
-              isSelected={state.selectedElements.has(element.id)}
-              isHovered={state.hoveredElement === element.id}
-              onSelect={() => actions.selectElement(element.id)}
-              onHover={() => {
-                // Could implement hover state if needed
-              }}
-              onUnhover={() => {
-                // Could implement hover state cleanup if needed
-              }}
-            />
-          ))}
-
-          {/* Empty state */}
-          {rootElements.length === 0 && !isOver && (
-            <div className="absolute inset-0 flex items-center justify-center text-gray-400 pointer-events-none">
-              <div className="text-center max-w-md">
-                <Layers className="w-16 h-16 mx-auto mb-4 opacity-50" />
-                <h3 className="text-lg font-medium mb-2 text-gray-600">Start Building Your Website</h3>
-                <p className="text-sm leading-relaxed">
-                  Drag components from the left panel to begin creating your masterpiece.
-                  Every element is responsive and accessible by default.
-                </p>
-                <div className="mt-4 text-xs text-gray-500">
-                  <p>💡 Pro tip: Use keyboard shortcuts for faster editing</p>
-                  <div className="mt-2 space-y-1">
-                    <p><kbd className="bg-gray-200 px-1 rounded">Cmd/Ctrl + D</kbd> Duplicate</p>
-                    <p><kbd className="bg-gray-200 px-1 rounded">Cmd/Ctrl + Z</kbd> Undo</p>
-                    <p><kbd className="bg-gray-200 px-1 rounded">Delete</kbd> Remove element</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Drop indicator */}
-          {isOver && (
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-50">
-              <div className="bg-indigo-500 text-white px-6 py-3 rounded-lg shadow-lg animate-pulse">
-                <div className="flex items-center space-x-2">
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  <span className="font-medium">Drop component here</span>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Drag position indicator */}
-          {dragPosition && isOver && (
-            <div
-              className="absolute w-2 h-2 bg-indigo-500 rounded-full pointer-events-none z-40 transform -translate-x-1 -translate-y-1"
-              style={{
-                left: dragPosition.x,
-                top: dragPosition.y
-              }}
-            />
-          )}
-
-          {/* Zoom indicator */}
-          {state.viewport.zoom !== 1 && (
-            <div className="fixed bottom-4 right-4 bg-black bg-opacity-75 text-white text-xs px-3 py-1 rounded-full z-50">
-              {Math.round(state.viewport.zoom * 100)}%
-            </div>
-          )}
+          {/* Viewport Size Indicator */}
+          <ViewportIndicator viewportMode={viewportMode} />
         </div>
-
-        {/* Device footer (for mobile/tablet preview) */}
-        {(state.device === 'mobile' || state.device === 'tablet') && (
-          <div className="h-6 bg-gray-900 rounded-b-lg"></div>
-        )}
       </div>
+    </DndContext>
+  )
+}
 
-      {/* Selection info */}
-      {state.selectedElements.size > 1 && (
-        <div className="fixed bottom-4 left-4 bg-indigo-500 text-white text-sm px-4 py-2 rounded-lg shadow-lg z-50">
-          {state.selectedElements.size} elements selected
-        </div>
-      )}
-
-      {/* Preview mode overlay */}
-      {state.mode === 'preview' && (
-        <div className="absolute inset-0 bg-transparent z-30 cursor-default" />
-      )}
+// Empty state when no components are added
+const EmptyCanvasState = ({ draggedComponent }: { draggedComponent: any }) => (
+  <div className="flex items-center justify-center min-h-[500px] border-2 border-dashed border-gray-300 rounded-lg m-8">
+    <div className="text-center space-y-4">
+      <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto">
+        <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+        </svg>
+      </div>
+      <div>
+        <h3 className="text-lg font-medium text-gray-900 mb-2">
+          {draggedComponent ? `Drop ${draggedComponent.name} here` : 'Start building your page'}
+        </h3>
+        <p className="text-gray-500">
+          {draggedComponent 
+            ? 'Release to add this component to your page'
+            : 'Drag components from the library to start building'
+          }
+        </p>
+      </div>
     </div>
-  );
-};
+  </div>
+)
+
+// Drop zone indicators
+const DropZoneIndicators = ({ sections, draggedComponent }: any) => (
+  <>
+    {/* Between sections */}
+    {sections.map((section: any, index: number) => (
+      <React.Fragment key={`dropzone-${section.id}`}>
+        {index === 0 && (
+          <DropZone
+            id={`before-${section.id}`}
+            position="top"
+            draggedComponent={draggedComponent}
+          />
+        )}
+        <DropZone
+          id={`after-${section.id}`}
+          position="bottom"
+          draggedComponent={draggedComponent}
+        />
+      </React.Fragment>
+    ))}
+  </>
+)
+
+
+const DropZone = ({ id, position, draggedComponent }: any) => (
+  <div
+    id={id}
+    className={cn(
+      "absolute left-0 right-0 h-2 bg-blue-500 opacity-0 transition-opacity duration-200",
+      "hover:opacity-100 border-2 border-blue-500 border-dashed rounded",
+      position === 'top' ? 'top-0' : 'bottom-0'
+    )}
+  >
+    <div className="absolute inset-0 flex items-center justify-center">
+      <span className="bg-blue-500 text-white text-xs px-2 py-1 rounded">
+        Add {draggedComponent?.name}
+      </span>
+    </div>
+  </div>
+)
+
+const ViewportIndicator = ({ viewportMode }: { viewportMode: string }) => (
+  <div className="absolute top-4 right-4 bg-black/75 text-white px-3 py-1 rounded-full text-sm">
+    {viewportMode.charAt(0).toUpperCase() + viewportMode.slice(1)} View
+  </div>
+)

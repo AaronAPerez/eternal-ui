@@ -38,6 +38,7 @@ import Image from 'next/image'
  * Provides comprehensive information for each component
  */
 interface ComponentMeta {
+  icon: any
   /** Unique component identifier */
   id: string
   /** Display name for component */
@@ -467,7 +468,8 @@ export const COMPONENT_LIBRARY: ComponentMeta[] = [
       renderScore: 95,
       memoryImpact: 'low',
       lazyLoading: true
-    }
+    },
+    icon: undefined
   },
 
   {
@@ -541,7 +543,8 @@ export const COMPONENT_LIBRARY: ComponentMeta[] = [
       renderScore: 98,
       memoryImpact: 'low',
       lazyLoading: false
-    }
+    },
+    icon: undefined
   },
 
   // NAVIGATION COMPONENTS
@@ -617,7 +620,8 @@ export const COMPONENT_LIBRARY: ComponentMeta[] = [
       renderScore: 90,
       memoryImpact: 'medium',
       lazyLoading: false
-    }
+    },
+    icon: undefined
   },
 
   // CONTENT COMPONENTS
@@ -700,7 +704,8 @@ export const COMPONENT_LIBRARY: ComponentMeta[] = [
       renderScore: 99,
       memoryImpact: 'low',
       lazyLoading: false
-    }
+    },
+    icon: undefined
   },
 
   {
@@ -775,7 +780,8 @@ export const COMPONENT_LIBRARY: ComponentMeta[] = [
       renderScore: 85,
       memoryImpact: 'medium',
       lazyLoading: true
-    }
+    },
+    icon: undefined
   },
 
   // FORM COMPONENTS
@@ -852,7 +858,8 @@ export const COMPONENT_LIBRARY: ComponentMeta[] = [
       renderScore: 92,
       memoryImpact: 'medium',
       lazyLoading: false
-    }
+    },
+    icon: undefined
   },
 
   // DATA COMPONENTS
@@ -930,7 +937,8 @@ export const COMPONENT_LIBRARY: ComponentMeta[] = [
       renderScore: 78,
       memoryImpact: 'high',
       lazyLoading: true
-    }
+    },
+    icon: undefined
   },
 
   // COMMERCE COMPONENTS
@@ -1010,7 +1018,8 @@ export const COMPONENT_LIBRARY: ComponentMeta[] = [
       renderScore: 88,
       memoryImpact: 'low',
       lazyLoading: true
-    }
+    },
+    icon: undefined
   },
 
   // SOCIAL COMPONENTS
@@ -1087,7 +1096,8 @@ export const COMPONENT_LIBRARY: ComponentMeta[] = [
       renderScore: 82,
       memoryImpact: 'medium',
       lazyLoading: true
-    }
+    },
+    icon: undefined
   },
 
   // MARKETING COMPONENTS
@@ -1169,7 +1179,8 @@ export const COMPONENT_LIBRARY: ComponentMeta[] = [
       renderScore: 96,
       memoryImpact: 'low',
       lazyLoading: false
-    }
+    },
+    icon: undefined
   },
 
   // INTERACTIVE COMPONENTS
@@ -1251,7 +1262,8 @@ export const COMPONENT_LIBRARY: ComponentMeta[] = [
       renderScore: 89,
       memoryImpact: 'medium',
       lazyLoading: false
-    }
+    },
+    icon: undefined
   },
 
   // FEEDBACK COMPONENTS
@@ -1333,7 +1345,8 @@ export const COMPONENT_LIBRARY: ComponentMeta[] = [
       renderScore: 94,
       memoryImpact: 'low',
       lazyLoading: false
-    }
+    },
+    icon: undefined
   }
 ]
 

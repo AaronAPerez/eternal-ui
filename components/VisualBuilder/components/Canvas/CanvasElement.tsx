@@ -1,7 +1,8 @@
 import React from 'react';
 import { Lock } from 'lucide-react';
 import { CanvasElement } from '../../types';
-import { COMPONENT_LIBRARY } from '../../library/componentDefinitions';
+import { COMPONENT_LIBRARY } from '@/lib/components';
+
 
 interface CanvasElementComponentProps {
   element: CanvasElement;
@@ -39,11 +40,11 @@ export const CanvasElementComponent: React.FC<CanvasElementComponentProps> = ({
       className={`relative group transition-all ${
         isSelected ? 'ring-2 ring-indigo-500' : ''
       } ${isHovered ? 'ring-1 ring-indigo-300' : ''}`}
-      style={{
-        ...element.style,
-        cursor: element.locked ? 'not-allowed' : 'pointer',
-        opacity: element.visible ? (element.style.opacity || 1) : 0.3,
-      }}
+      // style={{
+      //   ...element.style,
+      //   cursor: element.locked ? 'not-allowed' : 'pointer',
+      //   opacity: element.visible ? (element.style.opacity || 1) : 0.3,
+      // }}
       onClick={(e) => {
         e.stopPropagation();
         if (!element.locked) {
