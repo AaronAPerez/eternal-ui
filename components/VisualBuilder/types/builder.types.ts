@@ -1,3 +1,5 @@
+import { CanvasElement } from "./canvas.types";
+
 export interface BuilderState {
   elements: Map<string, CanvasElement>;
   selectedElements: Set<string>;

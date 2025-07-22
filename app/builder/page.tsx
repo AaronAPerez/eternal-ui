@@ -1,7 +1,6 @@
 'use client'
 
-import dynamic from 'next/dynamic'
-import { Suspense } from 'react'
+import { lazy, Suspense } from 'react';
 
 function BuilderLoading() {
   return (
@@ -15,18 +14,17 @@ function BuilderLoading() {
   )
 }
 
-const UltimateVisualBuilder = dynamic(
-  () => import('@/components/builder/UltimateVisualBuilder'),
-  { 
-    ssr: false,
-    loading: BuilderLoading
-  }
-)
+
+const UltimateVisualBuilder = lazy(() => 
+  import('../../components/VisualBuilder').then(module => ({
+    default: module.default
+  }))
+);
 
 export default function BuilderPage() {
   return (
     <Suspense fallback={<BuilderLoading />}>
       <UltimateVisualBuilder />
     </Suspense>
-  )
+  );
 }

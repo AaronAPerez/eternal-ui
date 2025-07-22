@@ -1,5 +1,5 @@
 
-
+import React from 'react'
 import Link from 'next/link'
 import { ArrowRight, Zap, Code, Palette, Globe, Star, CheckCircle, Users } from 'lucide-react'
 

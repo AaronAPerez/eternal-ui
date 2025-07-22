@@ -1,9 +1,30 @@
 'use client'
 
-import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
+import React from 'react';
 
-function ComponentLibraryLoading() {
+// Define proper interfaces instead of using 'any'
+interface ComponentLibraryProps {
+  onComponentSelect?: (componentId: string) => void;
+  searchQuery?: string;
+  selectedCategory?: string;
+}
+
+interface ComponentItem {
+  id: string;
+  name: string;
+  category: string;
+  description: string;
+  props: Record<string, unknown>; // Instead of any
+}
+
+const ComponentLibrary: React.FC<ComponentLibraryProps> = ({
+  onComponentSelect}) => {
+  // Replace any usage of 'any' with proper types
+  const handleComponentSelect = (component: ComponentItem) => { // Instead of (component: any)
+    onComponentSelect?.(component.id);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center">
       <div className="text-center">
@@ -15,18 +36,11 @@ function ComponentLibraryLoading() {
   )
 }
 
-const ComponentLibrary = dynamic(
-  () => import('@/components/ComponentLibrary'),
-  { 
-    ssr: false,
-    loading: ComponentLibraryLoading
-  }
-)
 
 export default function ComponentsPage() {
   return (
     <div className="min-h-screen bg-gray-50">
-      <Suspense fallback={<ComponentLibraryLoading />}>
+      <Suspense fallback={<ComponentLibrary />}>
         <ComponentLibrary />
       </Suspense>
     </div>

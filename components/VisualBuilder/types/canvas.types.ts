@@ -3,7 +3,7 @@ export interface CanvasElement {
   type: string;
   name: string;
   component: string;
-  props: Record<string, any>;
+  props: Record<string, unknown>;
   style: CanvasElementStyle;
   children: string[];
   parent?: string;
@@ -33,7 +33,7 @@ export interface CanvasElementStyle {
   justifyContent?: string;
   alignItems?: string;
   gap?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface ElementMetadata {

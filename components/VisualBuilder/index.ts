@@ -1,0 +1,1 @@
+export { UltimateVisualBuilder as default } from './UltimateVisualBuilder';

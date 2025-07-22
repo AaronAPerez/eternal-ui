@@ -5,34 +5,29 @@
 // Includes 50+ production-ready components with categories and search
 // =================================================================
 
-import { useState, useCallback, useMemo, useRef, useEffect } from 'react'
+import { useState, useCallback, useMemo } from 'react'
 import { 
   Search, 
   Filter, 
   Grid as GridIcon, 
   List, 
   Star, 
-  Download,
   Eye,
   Code,
   Palette,
   Layout,
   Type,
-  Image,
-  Calendar,
   ShoppingCart,
   Users,
   BarChart,
   Globe,
-  Mail,
-  Phone,
-  MapPin,
-  Play,
   FileText,
   Settings,
   Zap,
   Bell
 } from 'lucide-react'
+import Image from 'next/image'
+
 
 // =================================================================
 // TYPES & INTERFACES
@@ -100,8 +95,8 @@ interface ComponentPropsSchema {
     type: 'string' | 'number' | 'boolean' | 'color' | 'image' | 'select' | 'textarea'
     label: string
     description?: string
-    default?: unknown
-    options?: Array<{ label: string; value: unknown }>
+    default?: any
+    options?: Array<{ label: string; value: any }>
     validation?: {
       required?: boolean
       min?: number
@@ -1478,7 +1473,7 @@ const ComponentCard = ({
       {/* Component preview */}
       <div className="aspect-video bg-gray-100 relative overflow-hidden">
         {component.previewImage ? (
-          <img 
+          <Image
             src={component.previewImage} 
             alt={`${component.name} preview`}
             className="w-full h-full object-cover"

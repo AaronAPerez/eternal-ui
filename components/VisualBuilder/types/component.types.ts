@@ -3,19 +3,19 @@ export interface ComponentDefinition {
   name: string;
   description: string;
   category: string;
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<unknown>;
   tags: string[];
   complexity: 'basic' | 'intermediate' | 'advanced';
   popularity: number;
   isPremium: boolean;
-  defaultProps: Record<string, any>;
-  defaultStyle: Record<string, any>;
+  defaultProps: Record<string, unknown>;
+  defaultStyle: Record<string, unknown>;
   propSchema: Record<string, PropSchemaItem>;
   accessibility: AccessibilityInfo;
   performance: PerformanceInfo;
   frameworks: string[];
   features: string[];
-  previewComponent: React.ComponentType<any>;
+  previewComponent: React.ComponentType<unknown>;
 }
 
 export interface PropSchemaItem {
