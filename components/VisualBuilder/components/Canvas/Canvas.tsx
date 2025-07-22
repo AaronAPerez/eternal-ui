@@ -1,93 +1,18 @@
-// src/components/builder/Canvas/Canvas.tsx
-import * as React from "react"
-import { DndContext, DragEndEvent, DragOverEvent } from "@dnd-kit/core"
-import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable"
-import { cn, generateId } from "@/lib/utils"
-import { useBuilderStore } from "@/stores/builder-store"
+import { useGridCanvas, GridOverlay } from '@/lib/grid-system';
+import { DndContext } from '@dnd-kit/core';
 
-
-interface CanvasProps {
-  className?: string
-}
-
-/**
- * Visual Builder Canvas
- * 
- * The main canvas where users can drag, drop, and arrange components
- * to build their pages visually.
- */
-export function Canvas({ className }: CanvasProps) {
+export function Canvas() {
+  const containerRef = useRef<HTMLDivElement>(null);
   const {
-    sections,
-    selectedComponentId,
-    viewportMode,
-    isPreviewMode,
-    addSection,
-    moveComponent,
-    selectComponent,
-    getComponentById
-  } = useBuilderStore()
-
-  const canvasRef = React.useRef<HTMLDivElement>(null)
-  const [draggedComponent, setDraggedComponent] = React.useState<any>(null)
-
-  // Handle drag end for components
-  const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event
-
-    if (!over) return
-
-    // Check if dragging from component library
-    if (active.data.current?.type === 'component-library') {
-      const componentType = active.data.current.component.id
-      const targetSectionId = over.id as string
-      
-      // Add new component to section
-      addSection({
-        id: generateId(),
-        type: componentType,
-        props: active.data.current.component.defaultProps,
-        style: {
-          mobile: {},
-          tablet: {},
-          desktop: {}
-        },
-        sectionId: targetSectionId
-      })
-    } else {
-      // Handle reordering existing components
-      moveComponent(active.id as string, over.id as string)
-    }
-
-    setDraggedComponent(null)
-  }
-
-  // Handle drag over for visual feedback
-  const handleDragOver = (event: DragOverEvent) => {
-    const { active } = event
-    
-    if (active.data.current?.type === 'component-library') {
-      setDraggedComponent(active.data.current.component)
-    }
-  }
-
-  // Get canvas viewport classes
-  const getCanvasClasses = () => {
-    const baseClasses = "transition-all duration-300 mx-auto bg-white shadow-lg"
-    
-    switch (viewportMode) {
-      case 'mobile':
-        return cn(baseClasses, "w-[375px] min-h-[667px]")
-      case 'tablet':
-        return cn(baseClasses, "w-[768px] min-h-[1024px]")
-      case 'desktop':
-        return cn(baseClasses, "w-full max-w-[1440px] min-h-screen")
-      default:
-        return cn(baseClasses, "w-full min-h-screen")
-    }
-  }
+    gridSettings,
+    updateGridSettings,
+    snapToGrid,
+    GridOverlay: GridComponent
+  } = useGridCanvas({ containerRef });
 
   return (
+    <div ref={containerRef} className="canvas-container relative">
+      <GridComponent show={gridSettings.enabled} />
     <DndContext
       onDragEnd={handleDragEnd}
       onDragOver={handleDragOver}
@@ -150,7 +75,19 @@ export function Canvas({ className }: CanvasProps) {
         </div>
       </div>
     </DndContext>
-  )
+ {components.map(component => (
+        <DraggableComponent
+          key={component.id}
+          component={component}
+          snapToGrid={gridSettings.snapEnabled}
+          onPositionChange={(position) => {
+            const snappedPosition = snapToGrid(position);
+            updateComponent(component.id, { position: snappedPosition });
+          }}
+        />
+      ))}
+    </div>
+  );
 }
 
 // Empty state when no components are added

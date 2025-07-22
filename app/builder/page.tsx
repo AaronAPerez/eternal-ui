@@ -1,5 +1,6 @@
 'use client'
 
+
 import { lazy, Suspense } from 'react';
 
 function BuilderLoading() {
@@ -15,8 +16,8 @@ function BuilderLoading() {
 }
 
 
-const UltimateVisualBuilder = lazy(() => 
-  import('../../components/VisualBuilder').then(module => ({
+const EnhancedUIBuilder = lazy(() => 
+  import('../../components/builder/EnhancedUIBuilder').then(module => ({
     default: module.default
   }))
 );
@@ -24,7 +25,7 @@ const UltimateVisualBuilder = lazy(() =>
 export default function BuilderPage() {
   return (
     <Suspense fallback={<BuilderLoading />}>
-      <UltimateVisualBuilder />
+      <EnhancedUIBuilder/>
     </Suspense>
   );
 }

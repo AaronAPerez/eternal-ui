@@ -3,7 +3,11 @@ import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input/Input'
 import { Card } from '@/components/ui/Card'
 import { Zap, Type, Square } from 'lucide-react'
-
+import ContactForm from "@/components/marketing/ContactForm/ContactForm";
+import FeatureGrid from "@/components/marketing/FeatureGrid/FeatureGrid";
+import StatsCounter from "@/components/marketing/StatsCounter/StatsCounter";
+import { HeroSection } from "@/components/ModernWebsiteComponents";
+import { ComponentMeta } from "@/components/types";
 /**
  * 🎨 COMPONENT REGISTRY
  * Your existing components, ready for visual building
