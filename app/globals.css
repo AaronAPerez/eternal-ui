@@ -131,3 +131,14 @@ body {
     linear-gradient(90deg, rgba(99, 102, 241, 0.1) 1px, transparent 1px);
   background-size: 20px 20px;
 }
+
+/* Mobile-first approach */
+.component-grid {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .component-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

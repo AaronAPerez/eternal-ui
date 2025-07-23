@@ -1,5 +1,7 @@
+import React from 'react';
 import { Metadata } from 'next';
-
+import { Toaster } from '@/components/ui/Toaster';
+import { StudioProvider } from '@/components/studio/StudioProvide';
 
 export const metadata: Metadata = {
   title: 'Studio - Eternal UI Pro',

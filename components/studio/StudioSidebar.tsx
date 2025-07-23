@@ -2,6 +2,9 @@
 
 import { useState } from 'react';
 import { Search, Brain, Layers } from 'lucide-react';
+import { IntegratedAIGenerator } from './AIGenerator/IntegratedAIGenerator';
+import { ComponentLibrary } from './ComponentLibrary';
+import { useStudio } from './StudioProvide';
 
 
 interface StudioSidebarProps {

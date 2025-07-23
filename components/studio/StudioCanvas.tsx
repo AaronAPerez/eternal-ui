@@ -2,6 +2,7 @@
 
 import { useRef, useCallback } from 'react';
 import { Brain } from 'lucide-react';
+import { useStudio } from './StudioProvide';
 
 
 interface StudioCanvasProps {

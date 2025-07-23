@@ -33,6 +33,9 @@ export function Navigation() {
             <Link href="/components" className="nav-link">
               Components
             </Link>
+            <Link href="/studio" className="nav-link">
+              Studio
+            </Link>
             <Link href="/builder" className="nav-link">
               Website Builder
             </Link>

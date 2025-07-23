@@ -2,8 +2,11 @@
 import React from 'react'
 import Link from 'next/link'
 import { ArrowRight, Zap, Code, Palette, Globe, Star, CheckCircle, Users } from 'lucide-react'
+import { EternalUILogo } from '@/components/Logo/EternalUILogo'
 
 export default function HomePage() {
+  
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-500 via-white to-purple-50">
       {/* Header */}
@@ -11,7 +14,8 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
+                <EternalUILogo asLink href="/" />
+              {/* <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
                 <Zap className="w-5 h-5 text-white" />
               </div>
               <span className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
@@ -19,12 +23,15 @@ export default function HomePage() {
               </span>
               <span className="px-2 py-1 text-xs bg-indigo-100 text-indigo-700 rounded-full font-medium">
                 Pro
-              </span>
-            </div>
+              </span>*/}
+            </div> 
             
             <nav className="hidden md:flex space-x-8">
               <Link href="/components" className="text-gray-600 hover:text-gray-900 transition-colors">
                 Components
+              </Link>
+              <Link href="/studio" className="text-gray-600 hover:text-gray-900 transition-colors">
+                Studio
               </Link>
               <Link href="/builder" className="text-gray-600 hover:text-gray-900 transition-colors">
                 Builder
@@ -70,9 +77,9 @@ export default function HomePage() {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-            <Link href="/builder">
+            <Link href="/studio">
               <button className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-8 py-4 rounded-lg font-medium text-lg transition-all">
-                Start Building Free
+                Go to Studio
                 <ArrowRight className="w-5 h-5 ml-2 inline" />
               </button>
             </Link>
