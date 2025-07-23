@@ -1,4 +1,4 @@
-import { componentRegistry } from "../ComponentLibrary/ComponentLibrary";
+import { componentRegistry } from "../studio/ComponentLibrary/ComponentLibrary";
 
 
 describe('Enhanced Component Registry', () => {

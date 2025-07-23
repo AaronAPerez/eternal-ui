@@ -1,4 +1,4 @@
-import { COMPONENT_LIBRARY } from '@/components/ComponentLibrary/ComponentLibrary';
+import { COMPONENT_LIBRARY } from '@/components/studio/ComponentLibrary/ComponentLibrary';
 import { CanvasElement } from '../../types';
 
 export const generateAngularCode = (elements: CanvasElement[]): string => {

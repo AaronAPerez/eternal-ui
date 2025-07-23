@@ -1,7 +1,7 @@
 import React from 'react';
 import { Settings, Eye, EyeOff, Lock, Unlock, Copy, Trash2 } from 'lucide-react';
 import { useCanvas } from '../../hooks/useCanvas';
-import { COMPONENT_LIBRARY } from '@/components/ComponentLibrary/ComponentLibrary';
+import { COMPONENT_LIBRARY } from '@/components/studio/ComponentLibrary/ComponentLibrary';
 import { PropertyField } from './PropertyField';
 
 

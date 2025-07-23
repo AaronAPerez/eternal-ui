@@ -16,7 +16,7 @@ function AIDemoLoading() {
 }
 
 const AIFeaturesDemo = dynamic(
-  () => import('@/components/ai/AIFeaturesDemo'),
+  () => import('@/lib/ai/AIFeaturesDemo'),
   { 
     ssr: false,
     loading: AIDemoLoading

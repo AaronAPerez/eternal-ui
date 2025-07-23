@@ -1,4 +1,4 @@
-import { EnhancedComponentMeta } from "@/components/ComponentLibrary/ComponentLibrary";
+import { EnhancedComponentMeta } from "@/components/studio/ComponentLibrary/ComponentLibrary";
 
 
 export function migrateComponent(oldComponent: ComponentMeta): EnhancedComponentMeta {
