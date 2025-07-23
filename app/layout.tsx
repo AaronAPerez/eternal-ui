@@ -1,35 +1,22 @@
-// app/layout.tsx
-import React from 'react';
-import { ThemeProvider } from '@/lib/theme/context';
-import { ClientFeatureFlagWrapper } from '@/components/ClientFeatureFlagWrapper';
-import { ThemeScript } from '@/components/VisualBuilder/components/ThemeScript';
+import type { Metadata } from 'next';
 import './globals.css';
+import { ThemeProvider } from '@/lib/theme/context';
 
-export const metadata = {
-  title: 'Eternal UI Builder',
-  description: 'The Ultimate Visual Builder for Modern Websites',
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#F9FAFB' },
-    { media: '(prefers-color-scheme: dark)', color: '#030712' }
-  ],
+
+export const metadata: Metadata = {
+  title: 'Eternal UI - The Ultimate Visual Builder',
+  description: 'Create stunning, production-ready websites with our AI-powered visual builder.',
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <ThemeScript />
         <meta name="theme-color" content="#F9FAFB" />
       </head>
       <body className="font-sans antialiased bg-background-primary text-text-primary">
         <ThemeProvider>
-          <ClientFeatureFlagWrapper>
-            {children}
-          </ClientFeatureFlagWrapper>
+          {children}
         </ThemeProvider>
       </body>
     </html>

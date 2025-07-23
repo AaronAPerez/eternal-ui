@@ -1,14 +1,12 @@
 'use client';
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { darkTheme, lightTheme, ThemeTokens } from './tokens';
 
 type Theme = 'light' | 'dark' | 'system';
 
 interface ThemeContextType {
   theme: Theme;
   actualTheme: 'light' | 'dark';
-  tokens: ThemeTokens;
   setTheme: (theme: Theme) => void;
   toggleTheme: () => void;
 }
@@ -41,7 +39,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       if (metaThemeColor) {
         metaThemeColor.setAttribute(
           'content', 
-          newActualTheme === 'dark' ? darkTheme.colors.background.primary : lightTheme.colors.background.primary
+          newActualTheme === 'dark' ? '#030712' : '#F9FAFB'
         );
       }
     };
@@ -78,13 +76,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     handleSetTheme(newTheme);
   };
 
-  const tokens = actualTheme === 'dark' ? darkTheme : lightTheme;
-
   return (
     <ThemeContext.Provider value={{
       theme,
       actualTheme,
-      tokens,
       setTheme: handleSetTheme,
       toggleTheme,
     }}>
