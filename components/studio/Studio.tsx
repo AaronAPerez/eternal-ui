@@ -53,6 +53,14 @@ import { useStudioClipboard } from '@/components/studio/hooks/useStudioClipboard
 import { useStudioCanvas } from '@/components/studio/hooks/useStudioCanvas';
 import { useStudioCollaboration } from '@/components/studio/hooks/useStudioCollaboration';
 
+import { ENHANCED_COMPONENT_REGISTRY, COMPONENT_CATEGORIES } from '@/data/enhancedComponentRegistry';
+import { AIComponentGenerator } from '@/lib/ai/componentGenerator';
+import { AIGeneratorPanel } from '@/components/studio/AIGeneratorPanel';
+import { ReactCodeGenerator, VueCodeGenerator } from '@/lib/codeGeneration';
+import { PerformanceMonitor } from '@/lib/performance/performanceMonitor';
+import { PerformanceDashboard } from '@/components/studio/PerformanceDashboard';
+
+
 // Import components
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -71,7 +79,7 @@ import { StatusBar } from './StatusBar';
 
 
 // Types
-interface ComponentDefinition {
+export interface ComponentDefinition {
   id: string;
   name: string;
   icon: React.ComponentType<any>;
@@ -94,27 +102,31 @@ interface TemplateDefinition {
 // COMPONENT DEFINITIONS
 // ====================================
 
-const componentDefinitions: ComponentDefinition[] = [
-  // Layout Components
-  { id: 'container', name: 'Container', icon: Square, color: 'bg-blue-500', description: 'Content wrapper', category: 'layout', tags: ['basic', 'layout'] },
-  { id: 'grid', name: 'Grid', icon: Grid, color: 'bg-purple-500', description: 'CSS Grid layout', category: 'layout', tags: ['layout', 'grid'] },
-  { id: 'flexbox', name: 'Flexbox', icon: Rows, color: 'bg-indigo-500', description: 'Flexible layout', category: 'layout', tags: ['layout', 'flex'] },
-  { id: 'columns', name: 'Columns', icon: Columns, color: 'bg-green-500', description: 'Column layout', category: 'layout', tags: ['layout', 'columns'] },
-  { id: 'section', name: 'Section', icon: Layout, color: 'bg-teal-500', description: 'Page section', category: 'layout', tags: ['layout', 'section'] },
+const componentDefinitions = ENHANCED_COMPONENT_REGISTRY.map(comp => ({
+  id: comp.id,
+  name: comp.name,
+  icon: comp.icon,
+  color: getColorForCategory(comp.category),
+  description: comp.description,
+  category: comp.category,
+  tags: comp.tags,
+  performance: comp.performance,
+  features: comp.features
+}));
 
-  // UI Components
-  { id: 'button', name: 'Button', icon: MousePointer, color: 'bg-indigo-500', description: 'Interactive button', category: 'ui', tags: ['interactive', 'button'] },
-  { id: 'input', name: 'Input', icon: FormInput, color: 'bg-orange-500', description: 'Text input field', category: 'ui', tags: ['form', 'input'] },
-  { id: 'badge', name: 'Badge', icon: Square, color: 'bg-pink-500', description: 'Status badge', category: 'ui', tags: ['badge', 'status'] },
-  { id: 'navbar', name: 'Navbar', icon: Navigation, color: 'bg-blue-600', description: 'Navigation bar', category: 'ui', tags: ['navigation', 'header'] },
-  { id: 'card', name: 'Card', icon: CreditCard, color: 'bg-green-600', description: 'Content card', category: 'ui', tags: ['card', 'content'] },
-
-  // Content Components
-  { id: 'text', name: 'Text', icon: Type, color: 'bg-gray-500', description: 'Text content', category: 'content', tags: ['text', 'content'] },
-  { id: 'heading', name: 'Heading', icon: Type, color: 'bg-red-500', description: 'Page heading', category: 'content', tags: ['heading', 'typography'] },
-  { id: 'image', name: 'Image', icon: Image, color: 'bg-yellow-500', description: 'Image element', category: 'content', tags: ['image', 'media'] },
-  { id: 'icon', name: 'Icon', icon: Star, color: 'bg-purple-600', description: 'Icon element', category: 'content', tags: ['icon', 'visual'] },
-];
+function getColorForCategory(category: string): string {
+  const categoryColors = {
+    ui: 'bg-blue-500',
+    layout: 'bg-green-500', 
+    forms: 'bg-orange-500',
+    navigation: 'bg-purple-500',
+    marketing: 'bg-pink-500',
+    feedback: 'bg-yellow-500',
+    ecommerce: 'bg-red-500'
+  };
+  
+  return categoryColors[category as keyof typeof categoryColors] || 'bg-gray-500';
+}
 
 // Template definitions
 const templateDefinitions: TemplateDefinition[] = [
@@ -843,6 +855,10 @@ function getDefaultPropsWithSize(type: string): { props: Record<string, any>; si
   };
 }
 
+
+const renderElementWithMonitoring = (element: any) => {
+  const startMark = performanceMonitor.startComponentRender(element.id);
+
 function renderElement(element: any): React.ReactNode {
   const style = {
     ...element.style,
@@ -1002,7 +1018,12 @@ function renderElement(element: any): React.ReactNode {
   }
 }
 
-
+  useEffect(() => {
+    PerformanceMonitor.endComponentRender(element.id, startMark);
+  });
+  
+  return renderElement(element);
+};
 
 export default function StudioPage() {
   // Core studio state
@@ -1046,6 +1067,11 @@ export default function StudioPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [showExportModal, setShowExportModal] = useState(false);
+
+  const [showAIGenerator, setShowAIGenerator] = useState(false);
+  const [showPerformanceDashboard, setShowPerformanceDashboard] = useState(false);
+  const [performanceMonitor] = useState(() => new PerformanceMonitor());
+  const [aiGenerator] = useState(() => new AIComponentGenerator());
 
   // Get computed values
   const selectedElement = state.elements.find(el => el.id === state.selectedElementId);

@@ -15,9 +15,10 @@ export default function StudioLayout({
 }) {
   return (
     <StudioProvider>
-      <div className="h-screen flex flex-col bg-gray-50 dark:bg-gray-900">
+     <div className="h-screen flex flex-col bg-gray-50 dark:bg-gray-900">
         {children}
         <Toaster />
+        
       </div>
     </StudioProvider>
   );
