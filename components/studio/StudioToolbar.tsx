@@ -1,18 +1,12 @@
-
-// ====================================
-// STUDIO TOOLBAR COMPONENT
-// ====================================
-
 'use client';
 
 import React from 'react';
 import { 
   Monitor, Tablet, Smartphone, Save, Eye, Code, Download,
   Undo, Redo, Menu, X, Users, Zap, Brain, Loader, Plus,
-  Minus, RotateCcw, Grid, Move, Share, Settings
+  Minus, RotateCcw, Grid, Move, Share, Settings, Layers
 } from 'lucide-react';
-import EternalUILogo from '../Logo/EternalUILogo';
-import { ThemeToggle } from '../ui/ThemeToggle';
+import { EternalUILogo, ThemeToggle } from '@/components/ui';
 
 interface StudioToolbarProps {
   canvasMode: 'desktop' | 'tablet' | 'mobile';
@@ -30,6 +24,9 @@ interface StudioToolbarProps {
   zoom: number;
   onZoomChange: (zoom: number) => void;
   projectId?: string;
+  onPropertiesToggle: () => void;
+  propertiesOpen: boolean;
+  isMobile: boolean;
 }
 
 export function StudioToolbar({
@@ -47,14 +44,17 @@ export function StudioToolbar({
   onRedo,
   zoom,
   onZoomChange,
-  projectId
+  projectId,
+  onPropertiesToggle,
+  propertiesOpen,
+  isMobile
 }: StudioToolbarProps) {
   const zoomPercentage = Math.round(zoom * 100);
 
   return (
-    <div className="h-14 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between px-4 z-50">
+    <div className="h-14 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between px-2 sm:px-4 z-50">
       {/* Left Section */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2 sm:gap-4">
         {/* Sidebar Toggle */}
         <button
           onClick={onSidebarToggle}
@@ -65,27 +65,24 @@ export function StudioToolbar({
         </button>
 
         {/* Logo */}
-        <EternalUILogo size="sm" asLink href="/" />
-        {/* <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
-            <Zap className="w-4 h-4 text-white" />
-          </div>
-          <div className="hidden sm:block">
-            <span className="font-semibold text-gray-900 dark:text-white">
-              Eternal UI Pro
-            </span>
-            {projectId && (
-              <div className="text-xs text-gray-500 dark:text-gray-400">
-                Project: {projectId.slice(0, 8)}...
-              </div>
-            )}
-          </div>
-        </div> */}
+        <div className="hidden sm:block">
+          <EternalUILogo size="sm" asLink href="/" />
+        </div>
 
-        <div className="w-px h-6 bg-gray-300 dark:bg-gray-600"></div>
+        {/* Mobile Logo */}
+        <div className="sm:hidden">
+          <EternalUILogo size="xs" showText={false} asLink href="/" />
+        </div>
+
+        {/* Project Info */}
+        {projectId && !isMobile && (
+          <div className="text-xs text-gray-500 dark:text-gray-400">
+            Project: {projectId.slice(0, 8)}...
+          </div>
+        )}
 
         {/* History Controls */}
-        <div className="flex items-center gap-1">
+        <div className="hidden md:flex items-center gap-1">
           <button
             onClick={onUndo}
             disabled={!canUndo}
@@ -148,9 +145,9 @@ export function StudioToolbar({
       </div>
 
       {/* Right Section */}
-      <div className="flex items-center gap-2">
-        {/* Stats */}
-        <div className="hidden lg:flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400 mr-4">
+      <div className="flex items-center gap-1 sm:gap-2">
+        {/* Stats - Hidden on mobile */}
+        <div className="hidden lg:flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400 mr-2">
           <div className="flex items-center gap-1">
             <Grid className="w-3 h-3" />
             <span>{elementsCount}</span>
@@ -163,7 +160,7 @@ export function StudioToolbar({
           )}
         </div>
 
-        {/* Zoom Controls */}
+        {/* Zoom Controls - Hidden on mobile */}
         <div className="hidden sm:flex items-center gap-1 bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
           <button
             onClick={() => onZoomChange(Math.max(0.1, zoom - 0.1))}
@@ -184,29 +181,25 @@ export function StudioToolbar({
           </button>
         </div>
 
-        <div className="w-px h-6 bg-gray-300 dark:bg-gray-600"></div>
+        {/* Properties Toggle - Mobile Only */}
+        {isMobile && (
+          <button
+            onClick={onPropertiesToggle}
+            className="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
+            aria-label="Toggle properties panel"
+          >
+            <Layers className="w-4 h-4" />
+          </button>
+        )}
 
-        {/* Action Buttons */}
-        <button
-          className="hidden sm:flex items-center gap-2 px-3 py-1.5 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors text-sm"
-          aria-label="Preview"
-        >
-          <Eye className="w-4 h-4" />
-          <span>Preview</span>
-        </button>
+        {/* Theme Toggle */}
+        <ThemeToggle />
 
-        <button
-          className="hidden sm:flex items-center gap-2 px-3 py-1.5 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors text-sm"
-          aria-label="Share"
-        >
-          <Share className="w-4 h-4" />
-          <span>Share</span>
-        </button>
-
+        {/* Save Button */}
         <button
           onClick={onSave}
           disabled={isLoading}
-          className="flex items-center gap-2 px-4 py-1.5 bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 text-white rounded-md transition-colors text-sm font-medium"
+          className="flex items-center gap-2 px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 text-white rounded-md transition-colors text-sm font-medium"
           aria-label={isLoading ? 'Saving...' : 'Save project'}
         >
           {isLoading ? (
@@ -214,13 +207,8 @@ export function StudioToolbar({
           ) : (
             <Save className="w-4 h-4" />
           )}
-          <span>{isLoading ? 'Saving...' : 'Save'}</span>
+          <span className="hidden sm:inline">{isLoading ? 'Saving...' : 'Save'}</span>
         </button>
-<ThemeToggle />
-        {/* Profile */}
-        <div className="w-8 h-8 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-400 dark:hover:bg-gray-500 transition-colors">
-          <span className="text-xs font-medium text-gray-700 dark:text-gray-300">U</span>
-        </div>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import { SimpleThemeToggle, ThemeToggle } from "@/lib/theme/ThemeToggle";
-import EternalUILogo from "../Logo/EternalUILogo";
+import EternalUILogo from "../ui/Logo/EternalUILogo";
 
 
 export function Header() {

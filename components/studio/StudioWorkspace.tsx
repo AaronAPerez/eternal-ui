@@ -5,20 +5,14 @@ import { StudioToolbar } from './StudioToolbar';
 import { StudioSidebar } from './StudioSidebar';
 import { StudioCanvas } from './StudioCanvas';
 import { StudioProperties } from './StudioProperties';
-import { useStudio } from './StudioProvide';
-import { useToaster } from '../ui/Toaster';
-
+import { useStudio } from './StudioProvider';
+import { useToasterSafe } from '@/hooks/useToasterSafe';
 
 interface StudioWorkspaceProps {
   projectId?: string;
   initialProject?: any;
 }
 
-/**
- * StudioWorkspace - Main Studio Interface
- * 
- * Orchestrates all studio components and provides the main workspace interface
- */
 export function StudioWorkspace({ projectId, initialProject }: StudioWorkspaceProps) {
   const {
     state,
@@ -38,17 +32,36 @@ export function StudioWorkspace({ projectId, initialProject }: StudioWorkspacePr
     canvasElements
   } = useStudio();
 
-  const { success, error } = useToaster();
+  const { success, error } = useToasterSafe();
 
-  // Local state for UI
+  // Responsive state management
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [propertiesOpen, setPropertiesOpen] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect mobile screen size
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth < 768);
+      // Auto-close sidebars on mobile
+      if (window.innerWidth < 768) {
+        setSidebarOpen(false);
+        setPropertiesOpen(false);
+      } else if (window.innerWidth >= 1024) {
+        // Auto-open on desktop
+        setSidebarOpen(true);
+      }
+    };
+
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
 
   // Initialize project if provided
   useEffect(() => {
     if (initialProject && initialProject.elements) {
-      // Load project elements into studio state
       initialProject.elements.forEach((element: any) => {
         addElement(element);
       });
@@ -84,13 +97,23 @@ export function StudioWorkspace({ projectId, initialProject }: StudioWorkspacePr
 
     addElement(newElement, position);
     success(`${component.name} added to canvas!`);
-  }, [addElement, success]);
+    
+    // Close sidebar on mobile after adding
+    if (isMobile) {
+      setSidebarOpen(false);
+    }
+  }, [addElement, success, isMobile]);
 
   // Handle AI component generation
   const handleAIGeneration = useCallback((generatedComponent: any) => {
     addElement(generatedComponent);
     success('AI component generated and added to canvas!');
-  }, [addElement, success]);
+    
+    // Close sidebar on mobile after adding
+    if (isMobile) {
+      setSidebarOpen(false);
+    }
+  }, [addElement, success, isMobile]);
 
   // Get default props for component types
   const getDefaultProps = (type: string) => {
@@ -133,8 +156,16 @@ export function StudioWorkspace({ projectId, initialProject }: StudioWorkspacePr
     return defaults[type] || {};
   };
 
+  // Handle backdrop click to close panels on mobile
+  const handleBackdropClick = () => {
+    if (isMobile) {
+      setSidebarOpen(false);
+      setPropertiesOpen(false);
+    }
+  };
+
   return (
-    <div className="h-screen flex flex-col bg-gray-50 dark:bg-gray-900">
+    <div className="h-screen flex flex-col bg-gray-50 dark:bg-gray-900 relative">
       {/* Studio Toolbar */}
       <StudioToolbar
         canvasMode={state.canvasMode}
@@ -152,46 +183,69 @@ export function StudioWorkspace({ projectId, initialProject }: StudioWorkspacePr
         zoom={state.zoom}
         onZoomChange={setZoom}
         projectId={projectId}
+        onPropertiesToggle={() => setPropertiesOpen(!propertiesOpen)}
+        propertiesOpen={propertiesOpen}
+        isMobile={isMobile}
       />
 
       {/* Main Studio Layout */}
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 flex overflow-hidden relative">
+        {/* Mobile Backdrop */}
+        {isMobile && (sidebarOpen || propertiesOpen) && (
+          <div 
+            className="absolute inset-0 bg-black bg-opacity-50 z-30"
+            onClick={handleBackdropClick}
+          />
+        )}
+
         {/* Left Sidebar - Component Library & AI Generator */}
-        {sidebarOpen && (
+        <div className={`
+          ${isMobile ? 'absolute left-0 top-0 h-full z-40' : 'relative'}
+          ${sidebarOpen ? 'block' : 'hidden'}
+          transition-all duration-300 ease-in-out
+        `}>
           <StudioSidebar
             onAddElement={handleAddElement}
             onAIGeneration={handleAIGeneration}
             existingElements={canvasElements}
             onClose={() => setSidebarOpen(false)}
+            isMobile={isMobile}
           />
-        )}
+        </div>
 
         {/* Main Canvas Area */}
-        <StudioCanvas
-          mode={state.canvasMode}
-          elements={canvasElements}
-          selectedElement={selectedElement}
-          onSelectElement={selectElement}
-          onUpdateElement={updateElement}
-          onDeleteElement={deleteElement}
-          onDuplicateElement={duplicateElement}
-          onAddElement={handleAddElement}
-          zoom={state.zoom}
-          gridEnabled={state.gridEnabled}
-          snapToGrid={state.snapToGrid}
-          isDragging={state.isDragging}
-        />
+        <div className="flex-1 min-w-0">
+          <StudioCanvas
+            mode={state.canvasMode}
+            elements={canvasElements}
+            selectedElement={selectedElement}
+            onSelectElement={selectElement}
+            onUpdateElement={updateElement}
+            onDeleteElement={deleteElement}
+            onDuplicateElement={duplicateElement}
+            onAddElement={handleAddElement}
+            zoom={state.zoom}
+            gridEnabled={state.gridEnabled}
+            snapToGrid={state.snapToGrid}
+            isDragging={state.isDragging}
+          />
+        </div>
 
         {/* Right Sidebar - Properties Panel */}
-        {selectedElement && propertiesOpen && (
+        <div className={`
+          ${isMobile ? 'absolute right-0 top-0 h-full z-40' : 'relative'}
+          ${selectedElement && propertiesOpen ? 'block' : 'hidden'}
+          transition-all duration-300 ease-in-out
+        `}>
           <StudioProperties
             element={selectedElement}
             onUpdateElement={updateElement}
             onDeleteElement={deleteElement}
             onDuplicateElement={duplicateElement}
             onClose={() => setPropertiesOpen(false)}
+            isMobile={isMobile}
           />
-        )}
+        </div>
       </div>
     </div>
   );

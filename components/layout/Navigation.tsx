@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/Button/Button'
 import { Menu, X, Github } from 'lucide-react'
 import ToggleSwitch from '../ui/ToggleSwitch'
-import { EternalUILogo } from '../Logo/eternal-ui-logo'
+import { EternalUILogo } from '../ui/Logo/eternal-ui-logo'
 
 export function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)

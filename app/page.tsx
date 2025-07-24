@@ -2,7 +2,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { ArrowRight, Zap, Code, Palette, Globe, Star, CheckCircle, Users } from 'lucide-react'
-import { EternalUILogo } from '@/components/Logo/EternalUILogo'
+import { EternalUILogo } from '@/components/ui/Logo/EternalUILogo'
 
 export default function HomePage() {
   

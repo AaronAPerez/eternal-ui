@@ -1,5 +1,3 @@
-import { notFound } from 'next/navigation';
-import { getProject } from '@/lib/db/projects';
 import { StudioWorkspace } from '@/components/studio/StudioWorkspace';
 
 interface StudioProjectPageProps {
@@ -9,31 +7,24 @@ interface StudioProjectPageProps {
 }
 
 export async function generateMetadata({ params }: StudioProjectPageProps) {
-  const project = await getProject(params.projectId);
-  
-  if (!project) {
-    return {
-      title: 'Project Not Found',
-    };
-  }
-
   return {
-    title: `${project.name} - Studio`,
-    description: `Edit ${project.name} with Eternal UI Pro`,
+    title: `Project ${params.projectId} - Studio`,
+    description: `Edit project ${params.projectId} with Eternal UI Pro`,
   };
 }
 
-export default async function StudioProjectPage({ params }: StudioProjectPageProps) {
-  const project = await getProject(params.projectId);
-
-  if (!project) {
-    notFound();
-  }
+export default function StudioProjectPage({ params }: StudioProjectPageProps) {
+  // Mock project data for now
+  const mockProject = {
+    id: params.projectId,
+    name: `Project ${params.projectId}`,
+    elements: []
+  };
 
   return (
     <StudioWorkspace 
       projectId={params.projectId}
-      initialProject={project}
+      initialProject={mockProject}
     />
   );
 }
