@@ -5,8 +5,8 @@ import { StudioToolbar } from './StudioToolbar';
 import { StudioSidebar } from './StudioSidebar';
 import { StudioCanvas } from './StudioCanvas';
 import { StudioProperties } from './StudioProperties';
-import { useStudio } from './StudioProvider';
 import { useToasterSafe } from '@/hooks/useToasterSafe';
+import { useStudio } from './StudioProvider';
 
 interface StudioWorkspaceProps {
   projectId?: string;
