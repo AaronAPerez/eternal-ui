@@ -1,1 +1,10 @@
 export { EternalUILogo, ThemeToggle, useTheme } from './Logo/EternalUILogo';
+export { Button } from './Button';
+export { Input } from './Input';
+export { Modal } from './Modal';
+export { Badge } from './Badge';
+export { Tooltip } from './Tooltip';
+export { Tabs, TabsList, TabsTrigger, TabsContent } from './Tabs';
+export { Card, CardHeader, CardTitle, CardDescription, CardContent } from './Card';
+export { Separator } from './Separator';
+export { ScrollArea } from './ScrollArea';

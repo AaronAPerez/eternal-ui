@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
-import { StudioWorkspace } from '@/components/studio/StudioWorkspace';
+
 import { StudioSkeleton } from '@/components/studio/StudioSkeleton';
+import Studio from '@/components/studio/Studio';
 
 export default function StudioPage() {
   // Remove authentication check for now
@@ -11,7 +12,7 @@ export default function StudioPage() {
 
   return (
     <Suspense fallback={<StudioSkeleton />}>
-      <StudioWorkspace />
+      <Studio />
     </Suspense>
   );
 }

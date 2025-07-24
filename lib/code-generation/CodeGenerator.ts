@@ -140,6 +140,8 @@ ${componentHTML}
         return ` :${key}="${JSON.stringify(value)}"`;
       })
       .join('');
+    }
+    
     private generateAngularProps(props: Record<string, any>): string {
     return Object.entries(props)
       .filter(([_, value]) => value !== undefined && value !== '')

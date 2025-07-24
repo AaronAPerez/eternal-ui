@@ -1,9 +1,9 @@
 import React, { useState, useMemo } from 'react';
-import { Search, Filter, Grid, List, Tag } from 'lucide-react';
+import { Search, Grid, List, Tag } from 'lucide-react';
 import { ENHANCED_COMPONENT_REGISTRY, COMPONENT_CATEGORIES } from '@/lib/enhanced-component-registry';
 
 interface ComponentSearchProps {
-  onComponentSelect?: (component: any) => void;
+  onComponentSelect?: (component: unknown) => void;
 }
 
 export function ComponentSearch({ onComponentSelect }: ComponentSearchProps) {

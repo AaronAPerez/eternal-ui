@@ -2,214 +2,218 @@
 
 import React from 'react';
 import { 
-  Monitor, Tablet, Smartphone, Save, Eye, Code, Download,
-  Undo, Redo, Menu, X, Users, Zap, Brain, Loader, Plus,
-  Minus, RotateCcw, Grid, Move, Share, Settings, Layers
+  Monitor, Tablet, Smartphone, Save,
+  Undo, Redo, Users, Layers,
+  Badge,
+  Copy,
+  Trash2,
+  ZoomIn,
+  ZoomOut
 } from 'lucide-react';
-import { EternalUILogo, ThemeToggle } from '@/components/ui';
+import { Button, Separator, Tooltip } from '@/components/ui';
+
+
+// ====================================
+// TOOLBAR COMPONENT
+// ====================================
 
 interface StudioToolbarProps {
   canvasMode: 'desktop' | 'tablet' | 'mobile';
   onCanvasModeChange: (mode: 'desktop' | 'tablet' | 'mobile') => void;
-  onSidebarToggle: () => void;
-  sidebarOpen: boolean;
-  elementsCount: number;
-  aiElementsCount: number;
-  isLoading: boolean;
-  onSave: () => void;
+  zoom: number;
+  onZoomChange: (zoom: number) => void;
   canUndo: boolean;
   canRedo: boolean;
   onUndo: () => void;
   onRedo: () => void;
-  zoom: number;
-  onZoomChange: (zoom: number) => void;
-  projectId?: string;
-  onPropertiesToggle: () => void;
-  propertiesOpen: boolean;
-  isMobile: boolean;
+  canPaste: boolean;
+  onPaste: () => void;
+  hasSelection: boolean;
+  onCopy: () => void;
+  onDelete: () => void;
+  onSave: () => void;
+  collaborators: any[];
+  elementsCount: number;
 }
 
-export function StudioToolbar({
+const StudioToolbar: React.FC<StudioToolbarProps> = ({
   canvasMode,
   onCanvasModeChange,
-  onSidebarToggle,
-  sidebarOpen,
-  elementsCount,
-  aiElementsCount,
-  isLoading,
-  onSave,
+  zoom,
+  onZoomChange,
   canUndo,
   canRedo,
   onUndo,
   onRedo,
-  zoom,
-  onZoomChange,
-  projectId,
-  onPropertiesToggle,
-  propertiesOpen,
-  isMobile
-}: StudioToolbarProps) {
-  const zoomPercentage = Math.round(zoom * 100);
-
+  canPaste,
+  onPaste,
+  hasSelection,
+  onCopy,
+  onDelete,
+  onSave,
+  collaborators,
+  elementsCount
+}) => {
   return (
-    <div className="h-14 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between px-2 sm:px-4 z-50">
-      {/* Left Section */}
-      <div className="flex items-center gap-2 sm:gap-4">
-        {/* Sidebar Toggle */}
-        <button
-          onClick={onSidebarToggle}
-          className="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
-          aria-label={sidebarOpen ? 'Close sidebar' : 'Open sidebar'}
-        >
-          {sidebarOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
-        </button>
+    <div className="h-14 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between px-4">
+      {/* Left Section - Project Info */}
+      <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
+          <Layers className="w-5 h-5 text-indigo-600" />
+          <span className="font-semibold text-gray-900 dark:text-white">Eternal UI Studio</span>
+        </div>
+        <Badge variant="secondary" className="text-xs">
+          {elementsCount} elements
+        </Badge>
+      </div>
 
-        {/* Logo */}
-        <div className="hidden sm:block">
-          <EternalUILogo size="sm" asLink href="/" />
+      {/* Center Section - Canvas Controls */}
+      <div className="flex items-center gap-2">
+        {/* Device Mode Toggle */}
+        <div className="flex items-center bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
+          <Tooltip content="Desktop View">
+            <Button
+              variant={canvasMode === 'desktop' ? 'default' : 'ghost'}
+              size="sm"
+              onClick={() => onCanvasModeChange('desktop')}
+              className="p-2"
+            >
+              <Monitor className="w-4 h-4" />
+            </Button>
+          </Tooltip>
+          <Tooltip content="Tablet View">
+            <Button
+              variant={canvasMode === 'tablet' ? 'default' : 'ghost'}
+              size="sm"
+              onClick={() => onCanvasModeChange('tablet')}
+              className="p-2"
+            >
+              <Tablet className="w-4 h-4" />
+            </Button>
+          </Tooltip>
+          <Tooltip content="Mobile View">
+            <Button
+              variant={canvasMode === 'mobile' ? 'default' : 'ghost'}
+              size="sm"
+              onClick={() => onCanvasModeChange('mobile')}
+              className="p-2"
+            >
+              <Smartphone className="w-4 h-4" />
+            </Button>
+          </Tooltip>
         </div>
 
-        {/* Mobile Logo */}
-        <div className="sm:hidden">
-          <EternalUILogo size="xs" showText={false} asLink href="/" />
+        <Separator orientation="vertical" className="h-6" />
+
+        {/* Zoom Controls */}
+        <div className="flex items-center gap-1">
+          <Tooltip content="Zoom Out">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => onZoomChange(Math.max(0.1, zoom - 0.1))}
+              className="p-2"
+            >
+              <ZoomOut className="w-4 h-4" />
+            </Button>
+          </Tooltip>
+          <span className="text-sm font-medium w-12 text-center">
+            {Math.round(zoom * 100)}%
+          </span>
+          <Tooltip content="Zoom In">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => onZoomChange(Math.min(5, zoom + 0.1))}
+              className="p-2"
+            >
+              <ZoomIn className="w-4 h-4" />
+            </Button>
+          </Tooltip>
         </div>
+      </div>
 
-        {/* Project Info */}
-        {projectId && !isMobile && (
-          <div className="text-xs text-gray-500 dark:text-gray-400">
-            Project: {projectId.slice(0, 8)}...
-          </div>
-        )}
-
+      {/* Right Section - Actions */}
+      <div className="flex items-center gap-2">
         {/* History Controls */}
-        <div className="hidden md:flex items-center gap-1">
-          <button
+        <Tooltip content="Undo (Ctrl+Z)">
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={onUndo}
             disabled={!canUndo}
-            className="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            aria-label="Undo"
-            title="Undo (Ctrl+Z)"
+            className="p-2"
           >
             <Undo className="w-4 h-4" />
-          </button>
-          <button
+          </Button>
+        </Tooltip>
+        <Tooltip content="Redo (Ctrl+Y)">
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={onRedo}
             disabled={!canRedo}
-            className="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            aria-label="Redo"
-            title="Redo (Ctrl+Y)"
+            className="p-2"
           >
             <Redo className="w-4 h-4" />
-          </button>
-        </div>
-      </div>
+          </Button>
+        </Tooltip>
 
-      {/* Center Section - Device Preview */}
-      <div className="hidden md:flex items-center gap-1 bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
-        <button
-          onClick={() => onCanvasModeChange('desktop')}
-          className={`p-2 rounded transition-colors ${
-            canvasMode === 'desktop'
-              ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow-sm'
-              : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
-          }`}
-          aria-label="Desktop view"
-          title="Desktop (1024px+)"
-        >
-          <Monitor className="w-4 h-4" />
-        </button>
-        <button
-          onClick={() => onCanvasModeChange('tablet')}
-          className={`p-2 rounded transition-colors ${
-            canvasMode === 'tablet'
-              ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow-sm'
-              : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
-          }`}
-          aria-label="Tablet view"
-          title="Tablet (768px)"
-        >
-          <Tablet className="w-4 h-4" />
-        </button>
-        <button
-          onClick={() => onCanvasModeChange('mobile')}
-          className={`p-2 rounded transition-colors ${
-            canvasMode === 'mobile'
-              ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow-sm'
-              : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
-          }`}
-          aria-label="Mobile view"
-          title="Mobile (375px)"
-        >
-          <Smartphone className="w-4 h-4" />
-        </button>
-      </div>
+        <Separator orientation="vertical" className="h-6" />
 
-      {/* Right Section */}
-      <div className="flex items-center gap-1 sm:gap-2">
-        {/* Stats - Hidden on mobile */}
-        <div className="hidden lg:flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400 mr-2">
+        {/* Clipboard Controls */}
+        <Tooltip content="Copy (Ctrl+C)">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onCopy}
+            disabled={!hasSelection}
+            className="p-2"
+          >
+            <Copy className="w-4 h-4" />
+          </Button>
+        </Tooltip>
+        <Tooltip content="Paste (Ctrl+V)">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onPaste}
+            disabled={!canPaste}
+            className="p-2"
+          >
+            <Paste className="w-4 h-4" />
+          </Button>
+        </Tooltip>
+        <Tooltip content="Delete (Del)">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onDelete}
+            disabled={!hasSelection}
+            className="p-2"
+          >
+            <Trash2 className="w-4 h-4" />
+          </Button>
+        </Tooltip>
+
+        <Separator orientation="vertical" className="h-6" />
+
+        {/* Collaboration */}
+        {collaborators.length > 0 && (
           <div className="flex items-center gap-1">
-            <Grid className="w-3 h-3" />
-            <span>{elementsCount}</span>
+            <Users className="w-4 h-4 text-gray-500" />
+            <span className="text-sm text-gray-500">{collaborators.length}</span>
           </div>
-          {aiElementsCount > 0 && (
-            <div className="flex items-center gap-1">
-              <Brain className="w-3 h-3 text-purple-600" />
-              <span>{aiElementsCount}</span>
-            </div>
-          )}
-        </div>
-
-        {/* Zoom Controls - Hidden on mobile */}
-        <div className="hidden sm:flex items-center gap-1 bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
-          <button
-            onClick={() => onZoomChange(Math.max(0.1, zoom - 0.1))}
-            className="p-1 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white rounded"
-            aria-label="Zoom out"
-          >
-            <Minus className="w-3 h-3" />
-          </button>
-          <span className="px-2 text-xs font-medium text-gray-700 dark:text-gray-300 min-w-[3rem] text-center">
-            {zoomPercentage}%
-          </span>
-          <button
-            onClick={() => onZoomChange(Math.min(5, zoom + 0.1))}
-            className="p-1 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white rounded"
-            aria-label="Zoom in"
-          >
-            <Plus className="w-3 h-3" />
-          </button>
-        </div>
-
-        {/* Properties Toggle - Mobile Only */}
-        {isMobile && (
-          <button
-            onClick={onPropertiesToggle}
-            className="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
-            aria-label="Toggle properties panel"
-          >
-            <Layers className="w-4 h-4" />
-          </button>
         )}
 
-        {/* Theme Toggle */}
-        <ThemeToggle />
-
         {/* Save Button */}
-        <button
-          onClick={onSave}
-          disabled={isLoading}
-          className="flex items-center gap-2 px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 text-white rounded-md transition-colors text-sm font-medium"
-          aria-label={isLoading ? 'Saving...' : 'Save project'}
-        >
-          {isLoading ? (
-            <Loader className="w-4 h-4 animate-spin" />
-          ) : (
-            <Save className="w-4 h-4" />
-          )}
-          <span className="hidden sm:inline">{isLoading ? 'Saving...' : 'Save'}</span>
-        </button>
+        <Button onClick={onSave} className="gap-2">
+          <Save className="w-4 h-4" />
+          Save
+        </Button>
       </div>
     </div>
   );
-}
+};
+
+export default StudioToolbar;

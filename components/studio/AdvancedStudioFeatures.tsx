@@ -4,16 +4,11 @@
 
 'use client';
 
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { 
-  Copy, Cut, Paste, RotateCw, Lock, Unlock, Eye, EyeOff,
-  Group, Ungroup, AlignLeft, AlignCenter, AlignRight,
-  AlignTop, AlignMiddle, AlignBottom, Grid, Layers,
-  MousePointer, Hand, ZoomIn, ZoomOut, Redo, Undo,
-  Move, RotateCcw, FlipHorizontal, FlipVertical,
-  Maximize, Minimize, Square, Circle, Triangle,
-  Type, Image, Video, Code, Palette, Settings,
-  Save, Download, Share, Play, Pause
+  Copy,
+  Group, AlignLeft, AlignCenter, AlignRight,
+  ClipboardPaste,
 } from 'lucide-react';
 
 /**
@@ -29,14 +24,14 @@ import {
  * - Real-time collaboration cursors (better than all)
  */
 
-interface DragState {
-  isDragging: boolean;
-  draggedItems: string[];
-  dragOffset: { x: number; y: number };
-  ghostPosition: { x: number; y: number };
-  snapGuides: SnapGuide[];
-  dropZones: DropZone[];
-}
+// interface DragState {
+//   isDragging: boolean;
+//   draggedItems: string[];
+//   dragOffset: { x: number; y: number };
+//   ghostPosition: { x: number; y: number };
+//   snapGuides: SnapGuide[];
+//   dropZones: DropZone[];
+// }
 
 interface SnapGuide {
   id: string;
@@ -46,14 +41,14 @@ interface SnapGuide {
   visible: boolean;
 }
 
-interface DropZone {
-  id: string;
-  element: string;
-  rect: DOMRect;
-  depth: number;
-  canAccept: boolean;
-  highlight: boolean;
-}
+// interface DropZone {
+//   id: string;
+//   element: string;
+//   rect: DOMRect;
+//   depth: number;
+//   canAccept: boolean;
+//   highlight: boolean;
+// }
 
 interface SelectionState {
   selectedItems: string[];
@@ -65,397 +60,16 @@ interface SelectionState {
   lastSelected: string | null;
 }
 
-interface HistoryAction {
-  id: string;
-  type: 'add' | 'update' | 'delete' | 'move' | 'style' | 'bulk';
-  timestamp: number;
-  elements: any[];
-  changes: any;
-  description: string;
-}
-
-/**
- * Advanced Multi-Select Hook
- */
-// export function useAdvancedSelection() {
-//   const [selection, setSelection] = useState<SelectionState>({
-//     selectedItems: [],
-//     selectionBox: { start: { x: 0, y: 0 }, end: { x: 0, y: 0 }, active: false },
-//     lastSelected: null
-//   });
-
-//   const selectItem = useCallback((itemId: string, multi = false) => {
-//     setSelection(prev => {
-//       if (multi) {
-//         const isSelected = prev.selectedItems.includes(itemId);
-//         return {
-//           ...prev,
-//           selectedItems: isSelected 
-//             ? prev.selectedItems.filter(id => id !== itemId)
-//             : [...prev.selectedItems, itemId],
-//           lastSelected: itemId
-//         };
-//       } else {
-//         return {
-//           ...prev,
-//           selectedItems: [itemId],
-//           lastSelected: itemId
-//         };
-//       }
-//     });
-//   }, []);
-
-//   const selectRange = useCallback((fromId: string, toId: string, elements: any[]) => {
-//     const fromIndex = elements.findIndex(el => el.id === fromId);
-//     const toIndex = elements.findIndex(el => el.id === toId);
-//     const start = Math.min(fromIndex, toIndex);
-//     const end = Math.max(fromIndex, toIndex);
-    
-//     const rangeItems = elements.slice(start, end + 1).map(el => el.id);
-//     setSelection(prev => ({
-//       ...prev,
-//       selectedItems: [...new Set([...prev.selectedItems, ...rangeItems])],
-//       lastSelected: toId
-//     }));
-//   }, []);
-
-//   const selectAll = useCallback((elements: any[]) => {
-//     setSelection(prev => ({
-//       ...prev,
-//       selectedItems: elements.map(el => el.id),
-//       lastSelected: elements[elements.length - 1]?.id || null
-//     }));
-//   }, []);
-
-//   const clearSelection = useCallback(() => {
-//     setSelection(prev => ({
-//       ...prev,
-//       selectedItems: [],
-//       lastSelected: null
-//     }));
-//   }, []);
-
-//   return {
-//     selection,
-//     selectItem,
-//     selectRange,
-//     selectAll,
-//     clearSelection,
-//     setSelection
-//   };
+// interface HistoryAction {
+//   id: string;
+//   type: 'add' | 'update' | 'delete' | 'move' | 'style' | 'bulk';
+//   timestamp: number;
+//   elements: any[];
+//   changes: any;
+//   description: string;
 // }
 
-// /**
-//  * Advanced Drag & Drop Hook
-//  */
-// export function useAdvancedDragDrop(elements: any[], onUpdateElements: (elements: any[]) => void) {
-//   const [dragState, setDragState] = useState<DragState>({
-//     isDragging: false,
-//     draggedItems: [],
-//     dragOffset: { x: 0, y: 0 },
-//     ghostPosition: { x: 0, y: 0 },
-//     snapGuides: [],
-//     dropZones: []
-//   });
 
-//   const canvasRef = useRef<HTMLDivElement>(null);
-//   const [gridSize, setGridSize] = useState(20);
-//   const [snapToGrid, setSnapToGrid] = useState(true);
-//   const [showGrid, setShowGrid] = useState(true);
-
-//   // Calculate snap guides
-//   const calculateSnapGuides = useCallback((draggedElement: any, allElements: any[]) => {
-//     const guides: SnapGuide[] = [];
-//     const threshold = 5;
-
-//     allElements.forEach(element => {
-//       if (element.id === draggedElement.id) return;
-
-//       // Horizontal guides
-//       guides.push({
-//         id: `h-${element.id}-top`,
-//         type: 'horizontal',
-//         position: element.position.y,
-//         elements: [element.id],
-//         visible: Math.abs(element.position.y - draggedElement.position.y) < threshold
-//       });
-
-//       guides.push({
-//         id: `h-${element.id}-center`,
-//         type: 'center',
-//         position: element.position.y + (element.size?.height || 100) / 2,
-//         elements: [element.id],
-//         visible: Math.abs(element.position.y + (element.size?.height || 100) / 2 - draggedElement.position.y) < threshold
-//       });
-
-//       // Vertical guides
-//       guides.push({
-//         id: `v-${element.id}-left`,
-//         type: 'vertical',
-//         position: element.position.x,
-//         elements: [element.id],
-//         visible: Math.abs(element.position.x - draggedElement.position.x) < threshold
-//       });
-
-//       guides.push({
-//         id: `v-${element.id}-center`,
-//         type: 'center',
-//         position: element.position.x + (element.size?.width || 100) / 2,
-//         elements: [element.id],
-//         visible: Math.abs(element.position.x + (element.size?.width || 100) / 2 - draggedElement.position.x) < threshold
-//       });
-//     });
-
-//     return guides.filter(guide => guide.visible);
-//   }, []);
-
-//   // Handle drag start
-//   const handleDragStart = useCallback((itemIds: string[], startPosition: { x: number; y: number }) => {
-//     const draggedElement = elements.find(el => el.id === itemIds[0]);
-//     if (!draggedElement) return;
-
-//     const snapGuides = calculateSnapGuides(draggedElement, elements);
-
-//     setDragState({
-//       isDragging: true,
-//       draggedItems: itemIds,
-//       dragOffset: { x: 0, y: 0 },
-//       ghostPosition: startPosition,
-//       snapGuides,
-//       dropZones: []
-//     });
-//   }, [elements, calculateSnapGuides]);
-
-//   // Handle drag move
-//   const handleDragMove = useCallback((currentPosition: { x: number; y: number }) => {
-//     if (!dragState.isDragging) return;
-
-//     let newPosition = currentPosition;
-
-//     // Snap to grid if enabled
-//     if (snapToGrid) {
-//       newPosition = {
-//         x: Math.round(currentPosition.x / gridSize) * gridSize,
-//         y: Math.round(currentPosition.y / gridSize) * gridSize
-//       };
-//     }
-
-//     // Snap to guides
-//     const activeGuides = dragState.snapGuides.filter(guide => {
-//       const distance = guide.type === 'horizontal' || guide.type === 'center'
-//         ? Math.abs(guide.position - newPosition.y)
-//         : Math.abs(guide.position - newPosition.x);
-//       return distance < 10;
-//     });
-
-//     if (activeGuides.length > 0) {
-//       const closestGuide = activeGuides.reduce((closest, guide) => {
-//         const currentDistance = guide.type === 'horizontal' || guide.type === 'center'
-//           ? Math.abs(guide.position - newPosition.y)
-//           : Math.abs(guide.position - newPosition.x);
-//         const closestDistance = guide.type === 'horizontal' || guide.type === 'center'
-//           ? Math.abs(closest.position - newPosition.y)
-//           : Math.abs(closest.position - newPosition.x);
-//         return currentDistance < closestDistance ? guide : closest;
-//       });
-
-//       if (closestGuide.type === 'horizontal' || closestGuide.type === 'center') {
-//         newPosition.y = closestGuide.position;
-//       } else {
-//         newPosition.x = closestGuide.position;
-//       }
-//     }
-
-//     setDragState(prev => ({
-//       ...prev,
-//       ghostPosition: newPosition,
-//       snapGuides: prev.snapGuides.map(guide => ({
-//         ...guide,
-//         visible: activeGuides.includes(guide)
-//       }))
-//     }));
-//   }, [dragState.isDragging, snapToGrid, gridSize]);
-
-//   // Handle drag end
-//   const handleDragEnd = useCallback(() => {
-//     if (!dragState.isDragging) return;
-
-//     const updatedElements = elements.map(element => {
-//       if (dragState.draggedItems.includes(element.id)) {
-//         return {
-//           ...element,
-//           position: {
-//             x: dragState.ghostPosition.x,
-//             y: dragState.ghostPosition.y
-//           }
-//         };
-//       }
-//       return element;
-//     });
-
-//     onUpdateElements(updatedElements);
-
-//     setDragState({
-//       isDragging: false,
-//       draggedItems: [],
-//       dragOffset: { x: 0, y: 0 },
-//       ghostPosition: { x: 0, y: 0 },
-//       snapGuides: [],
-//       dropZones: []
-//     });
-//   }, [dragState, elements, onUpdateElements]);
-
-//   return {
-//     dragState,
-//     gridSize,
-//     setGridSize,
-//     snapToGrid,
-//     setSnapToGrid,
-//     showGrid,
-//     setShowGrid,
-//     handleDragStart,
-//     handleDragMove,
-//     handleDragEnd,
-//     canvasRef
-//   };
-// }
-
-// /**
-//  * Advanced History System - 50+ Actions
-//  */
-// export function useAdvancedHistory() {
-//   const [history, setHistory] = useState<{
-//     past: HistoryAction[];
-//     present: HistoryAction | null;
-//     future: HistoryAction[];
-//     maxHistory: number;
-//   }>({
-//     past: [],
-//     present: null,
-//     future: [],
-//     maxHistory: 50
-//   });
-
-//   const addHistoryAction = useCallback((action: Omit<HistoryAction, 'id' | 'timestamp'>) => {
-//     const newAction: HistoryAction = {
-//       ...action,
-//       id: `action-${Date.now()}-${Math.random()}`,
-//       timestamp: Date.now()
-//     };
-
-//     setHistory(prev => ({
-//       ...prev,
-//       past: [...prev.past, prev.present].filter(Boolean).slice(-prev.maxHistory),
-//       present: newAction,
-//       future: []
-//     }));
-//   }, []);
-
-//   const undo = useCallback(() => {
-//     setHistory(prev => {
-//       if (prev.past.length === 0) return prev;
-      
-//       const previous = prev.past[prev.past.length - 1];
-//       const newPast = prev.past.slice(0, -1);
-      
-//       return {
-//         ...prev,
-//         past: newPast,
-//         present: previous,
-//         future: prev.present ? [prev.present, ...prev.future] : prev.future
-//       };
-//     });
-//   }, []);
-
-//   const redo = useCallback(() => {
-//     setHistory(prev => {
-//       if (prev.future.length === 0) return prev;
-      
-//       const next = prev.future[0];
-//       const newFuture = prev.future.slice(1);
-      
-//       return {
-//         ...prev,
-//         past: prev.present ? [...prev.past, prev.present] : prev.past,
-//         present: next,
-//         future: newFuture
-//       };
-//     });
-//   }, []);
-
-//   const canUndo = history.past.length > 0;
-//   const canRedo = history.future.length > 0;
-
-//   return {
-//     history,
-//     addHistoryAction,
-//     undo,
-//     redo,
-//     canUndo,
-//     canRedo
-//   };
-// }
-
-// /**
-//  * Advanced Clipboard System
-//  */
-// export function useAdvancedClipboard() {
-//   const [clipboard, setClipboard] = useState<{
-//     items: any[];
-//     operation: 'copy' | 'cut' | null;
-//     source: string | null;
-//   }>({
-//     items: [],
-//     operation: null,
-//     source: null
-//   });
-
-//   const copyItems = useCallback((items: any[], source: string) => {
-//     setClipboard({
-//       items: JSON.parse(JSON.stringify(items)), // Deep clone
-//       operation: 'copy',
-//       source
-//     });
-//   }, []);
-
-//   const cutItems = useCallback((items: any[], source: string) => {
-//     setClipboard({
-//       items: JSON.parse(JSON.stringify(items)), // Deep clone
-//       operation: 'cut',
-//       source
-//     });
-//   }, []);
-
-//   const pasteItems = useCallback((targetPosition?: { x: number; y: number }) => {
-//     if (clipboard.items.length === 0) return [];
-
-//     const offset = targetPosition || { x: 20, y: 20 };
-    
-//     return clipboard.items.map((item, index) => ({
-//       ...item,
-//       id: `${item.id}-copy-${Date.now()}-${index}`,
-//       position: {
-//         x: item.position.x + offset.x + (index * 10),
-//         y: item.position.y + offset.y + (index * 10)
-//       },
-//       metadata: {
-//         ...item.metadata,
-//         copiedFrom: item.id,
-//         copiedAt: new Date().toISOString()
-//       }
-//     }));
-//   }, [clipboard]);
-
-//   const canPaste = clipboard.items.length > 0;
-
-//   return {
-//     clipboard,
-//     copyItems,
-//     cutItems,
-//     pasteItems,
-//     canPaste
-//   };
-// }
 
 /**
  * Advanced Canvas Grid System
@@ -695,7 +309,7 @@ export function CanvasContextMenu({
           onClick={() => onAction('paste')}
           className="w-full px-4 py-2 text-left text-sm hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2"
         >
-          <Paste className="w-4 h-4" />
+          <ClipboardPaste className="w-4 h-4" />
           Paste here
         </button>
       )}

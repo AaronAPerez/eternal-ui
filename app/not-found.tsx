@@ -7,8 +7,8 @@
  */
 import React from 'react'
 import Link from 'next/link'
-import { Button } from '@/components/ui/Button'
 import { Home, ArrowLeft, Search } from 'lucide-react'
+import { Button } from '@/components/ui/Button/Button'
 
 export default function NotFound() {
   return (
