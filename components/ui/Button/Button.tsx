@@ -1,239 +1,160 @@
+// =============================================================================
+// STEP 1: Core Button Component with CVA (Class Variance Authority)
+// =============================================================================
+
 // src/components/ui/Button/Button.tsx
+import * as React from "react"
+import { Slot } from "@radix-ui/react-slot"
+import { cva, type VariantProps } from "class-variance-authority"
+import { cn } from "@/lib/utils"
+import { Loader2 } from "lucide-react"
 
- /* 🎭 BUTTON COMPONENT - CLIENT COMPONENT FIX
- * 
- * Fixed: Added 'use client' directive for interactivity
- */
-'use client'
-
-import React, { forwardRef } from 'react'
-import { Slot } from '@radix-ui/react-slot'
-import { cva, type VariantProps } from 'class-variance-authority'
-import { Loader2 } from 'lucide-react'
-import { cn } from '@/lib/utils'
-
-// Button variants system
+// Define button variants using CVA for type-safe styling
 const buttonVariants = cva(
-  [
-    'inline-flex items-center justify-center gap-2',
-    'whitespace-nowrap rounded-md text-sm font-medium',
-    'ring-offset-background transition-colors',
-    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-    'disabled:pointer-events-none disabled:opacity-50',
-    'relative overflow-hidden group',
-  ],
+  // Base styles - applied to all buttons
+  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
-        primary: [
-          'bg-primary text-primary-foreground',
-          'hover:bg-primary/90',
-          'shadow-md hover:shadow-lg',
-          'transform hover:-translate-y-0.5',
-          'transition-all duration-200',
-        ],
-        secondary: [
-          'bg-secondary text-secondary-foreground',
-          'hover:bg-secondary/80',
-          'border border-input',
-          'shadow-sm hover:shadow-md',
-        ],
-        destructive: [
-          'bg-destructive text-destructive-foreground',
-          'hover:bg-destructive/90',
-          'shadow-md hover:shadow-lg',
-          'hover:shadow-destructive/25',
-        ],
-        outline: [
-          'border border-input bg-background',
-          'hover:bg-accent hover:text-accent-foreground',
-          'shadow-sm hover:shadow-md',
-        ],
-        ghost: [
-          'hover:bg-accent hover:text-accent-foreground',
-          'transition-colors duration-200',
-        ],
-        link: [
-          'text-primary underline-offset-4',
-          'hover:underline',
-          'transition-all duration-200',
-        ],
-        gradient: [
-          'bg-gradient-to-r from-purple-500 to-pink-500',
-          'hover:from-purple-600 hover:to-pink-600',
-          'text-white shadow-lg hover:shadow-xl',
-          'transform hover:scale-105',
-        ],
-        glass: [
-          'bg-white/10 backdrop-blur-lg border border-white/20',
-          'text-white hover:bg-white/20',
-          'shadow-xl hover:shadow-2xl',
-        ],
-        neon: [
-          'bg-black border-2 border-cyan-400 text-cyan-400',
-          'hover:bg-cyan-400 hover:text-black',
-          'shadow-lg shadow-cyan-400/50 hover:shadow-cyan-400/75',
-          'transition-all duration-300',
-        ],
+        default: "bg-primary text-primary-foreground shadow hover:bg-primary/90",
+        destructive: "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+        outline: "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
+        secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
+        link: "text-primary underline-offset-4 hover:underline",
+        gradient: "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg hover:from-blue-600 hover:to-purple-700 hover:shadow-xl transition-all duration-200",
+        glass: "bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20 transition-all duration-200"
       },
       size: {
-        xs: 'h-6 px-2 text-xs',
-        sm: 'h-8 px-3 text-sm',
-        md: 'h-9 px-4 py-2',
-        lg: 'h-10 px-6',
-        xl: 'h-12 px-8 text-lg',
-        icon: 'h-9 w-9',
+        default: "h-9 px-4 py-2",
+        sm: "h-8 rounded-md px-3 text-xs",
+        lg: "h-10 rounded-md px-8",
+        xl: "h-12 rounded-lg px-10 text-base",
+        icon: "h-9 w-9"
       },
-      glow: {
-        true: 'shadow-lg shadow-primary/25 hover:shadow-primary/40',
-      },
-      floating: {
-        true: 'hover:-translate-y-1 hover:shadow-xl',
-      },
-      fullWidth: {
-        true: 'w-full',
-      },
+      animation: {
+        none: "",
+        pulse: "animate-pulse",
+        bounce: "hover:animate-bounce",
+        wiggle: "hover:animate-wiggle",
+        glow: "hover:shadow-lg hover:shadow-primary/50 transition-shadow duration-300"
+      }
     },
-    compoundVariants: [
-      {
-        variant: 'primary',
-        glow: true,
-        class: 'shadow-primary/30 hover:shadow-primary/50',
-      },
-      {
-        variant: 'destructive', 
-        glow: true,
-        class: 'shadow-destructive/30 hover:shadow-destructive/50',
-      },
-    ],
     defaultVariants: {
-      variant: 'primary',
-      size: 'md',
-    },
+      variant: "default",
+      size: "default",
+      animation: "none"
+    }
   }
 )
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
-  
-  loading?: boolean
+  asChild?: boolean
+  isLoading?: boolean
+  loadingText?: string
   icon?: React.ReactNode
   iconPosition?: 'left' | 'right'
-  asChild?: boolean
-  loadingText?: string
-  pulse?: boolean
-  'data-testid'?: string
+  fullWidth?: boolean
+  href?: string
 }
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  (
-    {
-      className,
-      variant,
-      size,
-      glow,
-      floating,
-      fullWidth,
-      loading = false,
-      disabled,
-      icon,
-      iconPosition = 'left',
-      asChild = false,
-      loadingText,
-      pulse = false,
-      children,
-      'data-testid': testId,
-      ...props
-    },
-    ref
-  ) => {
-    const Comp = asChild ? Slot : 'button'
-    const isDisabled = disabled || loading
+/**
+ * Button Component
+ * 
+ * A flexible button component with multiple variants, sizes, states, and animations.
+ * Supports loading states, icons, links, and accessibility features.
+ * 
+ * @example
+ * ```tsx
+ * <Button variant="default" size="lg" isLoading>
+ *   Submit Form
+ * </Button>
+ * 
+ * <Button variant="outline" icon={<Download />} iconPosition="left">
+ *   Download
+ * </Button>
+ * ```
+ */
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ 
+    className, 
+    variant, 
+    size, 
+    animation,
+    asChild = false, 
+    isLoading = false,
+    loadingText,
+    icon,
+    iconPosition = 'left',
+    fullWidth = false,
+    disabled,
+    children,
+    href,
+    ...props 
+  }, ref) => {
+    // Determine if this should be rendered as a link
+    const isLink = href && !disabled && !isLoading
+    const Comp = asChild ? Slot : isLink ? "a" : "button"
     
-    const loadingSpinner = loading && (
-      <Loader2 
-        className="h-4 w-4 animate-spin" 
-        aria-hidden="true"
-        data-testid={testId ? `${testId}-loading-spinner` : undefined}
-      />
-    )
+    // Handle loading and disabled states
+    const isDisabled = disabled || isLoading
     
-    const renderIcon = () => {
-      if (!icon || loading) return null
-      
-      return (
-        <span 
-          className="flex-shrink-0 transition-transform group-hover:scale-110" 
-          aria-hidden="true"
-          data-testid={testId ? `${testId}-icon` : undefined}
-        >
-          {icon}
-        </span>
-      )
-    }
-    
-    const renderContent = () => {
-      if (loading) {
+    // Prepare button content with icons and loading states
+    const buttonContent = () => {
+      if (isLoading) {
         return (
           <>
-            {loadingSpinner}
-            <span className="relative z-10">
-              {loadingText || children}
-            </span>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            {loadingText || children}
           </>
         )
       }
-      
-      if (iconPosition === 'left') {
-        return (
+
+      if (icon && children) {
+        return iconPosition === 'left' ? (
           <>
-            {renderIcon()}
-            <span className="relative z-10">{children}</span>
+            <span className="mr-2">{icon}</span>
+            {children}
+          </>
+        ) : (
+          <>
+            {children}
+            <span className="ml-2">{icon}</span>
           </>
         )
       }
-      
-      return (
-        <>
-          <span className="relative z-10">{children}</span>
-          {renderIcon()}
-        </>
-      )
+
+      if (icon && !children && size === 'icon') {
+        return icon
+      }
+
+      return children
     }
-    
-    const shimmerEffect = (
-      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
-    )
-    
-    const pulseAnimation = pulse ? 'animate-pulse' : ''
-    
+
+    // Prepare props based on component type
+    const componentProps = isLink
+      ? { href, ...props }
+      : { disabled: isDisabled, ...props }
+
     return (
       <Comp
-        ref={ref}
         className={cn(
-          buttonVariants({ 
-            variant, 
-            size, 
-            glow, 
-            floating, 
-            fullWidth 
-          }),
-          pulseAnimation,
+          buttonVariants({ variant, size, animation }),
+          fullWidth && "w-full",
           className
         )}
-        disabled={isDisabled}
-        aria-disabled={isDisabled}
-        aria-busy={loading}
-        data-testid={testId}
-        {...props}
+        ref={ref}
+        {...componentProps}
       >
-        {!asChild && shimmerEffect}
-        {renderContent()}
+        {buttonContent()}
       </Comp>
     )
   }
 )
 
-Button.displayName = 'Button'
+Button.displayName = "Button"
+
+// Export variants for external use
 export { buttonVariants }

@@ -8,8 +8,10 @@
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
-    "test": "vitest",
-    "test:watch": "vitest --watch",
+     "analyze": "cross-env ANALYZE=true next build",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "studio": "next dev --port 3001",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },

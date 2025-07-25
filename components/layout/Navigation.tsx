@@ -3,10 +3,14 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { Button } from '@/components/ui/Button/Button'
+
 import { Menu, X, Github } from 'lucide-react'
+
+import { ThemeToggle } from '../ui'
 import ToggleSwitch from '../ui/ToggleSwitch'
 import { EternalUILogo } from '../ui/Logo/eternal-ui-logo'
+import { Button } from '../ui/Button/Button'
+
 
 export function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -32,9 +36,6 @@ export function Navigation() {
             </Link>
             <Link href="/components" className="nav-link">
               Components
-            </Link>
-            <Link href="/studio" className="nav-link">
-              Studio
             </Link>
             <Link href="/builder" className="nav-link">
               Website Builder

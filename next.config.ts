@@ -2,14 +2,40 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
-    eslint: {
-    ignoreDuringBuilds: true, // Temporary only!
-  // "extends": ["next/core-web-vitals"],
-  // "rules": {
-  //   "@typescript-eslint/no-explicit-any": "error", // Keep this to enforce better typing
-  //   "@typescript-eslint/no-unused-vars": "warn",   // Change from error to warning
-  //   "react-hooks/exhaustive-deps": "error"         // avoid bugs
-  }
+  images: {
+    domains: ["images.unsplash.com", "via.placeholder.com"],
+    formats: ["image/webp", "image/avif"],
+  },
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          {
+            key: "X-Frame-Options",
+            value: "DENY",
+          },
+          {
+            key: "X-Content-Type-Options",
+            value: "nosniff",
+          },
+          {
+            key: "Referrer-Policy",
+            value: "origin-when-cross-origin",
+          },
+        ],
+      },
+    ];
+  },
+  async redirects() {
+    return [
+      {
+        source: "/builder",
+        destination: "/studio",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

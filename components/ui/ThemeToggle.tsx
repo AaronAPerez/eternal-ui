@@ -1,18 +1,9 @@
-// src/components/ui/ThemeToggle.tsx
-/**
- * 🌓 THEME TOGGLE COMPONENT
- * 
- * Beautiful theme switcher with animation
- * Addresses: Proper theme management for modern UI
- */
 'use client'
 
 import React from 'react'
-
+import { Button } from './Button'
 import { Sun, Moon, Monitor } from 'lucide-react'
-import { Button } from './Button/Button'
 
-// Simple theme toggle without complex context for now
 export function ThemeToggle() {
   const [theme, setTheme] = React.useState<'light' | 'dark' | 'system'>('system')
 

@@ -1,4 +1,3 @@
-/* app/globals.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -9,12 +8,12 @@
 
 @layer base {
   :root {
-    /* 🎨 INDIGO THEME VARIABLES (Fixed Format) */
+    /* Indigo Theme Variables */
     --background: 0 0% 100%;
     --foreground: 222 84% 5%;
     
     /* Primary Indigo Colors */
-    --primary: 239 84% 67%;        /* #6366f1 - Main indigo */
+    --primary: 239 84% 67%;
     --primary-foreground: 0 0% 98%;
     
     /* Secondary Colors */
@@ -28,30 +27,24 @@
     /* Border & Input */
     --border: 214 32% 91%;
     --input: 214 32% 91%;
-    --ring: 239 84% 67%;           /* Focus ring matches primary */
+    --ring: 239 84% 67%;
     
     /* Cards & Surfaces */
     --card: 0 0% 100%;
     --card-foreground: 222 84% 5%;
     
-    /* Success, Warning, Error */
-    --success: 142 76% 36%;
-    --warning: 38 92% 50%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
-    
     --radius: 0.5rem;
   }
 
   .dark {
-    /* 🌙 DARK MODE INDIGO THEME */
-    --background: 222 84% 5%;      /* Rich dark background */
-    --foreground: 210 40% 98%;     /* Pure white text */
+    /* Dark Mode Indigo Theme */
+    --background: 222 84% 5%;
+    --foreground: 210 40% 98%;
     
-    --primary: 239 84% 67%;        /* Same indigo, works in dark */
+    --primary: 239 84% 67%;
     --primary-foreground: 222 84% 5%;
     
-    --secondary: 217 33% 18%;      /* Dark surface */
+    --secondary: 217 33% 18%;
     --secondary-foreground: 210 40% 98%;
     
     --muted: 217 33% 18%;
@@ -63,11 +56,6 @@
     
     --card: 222 84% 5%;
     --card-foreground: 210 40% 98%;
-    
-    --success: 142 70% 45%;        /* Brighter for dark mode */
-    --warning: 38 95% 55%;
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
   }
 }
 
@@ -83,6 +71,27 @@ body {
   transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
+/* Custom animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
+  50% { box-shadow: 0 0 30px rgba(99, 102, 241, 0.6); }
+}
+
+@keyframes bounceSubtle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
@@ -93,50 +102,10 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--border));
+  background: hsl(var(--primary));
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--muted-foreground));
-}
-
-/* Focus styles for accessibility */
-.focus-visible\:ring-2:focus-visible {
-  outline: 2px solid transparent;
-  outline-offset: 2px;
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow, 0 0 #0000);
-}
-
-/* Animation classes */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.animate-fadeIn {
-  animation: fadeIn 0.2s ease-out;
-}
-
-.scrollbar-thin {
-  scrollbar-width: thin;
-}
-
-/* Grid pattern for visual builder */
-.bg-grid-pattern {
-  background-image: 
-    linear-gradient(rgba(99, 102, 241, 0.1) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(99, 102, 241, 0.1) 1px, transparent 1px);
-  background-size: 20px 20px;
-}
-
-/* Mobile-first approach */
-.component-grid {
-  grid-template-columns: 1fr;
-}
-
-@media (min-width: 640px) {
-  .component-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  background: hsl(var(--primary) / 0.8);
 }

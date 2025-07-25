@@ -1,60 +1,82 @@
-export const colors = {
-  // Primary Indigo Palette (Your Brand Colors)
-  primary: {
-    50: '#EEF2FF',
-    100: '#E0E7FF', 
-    200: '#C7D2FE',
-    300: '#A5B4FC',
-    400: '#818CF8',
-    500: '#6366F1', // Main brand color
-    600: '#4F46E5',
-    700: '#4338CA',
-    800: '#3730A3',
-    900: '#312E81',
-    950: '#1E1B4B'
-  },
+import { colors } from "./colors";
 
-  // Grayscale with proper contrast ratios
-  gray: {
-    50: '#F9FAFB',
-    100: '#F3F4F6',
-    200: '#E5E7EB',
-    300: '#D1D5DB',
-    400: '#9CA3AF',
-    500: '#6B7280',
-    600: '#4B5563',
-    700: '#374151',
-    800: '#1F2937',
-    900: '#111827',
-    950: '#030712'
-  },
+export interface ThemeTokens {
+  colors: {
+    background: {
+      primary: string;
+      secondary: string;
+      tertiary: string;
+      inverse: string;
+    };
+    
+    text: {
+      primary: string;
+      secondary: string;
+      tertiary: string;
+      inverse: string;
+      link: string;
+    };
+    
+    interactive: {
+      primary: string;
+      primaryHover: string;
+      primaryActive: string;
+      secondary: string;
+      secondaryHover: string;
+    };
+  };
+  
+  shadows: {
+    sm: string;
+    md: string;
+    lg: string;
+    glow: string;
+  };
+  
+  animation: {
+    duration: {
+      fast: string;
+      normal: string;
+      slow: string;
+    };
+  };
+}
 
-  // Semantic Colors
-  success: {
-    50: '#ECFDF5',
-    500: '#10B981',
-    600: '#059669',
-    700: '#047857'
+// Light Theme
+export const lightTheme: ThemeTokens = {
+  colors: {
+    background: {
+      primary: colors.gray[50],
+      secondary: '#FFFFFF',
+      tertiary: colors.gray[100],
+      inverse: colors.gray[900],
+    },
+    text: {
+      primary: colors.gray[900],
+      secondary: colors.gray[600],
+      tertiary: colors.gray[500],
+      inverse: '#FFFFFF',
+      link: colors.primary[600],
+    },
+    interactive: {
+      primary: colors.primary[500],
+      primaryHover: colors.primary[600],
+      primaryActive: colors.primary[700],
+      secondary: colors.gray[100],
+      secondaryHover: colors.gray[200],
+    },
   },
-
-  warning: {
-    50: '#FFFBEB', 
-    500: '#F59E0B',
-    600: '#D97706',
-    700: '#B45309'
+  shadows: {
+    sm: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+    md: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+    lg: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+    glow: `0 0 20px ${colors.primary[500]}40`,
   },
-
-  error: {
-    50: '#FEF2F2',
-    500: '#EF4444',
-    600: '#DC2626', 
-    700: '#B91C1C'
+  animation: {
+    duration: {
+      fast: '150ms',
+      normal: '300ms',
+      slow: '500ms',
+    },
   },
-
-  info: {
-    50: '#EFF6FF',
-    500: '#3B82F6',
-    600: '#2563EB',
-    700: '#1D4ED8'
-  }
 };
