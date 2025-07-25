@@ -28,19 +28,12 @@ import {
   Unlock,
   ZoomIn,
   ZoomOut,
-  Settings,
   Users,
-  History,
-  FileCode,
   Smartphone,
   Tablet,
   Monitor,
-  Menu,
   X,
-  ChevronRight,
   Search,
-  Filter,
-  SortAsc,
   ClipboardPasteIcon
 } from 'lucide-react';
 
@@ -53,12 +46,9 @@ import { useStudioClipboard } from '@/components/studio/hooks/useStudioClipboard
 import { useStudioCanvas } from '@/components/studio/hooks/useStudioCanvas';
 import { useStudioCollaboration } from '@/components/studio/hooks/useStudioCollaboration';
 
-import { ENHANCED_COMPONENT_REGISTRY, COMPONENT_CATEGORIES } from '@/data/enhancedComponentRegistry';
+import { ENHANCED_COMPONENT_REGISTRY } from '@/data/enhancedComponentRegistry';
 import { AIComponentGenerator } from '@/lib/ai/componentGenerator';
-import { AIGeneratorPanel } from '@/components/studio/AIGeneratorPanel';
-import { ReactCodeGenerator, VueCodeGenerator } from '@/lib/codeGeneration';
 import { PerformanceMonitor } from '@/lib/performance/performanceMonitor';
-import { PerformanceDashboard } from '@/components/studio/PerformanceDashboard';
 
 
 // Import components

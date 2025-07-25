@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 
 import { StudioSkeleton } from '@/components/studio/StudioSkeleton';
-import Studio from '@/components/studio/Studio';
+import VisualBuilder from '../../components/builder/VisualBuilder';
 
 export default function StudioPage() {
   // Remove authentication check for now
@@ -12,7 +12,7 @@ export default function StudioPage() {
 
   return (
     <Suspense fallback={<StudioSkeleton />}>
-      <Studio />
+      <VisualBuilder/>
     </Suspense>
   );
 }

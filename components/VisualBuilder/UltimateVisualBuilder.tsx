@@ -6,7 +6,7 @@ import useDragAndDrop from './hooks/useDragAndDrop';
 import { useCanvas } from './hooks/useCanvas';
 import { Canvas } from './components/Canvas/Canvas';
 import { Toolbar } from './components/Toolbar/Toolbar';
-import { ComponentPalette } from './components/ComponentPalette/ComponentPalette';
+import { ComponentPalette } from '../builder/ComponentPalette';
 import { LayersPanel } from './components/LayersPanel/LayersPanel';
 import { PropertyEditor } from './components/PropertyEditor/PropertyEditor';
 
