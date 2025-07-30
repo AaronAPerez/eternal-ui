@@ -84,8 +84,8 @@ export const Canvas: React.FC<CanvasProps> = ({
         <div 
           className="min-h-full flex justify-center p-8"
           style={{ 
-            paddingTop: showRulers ? '56px' : '32px',
-            paddingLeft: showRulers ? '56px' : '32px' 
+            paddingTop: showRulers ? '4px' : '0px',
+            paddingLeft: showRulers ? '16px' : '0px' 
           }}
         >
           <div
@@ -94,6 +94,7 @@ export const Canvas: React.FC<CanvasProps> = ({
             style={{
               width: `${getDeviceWidth()}px`,
               minHeight: '800px',
+              // minHeight: '800px',
               transform: `scale(${zoom / 100})`,
               transformOrigin: 'top left'
             }}

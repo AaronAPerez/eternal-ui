@@ -27,10 +27,10 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
 
       <button
         onClick={onTogglePreview}
-        className="flex items-center gap-2 px-3 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+        className="flex items-center gap-2 px-3 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors"
       >
         <Play className="w-4 h-4" />
-        Preview
+        {/* Preview */}
       </button>
 
       <button

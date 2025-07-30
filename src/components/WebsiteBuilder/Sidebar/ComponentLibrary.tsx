@@ -103,10 +103,10 @@ export const ComponentLibrary: React.FC<ComponentLibraryProps> = ({ onDragStart 
   return (
     <div className="w-64 bg-white border-r border-gray-200 flex flex-col">
       {/* Header */}
-      <div className="p-4 border-b border-gray-200">
-        <div className="flex items-center justify-between mb-4">
+      <div className="p-2 border-b border-gray-200">
+        <div className="flex items-center justify-between mb-1">
           <h3 className="font-semibold text-gray-900">Components</h3>
-          <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
+          <span className="text-xs text-gray-800 bg-indigo-200 px-1 rounded">
             {totalComponents}
           </span>
         </div>
@@ -119,7 +119,7 @@ export const ComponentLibrary: React.FC<ComponentLibraryProps> = ({ onDragStart 
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search components..."
-            className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full pl-10 pr-10 py-1 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
           {searchTerm && (
             <button
@@ -133,7 +133,7 @@ export const ComponentLibrary: React.FC<ComponentLibraryProps> = ({ onDragStart 
       </div>
       
       {/* Component Categories */}
-      <div className="flex-1 overflow-y-auto p-4">
+      <div className="flex-1 overflow-y-auto p-1">
         {filteredLibrary.length === 0 ? (
           <div className="text-center text-gray-500 py-8">
             <Search className="w-12 h-12 mx-auto text-gray-300 mb-4" />
@@ -150,7 +150,7 @@ export const ComponentLibrary: React.FC<ComponentLibraryProps> = ({ onDragStart 
                   {/* Category Header */}
                   <button
                     onClick={() => toggleCategory(category.category)}
-                    className="flex items-center justify-between w-full text-sm font-medium text-gray-700 mb-3 hover:text-gray-900 transition-colors group"
+                    className="flex items-center justify-between w-full text-sm font-medium text-gray-700 mb-1 hover:text-gray-900 transition-colors group"
                   >
                     <span className="flex items-center gap-2">
                       {category.category}
@@ -167,7 +167,7 @@ export const ComponentLibrary: React.FC<ComponentLibraryProps> = ({ onDragStart 
                   
                   {/* Components Grid */}
                   {isExpanded && (
-                    <div className="grid grid-cols-2 gap-2 mb-2">
+                    <div className="grid grid-cols-2 gap-1 mb-2">
                       {category.components.map((comp) => (
                         <div
                           key={comp.type}
@@ -175,11 +175,11 @@ export const ComponentLibrary: React.FC<ComponentLibraryProps> = ({ onDragStart 
                           onDragStart={(e) => handleDragStart(e, comp.type)}
                           onMouseEnter={() => setHoveredComponent(comp.type)}
                           onMouseLeave={() => setHoveredComponent(null)}
-                          className="relative p-3 bg-gray-50 rounded-lg border border-gray-200 hover:bg-blue-50 hover:border-blue-300 cursor-grab active:cursor-grabbing transition-all hover:shadow-sm group"
+                          className="relative p-1 bg-gray-50 rounded-lg border border-gray-200 hover:bg-blue-50 hover:border-blue-300 cursor-grab active:cursor-grabbing transition-all hover:shadow-sm group"
                           title={comp.description}
                         >
                           <div className="text-center">
-                            <div className="text-2xl mb-1 group-hover:scale-110 transition-transform">
+                            <div className="text-2xl my-1 group-hover:scale-110 transition-transform">
                               {comp.preview}
                             </div>
                             <div className="text-xs text-gray-600 truncate font-medium">

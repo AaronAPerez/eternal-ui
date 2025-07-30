@@ -5,7 +5,6 @@ import { Component } from '@/types';
 import { SliderControl } from '../controls/SliderControl';
 import { SelectControl } from '../controls/SelectControl';
 import { NumberInput } from '../controls/NumberInput';
-import { ColorPicker } from '../controls/ColorPicker';
 import { ToggleSwitch } from '../controls/ToggleSwitch';
 
 interface EffectsPanelProps {

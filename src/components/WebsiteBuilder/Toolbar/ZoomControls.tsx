@@ -15,7 +15,7 @@ export const ZoomControls: React.FC = () => {
       <button
         onClick={handleZoomOut}
         disabled={zoom <= 25}
-        className="p-2 rounded text-gray-600 hover:text-gray-900 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="p-1 rounded text-gray-600 hover:text-gray-900 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
         title="Zoom Out (⌘-)"
       >
         <ZoomOut className="w-4 h-4" />

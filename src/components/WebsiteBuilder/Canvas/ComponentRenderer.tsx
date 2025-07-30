@@ -1,6 +1,5 @@
 import React from 'react';
 import { useBuilderStore } from '@/stores/builderStore';
-import { useResize } from '@/hooks/useResize';
 import { Component } from '@/types';
 import { ImageComponent } from './components/ImageComponent';
 import { ButtonComponent } from './components/ButtonComponent';

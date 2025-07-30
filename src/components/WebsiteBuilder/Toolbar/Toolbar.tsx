@@ -59,20 +59,20 @@ export const Toolbar: React.FC<ToolbarProps> = ({
   const toggleTemplateLibrary = useUIStore(state => state.toggleTemplateLibrary);
 
   return (
-    <div className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 shadow-sm">
+    <div className="h-16 max-w-7x1 bg-white border-b border-gray-200 flex items-center justify-between shadow-sm">
       {/* Left Section */}
-      <div className="flex items-center gap-4">
-        {/* Brand */}
-        <div className="flex items-center gap-2">
+     {/* <div className="flex items-center gap-2">
+         {/* Brand 
+         <div className="flex items-center gap-2">
           <Sparkles className="w-6 h-6 text-blue-600" />
           <span className="font-bold text-gray-900">Studio Pro</span>
-        </div>
+        </div>  */}
         
-        <div className="h-6 w-px bg-gray-300" />
+        {/* <div className="h-6 w-px bg-gray-300" />
         
         {/* Project Info */}
-        <ProjectInfo name={projectName} componentCount={componentCount} />
-      </div>
+         {/* <ProjectInfo name={projectName} componentCount={componentCount} />
+      </div>  */}
 
       {/* Center Section */}
       <div className="flex items-center gap-2">
@@ -101,14 +101,14 @@ export const Toolbar: React.FC<ToolbarProps> = ({
       </div>
 
       {/* Right Section */}
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1">
         {/* Design Guide */}
         <button
           onClick={onToggleDesignGuide}
           className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
             showDesignGuide
               ? 'bg-purple-100 text-purple-800'
-              : 'bg-gray-100 hover:bg-gray-200'
+              : 'bg-sky-500 hover:bg-sky-400 text-gray-200'
           }`}
         >
           <Info className="w-4 h-4" />
