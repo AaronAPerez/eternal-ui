@@ -252,7 +252,7 @@ const useFocusTrap = (
         previousActiveElement.current.focus();
       }
     };
-  }, [isActive, restoreFocus]);
+  }, [isActive, restoreFocus, containerRef]);
 };
 
 /**
@@ -326,7 +326,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
     }, [handleOpenChange]);
     
     // Focus trap
-    useFocusTrap(modalRef, isOpen && trapFocus, restoreFocus);
+    useFocusTrap(modalRef as React.RefObject<HTMLElement>, isOpen && trapFocus, restoreFocus);
     
     // Body scroll lock
     useBodyScrollLock(isOpen && preventScroll);
@@ -860,32 +860,5 @@ export { modalVariants };
  *   type="success"
  *   onAction={handleContinue}
  * />
- * ```
- * 
- * @example Large Scrollable Modal
- * ```tsx
- * <Modal open={isOpen} size="4xl" preventScroll>
- *   <ModalHeader title="Large Content" sticky />
- *   <ModalContent scrollable>
- *     {/* Long scrollable content */}
- *   </ModalContent>
- *   <ModalFooter sticky>
- *     <Button>Action</Button>
- *   </ModalFooter>
- * </Modal>
- * ```
- * 
- * @example Custom Animation Modal
- * ```tsx
- * <Modal
- *   open={isOpen}
- *   animation="slideUp"
- *   dismissible={false}
- *   closeOnEscape={false}
- * >
- *   <ModalContent>
- *     <p>Non-dismissible modal with slide animation</p>
- *   </ModalContent>
- * </Modal>
  * ```
  */

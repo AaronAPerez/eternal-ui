@@ -21,8 +21,7 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({
   components,
   onComponentMouseDown
 }) => {
-  const selectedComponent = useBuilderStore(state => state.selectedComponent);
-  const selectedComponents = useBuilderStore(state => state.selectedComponents);
+  const selection = useBuilderStore(state => state.selection);
   const selectComponent = useBuilderStore(state => state.selectComponent);
   const toggleComponentSelection = useBuilderStore(state => state.toggleComponentSelection);
 
@@ -57,8 +56,8 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({
   return (
     <>
       {components.map((component) => {
-        const isSelected = selectedComponent === component.id;
-        const isMultiSelected = selectedComponents.includes(component.id);
+        const isSelected = selection?.selectedComponents?.includes(component.id) || false;
+        const isMultiSelected = selection?.selectedComponents?.length > 1 && isSelected;
 
         const handleClick = (e: React.MouseEvent) => {
           e.stopPropagation();

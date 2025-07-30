@@ -27,8 +27,7 @@ export const StatusBar: React.FC<StatusBarProps> = ({
   performanceMetrics: propPerformanceMetrics
 }) => {
   const storeComponentCount = useBuilderStore(state => state.project.components.length);
-  const selectedComponent = useBuilderStore(state => state.selectedComponent);
-  const selectedComponents = useBuilderStore(state => state.selectedComponents);
+  const selection = useBuilderStore(state => state.selection);
   const storeDevice = useBuilderStore(state => state.device);
   const storeZoom = useBuilderStore(state => state.zoom);
   const storePerformanceMetrics = useUIStore(state => state.performanceMetrics);
@@ -52,8 +51,8 @@ export const StatusBar: React.FC<StatusBarProps> = ({
         <span>{componentCount} components</span>
         <span>{device} view ({getDeviceWidth()}px)</span>
         <span>Zoom: {zoom}%</span>
-        {selectedComponent && <span>Selected: {selectedComponent}</span>}
-        {selectedComponents.length > 1 && <span>{selectedComponents.length} selected</span>}
+        {selection?.selectedComponents?.length === 1 && <span>1 selected</span>}
+        {selection?.selectedComponents && selection.selectedComponents.length > 1 && <span>{selection.selectedComponents.length} selected</span>}
         <PerformanceIndicator metrics={performanceMetrics} />
       </div>
 

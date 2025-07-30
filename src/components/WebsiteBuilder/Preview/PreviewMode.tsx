@@ -191,7 +191,7 @@ export const PreviewMode: React.FC = () => {
                         minHeight: `${component.size.height}px`,
                       }}
                     >
-                      <ComponentRenderer components={[component]} onComponentMouseDown={() => {}} />
+                      <ComponentRenderer components={[component] as any} onComponentMouseDown={() => {}} />
                     </div>
                   ))}
                 </div>
@@ -218,7 +218,7 @@ export const PreviewMode: React.FC = () => {
                         minHeight: `${component.size.height}px`,
                       }}
                     >
-                      <ComponentRenderer components={[component]} onComponentMouseDown={() => {}} />
+                      <ComponentRenderer components={[component] as any} onComponentMouseDown={() => {}} />
                     </div>
                   ))}
                 </div>
@@ -245,7 +245,7 @@ export const PreviewMode: React.FC = () => {
                         minHeight: `${component.size.height}px`,
                       }}
                     >
-                      <ComponentRenderer components={[component]} onComponentMouseDown={() => {}} />
+                      <ComponentRenderer components={[component] as any} onComponentMouseDown={() => {}} />
                     </div>
                   ))}
                 </div>
@@ -285,7 +285,7 @@ export const PreviewMode: React.FC = () => {
                       minHeight: `${component.size.height}px`,
                     }}
                   >
-                    <ComponentRenderer components={[component]} onComponentMouseDown={() => {}} />
+                    <ComponentRenderer components={[component] as any} onComponentMouseDown={() => {}} />
                   </div>
                 ))}
               </div>

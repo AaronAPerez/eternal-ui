@@ -33,6 +33,7 @@
 import React, { forwardRef, useCallback, useId, useRef, useEffect } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn, focusVisibleStyles } from '@/lib/utils';
+import { Input } from './Input';
 
 /**
  * 🎨 RADIO VARIANTS CONFIGURATION
@@ -221,7 +222,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
           )}
         >
           {/* Hidden Input */}
-          <input
+          <Input
             ref={ref}
             id={radioId}
             type="radio"
@@ -301,7 +302,7 @@ Radio.displayName = 'Radio';
 export interface RadioOption {
   value: string;
   label: string;
-  description?: string;
+  description?: React.ReactNode;
   disabled?: boolean;
   helperText?: string;
   icon?: React.ReactNode;
@@ -418,7 +419,8 @@ export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
     const [internalValue, setInternalValue] = React.useState<string>(defaultValue || '');
     
     // Generate unique name if not provided
-    const groupName = propName || useId();
+    const generatedId = useId();
+    const groupName = propName || generatedId;
     
     // Determine current value
     const currentValue = value !== undefined ? value : internalValue;
@@ -489,7 +491,7 @@ export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
             )}
           >
             <input
-              ref={(el) => (optionRefs.current[index] = el)}
+              ref={(el) => { optionRefs.current[index] = el; }}
               type="radio"
               name={groupName}
               value={option.value}
@@ -570,7 +572,7 @@ export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
             )}
           >
             <input
-              ref={(el) => (optionRefs.current[index] = el)}
+              ref={(el) => { optionRefs.current[index] = el; }}
               type="radio"
               name={groupName}
               value={option.value}
@@ -599,7 +601,7 @@ export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
       return (
         <div key={option.value} className="flex items-start gap-3">
           <Radio
-            ref={(el) => (optionRefs.current[index] = el)}
+            ref={(el) => { optionRefs.current[index] = el; }}
             name={groupName}
             value={option.value}
             label={option.label}
@@ -829,7 +831,6 @@ PlanRadioGroup.displayName = 'PlanRadioGroup';
  * 📦 EXPORTS
  */
 export { radioVariants, radioCardVariants };
-export type { RadioOption, PaymentMethodOption, PlanOption };
 
 /**
  * 📚 USAGE EXAMPLES

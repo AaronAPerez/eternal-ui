@@ -17,7 +17,9 @@ export const resetStores = () => {
           colors: ['#667eea', '#764ba2'],
           fonts: ['Inter'],
           spacing: [8, 16, 24]
-        }
+        },
+        history: [],
+        historyIndex: 0
       },
       selectedTool: 'select',
       selectedComponent: null,

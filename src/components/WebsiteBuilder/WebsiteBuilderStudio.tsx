@@ -25,9 +25,22 @@ import { PropertiesPanel } from './Sidebar/PropertiesPanel';
 import { Canvas } from './Canvas/Canvas';
 import { PreviewMode } from './Preview/PreviewMode';
 import { StatusBar } from './StatusBar/StatusBar';
-import { useBulkOperations } from '@/hooks/useBulkOperations';
+// import { useBulkOperations } from '@/hooks/useBulkOperations';
+import { DragDropProvider } from './DragDrop/DragDropProvider';
+import { AIGeneratorButton } from '../AI/AIGeneratorPanel';
+import { DraggableComponent } from './DragDrop/DraggableComponent';
 
 const WebsiteBuilderStudio = () => {
+    const { 
+    project, 
+    selection, 
+    selectComponent, 
+    toggleComponentSelection,
+    undo, 
+    redo, 
+    history 
+  } = useBuilderStore();
+
   // ============================================
   // STORE SELECTORS (Replace all useState)
   // ============================================
@@ -62,7 +75,7 @@ const WebsiteBuilderStudio = () => {
   // All drag & drop logic moved to custom hook
   const dragAndDrop = useDragAndDrop();
 
-  const bulkOps = useBulkOperations(); // Available for multi-select operations
+  // const bulkOps = useBulkOperations(); // Available for multi-select operations
   
   // All keyboard shortcuts moved to custom hook
   useKeyboardShortcuts();
@@ -89,62 +102,78 @@ const WebsiteBuilderStudio = () => {
   }
 
   return (
-    <div className="h-screen bg-gray-50 flex flex-col">
-      {/* Top Toolbar */}
-      <Toolbar
-        projectName={projectName}
-        selectedTool={selectedTool}
-        onToolChange={setSelectedTool}
-        canUndo={canUndo}
-        canRedo={canRedo}
-        onUndo={actions.undo}
-        onRedo={actions.redo}
-        zoom={zoom}
-        onZoomIn={handleZoomIn}
-        onZoomOut={handleZoomOut}
-        onFitToCanvas={handleFitToCanvas}
-        showGrid={showGrid}
-        onToggleGrid={toggleGrid}
-        showRulers={showRulers}
-        onToggleRulers={toggleRulers}
-        device={device}
-        onDeviceChange={setDevice}
-        showDesignGuide={showDesignGuide}
-        onToggleDesignGuide={toggleDesignGuide}
-        onTogglePreview={togglePreviewMode}
-      />
-
-      {/* Main Content */}
-      <div className="flex-1 flex">
-        {/* Left Sidebar - Component Library */}
-        <ComponentLibrary 
-          onDragStart={dragAndDrop.handleDragStart}
-        />
-
-        {/* Center Canvas */}
-        <Canvas
-          zoom={zoom}
-          showGrid={showGrid}
-          showRulers={showRulers}
-          showDesignGuide={showDesignGuide}
-          device={device}
-          onDrop={dragAndDrop.handleDrop}
-          onDragOver={dragAndDrop.handleDragOver}
-          performanceMetrics={performanceMetrics}
-        />
-
-        {/* Right Sidebar - Properties */}
-        <PropertiesPanel />
+    <DragDropProvider>
+      <div className="h-screen bg-gray-50 flex flex-col">
+        {/* Enhanced Toolbar */}
+        <div className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 shadow-sm">
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <span className="font-bold text-gray-900">Eternal UI Studio</span>
+              {/* Undo/Redo buttons */}
+              <button 
+                onClick={undo}
+                disabled={history.past.length === 0}
+                className="p-2 hover:bg-gray-100 rounded disabled:opacity-50"
+                title="Undo (Ctrl+Z)"
+              >
+                ↶
+              </button>
+              <button 
+                onClick={redo}
+                disabled={history.future.length === 0}
+                className="p-2 hover:bg-gray-100 rounded disabled:opacity-50"
+                title="Redo (Ctrl+Y)"
+              >
+                ↷
+              </button>
+            </div>
+            
+            {/* AI Generator Button */}
+            <AIGeneratorButton 
+              variant="primary" 
+              size="md"
+              onGenerate={(component) => {
+                console.log('AI Generated component:', component);
+              }}
+            />
+          </div>
+          
+          <div className="flex items-center gap-2">
+            {/* Selection info */}
+            {selection.selectedComponents.length > 0 && (
+              <span className="text-sm text-gray-600">
+                {selection.selectedComponents.length} component{selection.selectedComponents.length !== 1 ? 's' : ''} selected
+              </span>
+            )}
+          </div>
+        </div>
+        
+        {/* Main Canvas Area */}
+        <div className="flex-1 flex">
+          {/* Your existing canvas implementation */}
+          <div className="flex-1 relative bg-gray-100">
+            {/* Canvas with enhanced components */}
+            {project.components.map(component => (
+              <DraggableComponent
+                key={component.id}
+                id={component.id}
+                component={component as any}
+                isSelected={selection.selectedComponents.includes(component.id)}
+                onSelect={(id, multiSelect) => {
+                  if (multiSelect) {
+                    toggleComponentSelection(id);
+                  } else {
+                    selectComponent(id);
+                  }
+                }}
+              >
+                <div>{component.type}</div>
+              </DraggableComponent>
+            ))}
+          </div>
+        </div>
       </div>
-
-      {/* Bottom Status Bar */}
-      <StatusBar
-        componentCount={componentCount}
-        device={device}
-        zoom={zoom}
-        performanceMetrics={performanceMetrics}
-      />
-    </div>
+    </DragDropProvider>
   );
 };
 

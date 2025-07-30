@@ -20,7 +20,7 @@ export const EffectsPanel: React.FC<EffectsPanelProps> = ({ component }) => {
     updateComponent(component.id, {
       styles: { ...component.styles, [styleKey]: value }
     });
-    saveToHistory(project.components, `Update ${styleKey}`);
+    saveToHistory(project.components as any, `Update ${styleKey}`);
   };
 
   const [transformValues, setTransformValues] = useState({

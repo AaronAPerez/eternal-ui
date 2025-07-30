@@ -13,6 +13,7 @@ import { axe, toHaveNoViolations } from 'jest-axe'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 
+
 expect.extend(toHaveNoViolations)
 
 describe('Accessibility Compliance', () => {

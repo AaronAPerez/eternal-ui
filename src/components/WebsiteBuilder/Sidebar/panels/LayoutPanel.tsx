@@ -21,21 +21,21 @@ export const LayoutPanel: React.FC<LayoutPanelProps> = ({ component }) => {
     updateComponent(component.id, {
       styles: { ...component.styles, [styleKey]: value }
     });
-    saveToHistory(project.components, `Update ${styleKey}`);
+    saveToHistory(project.components as any, `Update ${styleKey}`);
   };
 
   const updatePosition = (axis: 'x' | 'y', value: number) => {
     updateComponent(component.id, {
       position: { ...component.position, [axis]: value }
     });
-    saveToHistory(project.components, 'Update Position');
+    saveToHistory(project.components as any, 'Update Position');
   };
 
   const updateSize = (dimension: 'width' | 'height', value: number) => {
     updateComponent(component.id, {
       size: { ...component.size, [dimension]: value }
     });
-    saveToHistory(project.components, 'Update Size');
+    saveToHistory(project.components as any, 'Update Size');
   };
 
   return (

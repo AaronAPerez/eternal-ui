@@ -22,7 +22,7 @@ export const DesignPanel: React.FC<DesignPanelProps> = ({ component }) => {
     updateComponent(component.id, {
       styles: { ...component.styles, [styleKey]: value }
     });
-    saveToHistory(project.components, `Update ${styleKey}`);
+    saveToHistory(project.components as any, `Update ${styleKey}`);
   };
 
   const [backgroundType, setBackgroundType] = useState<'color' | 'gradient' | 'image'>('color');

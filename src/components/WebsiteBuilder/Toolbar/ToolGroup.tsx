@@ -1,6 +1,6 @@
 import React from 'react';
 import { MousePointer, Type, Square, Image, Zap } from 'lucide-react';
-import { useBuilderStore } from '@/stores/builderStore';
+import { useBuilderStore } from '@/hooks/useBuilderStore';
 
 const tools = [
   { id: 'select', icon: MousePointer, label: 'Select', shortcut: 'V' },
@@ -19,7 +19,7 @@ export const ToolGroup: React.FC = () => {
       {tools.map((tool) => (
         <button
           key={tool.id}
-          onClick={() => setSelectedTool(tool.id)}
+          onClick={() => setSelectedTool(tool.id as any)}
           className={`p-2 rounded transition-all relative group ${
             selectedTool === tool.id
               ? 'bg-white shadow-sm text-blue-600 scale-105'

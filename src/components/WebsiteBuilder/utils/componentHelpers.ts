@@ -220,7 +220,8 @@ export const createDefaultComponent = (type: string, position: { x: number; y: n
     props: getDefaultProps(type),
     styles: getDefaultStyles(type),
     position,
-    size: getDefaultSize(type)
+    size: getDefaultSize(type),
+    isDraggable: true
   };
 };
 

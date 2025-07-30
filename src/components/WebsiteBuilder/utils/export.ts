@@ -39,4 +39,8 @@
 //   }).join('\n\n');
 // };
 
+
+// function generateIndexFile(projectName: string, components: Component[]) {
+//     throw new Error('Function not implemented.');
+// }
 // // Add more export functions...

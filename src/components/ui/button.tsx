@@ -357,7 +357,6 @@ FloatingActionButton.displayName = 'FloatingActionButton';
  * Export components and utilities for external use
  */
 export { buttonVariants };
-export type { ButtonProps };
 
 /**
  * 📚 USAGE EXAMPLES

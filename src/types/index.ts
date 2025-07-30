@@ -1,4 +1,5 @@
 export interface Component {
+  isDraggable: any;
   id: string;
   type: 'text' | 'heading' | 'image' | 'button' | 'container' | 'hero' | 'navigation' | 'footer' | 'logo' | 'group';
   props: Record<string, any>;

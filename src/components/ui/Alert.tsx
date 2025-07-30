@@ -116,7 +116,7 @@ const alertVariants = cva(
  * 🔧 ALERT PROPS INTERFACE
  */
 export interface AlertProps
-  extends React.HTMLAttributes<HTMLDivElement>,
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'style'>,
     VariantProps<typeof alertVariants> {
   /**
    * Alert title

@@ -180,6 +180,7 @@ export const useBulkOperations = () => {
       'Delete Components'
     );
   }, [selectedComponents, deleteMultipleComponents, project.components, saveToHistory]);
+  
 
   return {
     align,

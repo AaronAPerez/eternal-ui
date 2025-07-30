@@ -11,7 +11,7 @@ export const ComponentInfo: React.FC<ComponentInfoProps> = ({ component }) => {
   const updateComponent = useBuilderStore(state => state.updateComponent);
 
   const toggleLock = () => {
-    updateComponent(component.id, { locked: !component.locked });
+    updateComponent(component.id, { locked: !component.locked } as any);
   };
 
   return (

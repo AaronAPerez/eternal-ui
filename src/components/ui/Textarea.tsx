@@ -310,7 +310,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       textarea.style.height = 'auto';
       const newHeight = Math.min(textarea.scrollHeight, maxHeight);
       textarea.style.height = `${newHeight}px`;
-    }, [autoResize, maxHeight]);
+    }, [autoResize, textareaRef, maxHeight]);
     
     // Validation function
     const validateValue = useCallback((val: string) => {
@@ -599,7 +599,7 @@ Textarea.displayName = 'Textarea';
 /**
  * Comment textarea with mentions support
  */
-export interface CommentTextareaProps extends Omit<TextareaProps, 'showCharCount'> {
+export interface CommentTextareaProps extends TextareaProps {
   /**
    * Enable @mentions
    */
@@ -708,7 +708,6 @@ MarkdownTextarea.displayName = 'MarkdownTextarea';
  * 📦 EXPORTS
  */
 export { textareaVariants };
-export type { TextareaValidationRule, TextareaValidationConfig };
 
 /**
  * 📚 USAGE EXAMPLES

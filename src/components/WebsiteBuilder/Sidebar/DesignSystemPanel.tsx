@@ -1,10 +1,10 @@
 import React from 'react';
 import { Copy, Clipboard } from 'lucide-react';
-import { useBuilderStore } from '@/stores/builderStore';
+import { useBuilderStore } from '@/hooks/useBuilderStore';
 import { useStores } from '@/hooks/useStores';
 
 export const DesignSystemPanel: React.FC = () => {
-  const selectedComponent = useBuilderStore(state => state.selectedComponent);
+  const selection = useBuilderStore(state => state.selection);
   const updateComponent = useBuilderStore(state => state.updateComponent);
   const project = useBuilderStore(state => state.project);
   const { actions } = useStores();
@@ -22,9 +22,9 @@ export const DesignSystemPanel: React.FC = () => {
           {project.styles.colors.map((color, index) => (
             <button
               key={index}
-              onClick={() => selectedComponent && updateComponent(selectedComponent, {
+              onClick={() => selection?.selectedComponents?.[0] && updateComponent(selection.selectedComponents[0], {
                 styles: { backgroundColor: color }
-              })}
+              } as any)}
               className="w-8 h-8 rounded border border-gray-300 hover:scale-110 transition-transform relative group"
               style={{ backgroundColor: color }}
               title={color}
@@ -46,9 +46,9 @@ export const DesignSystemPanel: React.FC = () => {
           {project.styles.spacing.map((space, index) => (
             <button
               key={index}
-              onClick={() => selectedComponent && updateComponent(selectedComponent, {
+              onClick={() => selection?.selectedComponents?.[0] && updateComponent(selection.selectedComponents[0], {
                 styles: { padding: `${space}px` }
-              })}
+              } as any)}
               className="px-1 py-1 bg-gray-100 rounded text-xs hover:bg-gray-200 transition-colors relative group"
               title={`${space}px padding`}
             >
@@ -65,7 +65,7 @@ export const DesignSystemPanel: React.FC = () => {
       <div className="space-y-2">
         <button
           onClick={actions.copySelected}
-          disabled={!selectedComponent && !actions.hasSelection()}
+          disabled={!selection?.selectedComponents?.length && !actions.hasSelection()}
           className="w-full px-3 py-2 bg-gray-100 text-gray-700 rounded text-sm hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
           <Copy className="w-4 h-4" />

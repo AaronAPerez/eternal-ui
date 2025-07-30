@@ -1,5 +1,6 @@
 // src/components/WebsiteBuilder/types.ts
 export interface Component {
+  locked: boolean;
   id: string;
   type: 'text' | 'image' | 'button' | 'container' | 'hero' | 'card' | 'form' | 'group' | 'auto-layout';
   props: Record<string, any>;

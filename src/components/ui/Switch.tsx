@@ -125,12 +125,12 @@ const switchThumbVariants = cva(
  * 🔧 SWITCH PROPS INTERFACE
  */
 export interface SwitchProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'>,
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'color'>,
     VariantProps<typeof switchVariants> {
   /**
    * Switch label
    */
-  label?: string;
+  label?: React.ReactNode;
   
   /**
    * Label position relative to switch
@@ -710,7 +710,6 @@ FeatureSwitch.displayName = 'FeatureSwitch';
  * 📦 EXPORTS
  */
 export { switchVariants, switchThumbVariants };
-export type { SettingsOption };
 
 /**
  * 📚 USAGE EXAMPLES

@@ -1,3 +1,4 @@
+import React from 'react';
 import { Template } from '../types';
 
 export const landingTemplates: Template[] = [
@@ -17,7 +18,8 @@ export const landingTemplates: Template[] = [
           padding: '16px 24px'
         },
         position: { x: 0, y: 0 },
-        size: { width: 1200, height: 80 }
+        size: { width: 1200, height: 80 },
+        locked: false
       },
       // ... more components
     ]

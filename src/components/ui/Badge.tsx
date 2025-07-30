@@ -30,6 +30,7 @@
 import React, { forwardRef } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
+import Image from 'next/image';
 
 /**
  * 🎨 BADGE VARIANTS CONFIGURATION
@@ -451,7 +452,7 @@ export const AvatarWithStatus = forwardRef<HTMLDivElement, AvatarWithStatusProps
     
     return (
       <div ref={ref} className={cn('relative inline-flex', className)}>
-        <img
+        <Image
           src={src}
           alt={alt}
           className={cn(

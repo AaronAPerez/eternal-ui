@@ -132,7 +132,7 @@ export interface ValidationConfig {
  * 🔧 COMPONENT PROPS INTERFACE
  */
 export interface InputProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'>,
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'prefix'>,
     VariantProps<typeof inputVariants> {
   /**
    * Input label text
@@ -220,6 +220,18 @@ const validationRules = {
     } catch {
       return 'Please enter a valid URL';
     }
+  },
+  pattern: (value: string) => {
+    // Pattern validation would need to be implemented with additional context
+    return null;
+  },
+  max: (value: string) => {
+    // Max validation would need to be implemented with additional context
+    return null;
+  },
+  min: (value: string) => {
+    // Min validation would need to be implemented with additional context
+    return null;
   },
 };
 
@@ -580,7 +592,6 @@ SearchInput.displayName = 'SearchInput';
  * 📦 EXPORTS
  */
 export { inputVariants };
-export type { ValidationRule, ValidationConfig };
 
 /**
  * 📚 USAGE EXAMPLES

@@ -33,6 +33,7 @@ import React, { forwardRef } from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn, focusVisibleStyles } from '@/lib/utils';
+import Image from 'next/image';
 
 /**
  * 🎨 CARD VARIANTS CONFIGURATION
@@ -216,7 +217,7 @@ Card.displayName = 'Card';
  * 
  * Header section with title, subtitle, and actions
  */
-export interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface CardHeaderProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
   /**
    * Header title
    */
@@ -670,7 +671,7 @@ export const ProfileCard = forwardRef<HTMLDivElement, ProfileCardProps>(
         <div className="space-y-4">
           {/* Avatar */}
           <div className="flex justify-center">
-            <img
+            <Image
               src={user.avatar}
               alt={user.name}
               className="w-20 h-20 rounded-full object-cover border-4 border-white shadow-lg"

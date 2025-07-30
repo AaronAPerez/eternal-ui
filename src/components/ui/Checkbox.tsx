@@ -114,7 +114,7 @@ export interface CheckboxProps
   /**
    * Checkbox label
    */
-  label?: string;
+  label?: React.ReactNode;
   
   /**
    * Label position relative to checkbox
@@ -682,7 +682,6 @@ SelectAllCheckbox.displayName = 'SelectAllCheckbox';
  * 📦 EXPORTS
  */
 export { checkboxVariants };
-export type { CheckboxOption };
 
 /**
  * 📚 USAGE EXAMPLES

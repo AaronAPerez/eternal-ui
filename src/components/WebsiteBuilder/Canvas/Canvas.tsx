@@ -1,5 +1,5 @@
 import React from 'react';
-import { useBuilderStore } from '@/stores/builderStore';
+import { useBuilderStore } from '@/hooks/useBuilderStore';
 import { useUIStore } from '@/stores/uiStore';
 import { useDragAndDrop } from '@/hooks/useDragAndDrop';
 import { GridOverlay } from './GridOverlay';
@@ -45,7 +45,7 @@ export const Canvas: React.FC<CanvasProps> = ({
   const storeShowGrid = useBuilderStore(state => state.showGrid);
   const project = useBuilderStore(state => state.project);
   const selectComponent = useBuilderStore(state => state.selectComponent);
-  const selectedComponents = useBuilderStore(state => state.selectedComponents);
+  const selection = useBuilderStore(state => state.selection);
   
   const storeShowRulers = useUIStore(state => state.showRulers);
   const storeShowDesignGuide = useUIStore(state => state.showDesignGuide);
@@ -119,7 +119,7 @@ export const Canvas: React.FC<CanvasProps> = ({
             
             {/* Component Renderer */}
             <ComponentRenderer 
-              components={project.components}
+              components={project.components as any}
               onComponentMouseDown={dragAndDrop.handleComponentDragStart}
             />
             

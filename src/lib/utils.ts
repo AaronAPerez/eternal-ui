@@ -5,6 +5,10 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export function focusVisibleStyles(color: string = 'blue') {
+  return `focus:outline-none focus-visible:ring-2 focus-visible:ring-${color}-500 focus-visible:ring-offset-2`;
+}
+
 export function generateId(): string {
   return `element-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 }
