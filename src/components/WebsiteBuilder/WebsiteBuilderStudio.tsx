@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   Sparkles, Play, Download, Palette, Info,
   ZoomIn, ZoomOut, Maximize2, Grid, Ruler,
@@ -29,8 +29,13 @@ import { StatusBar } from './StatusBar/StatusBar';
 import { DragDropProvider } from './DragDrop/DragDropProvider';
 import { AIGeneratorButton } from '../AI/AIGeneratorPanel';
 import { DraggableComponent } from './DragDrop/DraggableComponent';
+import { ExportDialog } from '@/hooks/export/ExportDialog';
+import TemplateMarketplace from '@/hooks/templates/TemplateMarketplace';
 
 const WebsiteBuilderStudio = () => {
+  const [showTemplates, setShowTemplates] = useState(false);
+  const [showExport, setShowExport] = useState(false);
+  const [selectedTemplate, setSelectedTemplate] = useState(null);
     const { 
     project, 
     selection, 
@@ -103,10 +108,10 @@ const WebsiteBuilderStudio = () => {
 
   return (
     <DragDropProvider>
-      <div className="h-screen bg-gray-50 flex flex-col">
-        {/* Enhanced Toolbar */}
-        <div className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 shadow-sm">
-          <div className="flex items-center gap-4">
+      <div className="h-screen flex flex-col">
+        {/* Toolbar */}
+            <div className="h-16 bg-white border-b flex items-center justify-between px-6">
+        <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
               <span className="font-bold text-gray-900">Eternal UI Studio</span>
               {/* Undo/Redo buttons */}
@@ -137,6 +142,20 @@ const WebsiteBuilderStudio = () => {
               }}
             />
           </div>
+
+           <button
+            onClick={() => setShowTemplates(true)}
+            className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+          >
+            📚 Templates
+          </button>
+          
+          <button
+            onClick={() => setShowExport(true)}
+            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+          >
+            📤 Export
+          </button>
           
           <div className="flex items-center gap-2">
             {/* Selection info */}
@@ -173,6 +192,38 @@ const WebsiteBuilderStudio = () => {
           </div>
         </div>
       </div>
+        {/* Template Marketplace Modal */}
+      {showTemplates && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="w-full max-w-6xl mx-4 h-[90vh]">
+            <TemplateMarketplace
+              onTemplateSelect={setSelectedTemplate}
+              onTemplateApply={(template) => {
+                console.log('Applied template:', template);
+                setShowTemplates(false);
+              }}
+            />
+            <button
+              onClick={() => setShowTemplates(false)}
+              className="absolute top-4 right-4 p-2 bg-white rounded-full"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Export Dialog */}
+      {showExport && selectedTemplate && (
+        <ExportDialog
+          template={selectedTemplate}
+          isOpen={showExport}
+          onClose={() => setShowExport(false)}
+          onExportComplete={(downloadUrl) => {
+            console.log('Export ready:', downloadUrl);
+          }}
+        />
+      )}
     </DragDropProvider>
   );
 };
