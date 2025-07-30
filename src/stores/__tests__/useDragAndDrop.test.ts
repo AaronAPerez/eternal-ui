@@ -1,6 +1,7 @@
 import { renderHook, act, fireEvent } from '@testing-library/react';
-import { useDragAndDrop } from '../useDragAndDrop';
+import { useDragAndDrop } from '@/hooks/useDragAndDrop';
 import { resetStores, createTestComponent } from '@/test-utils/store-utils';
+import React from 'react';
 
 // Mock canvas element
 const mockCanvas = {

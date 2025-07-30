@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react';
-import { useStores } from '../useStores';
+import { useStores } from '@/hooks/useStores';
 import { resetStores, createTestComponent } from '@/test-utils/store-utils';
 
 describe('useStores Integration', () => {
